@@ -1,0 +1,34 @@
+@use 'sass:color';
+@use '@styles/settings' as *;
+
+$button: (
+  font-size: 18px,
+  primary: (
+    border: $white,
+    color: $white,
+    bg: $black,
+    focus: (
+      bg: color-mix(in oklab, $white, $black 70%),
+    ),
+    hover: (
+      bg: color-mix(in oklab, $white, $black 70%)
+    ),
+    active: (
+      bg: color-mix(in oklab, $white, $black 60%)
+    )
+  ),
+  secondary: (
+    border: $black,
+    color: $black,
+    bg: $white,
+    focus: (
+      bg: color-mix(in oklab, $black, $white 90%),
+    ),
+    hover: (
+      bg: color-mix(in oklab, $black, $white 90%)
+    ),
+    active: (
+      bg: color-mix(in oklab, $black, $white 80%)
+    )
+  )
+);

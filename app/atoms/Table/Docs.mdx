@@ -1,0 +1,678 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Atoms/Table' />
+
+# Table
+
+The **Table** component is a semantic HTML table system that provides three complementary components for building accessible, styled data tables. It supports responsive text alignment, flexible borders, customizable layouts, and vertical alignment controls, making it suitable for everything from simple data displays to complex tabular layouts.
+
+## Components
+
+### Table
+
+The outer `<table>` element that establishes the table structure and global styling. This component controls layout behavior, border collapse mode, vertical alignment, and overall table appearance.
+
+**Use this when:** You need to create the main table container that will hold Table.Item children.
+
+**Key features:**
+- Controls table layout algorithm (auto or fixed)
+- Manages border collapse behavior
+- Sets vertical alignment for all cells
+- Supports background colors
+- Accepts global border styling
+- Can be conditionally hidden
+- Semantic `<table>` element for accessibility
+
+### Table.Item
+
+Versatile component that renders any table element (thead, tbody, tfoot, tr, th, td). Uses React's `createElement` to dynamically generate the appropriate semantic HTML element based on the `tag` prop.
+
+**Use this when:** You need to create any table structure element with flexible styling.
+
+**Key features:**
+- Renders any table tag (thead, tbody, tfoot, tr, th, td)
+- Responsive text alignment with breakpoint support
+- Background color customization
+- Border control with responsive options
+- Can be conditionally hidden
+- Tag-specific styling via CSS modules
+- Supports all native HTML attributes
+
+### Table.Title
+
+A specialized table cell component that combines Table.Item with Typography styling. Designed for title or header cells that need consistent typographic treatment.
+
+**Use this when:** You need a styled title cell with Typography options.
+
+**Key features:**
+- Built on Table.Item (renders as `<td>`)
+- Integrates Typography component for text styling
+- Supports font weights, sizes, and text transformations
+- Inherits Spacer functionality for padding/margin
+- Pre-styled with table-title class
+- Omits incompatible Typography props (tag, display, richText)
+
+## Usage
+
+```tsx
+import { Table } from '@atoms/Table/Table.component'
+```
+
+### Basic Table
+
+```tsx
+<Table>
+  <Table.Item tag={'thead'}>
+    <Table.Item tag={'tr'}>
+      <Table.Item tag={'th'}>Name</Table.Item>
+      <Table.Item tag={'th'}>Email</Table.Item>
+    </Table.Item>
+  </Table.Item>
+  <Table.Item tag={'tbody'}>
+    <Table.Item tag={'tr'}>
+      <Table.Item tag={'td'}>John Doe</Table.Item>
+      <Table.Item tag={'td'}>john@example.com</Table.Item>
+    </Table.Item>
+  </Table.Item>
+</Table>
+```
+
+### Table with Layout and Borders
+
+```tsx
+<Table
+  layout={'fixed'}
+  borderCollapse={'collapse'}
+  verticalAlign={'middle'}
+>
+  <Table.Item tag={'thead'}>
+    <Table.Item tag={'tr'}>
+      <Table.Item
+        tag={'th'}
+        border={{
+          top: { default: true },
+          bottom: { default: true }
+        }}
+        borderColor={'black'}
+      >
+        Header 1
+      </Table.Item>
+      <Table.Item
+        tag={'th'}
+        border={{
+          top: { default: true },
+          bottom: { default: true }
+        }}
+        borderColor={'black'}
+      >
+        Header 2
+      </Table.Item>
+    </Table.Item>
+  </Table.Item>
+  <Table.Item tag={'tbody'}>
+    <Table.Item tag={'tr'}>
+      <Table.Item tag={'td'}>Data 1</Table.Item>
+      <Table.Item tag={'td'}>Data 2</Table.Item>
+    </Table.Item>
+  </Table.Item>
+</Table>
+```
+
+### Table with Title Cells
+
+```tsx
+<Table
+  layout={'fixed'}
+  borderCollapse={'collapse'}
+>
+  <Table.Item tag={'tbody'}>
+    <Table.Item tag={'tr'}>
+      <Table.Title
+        size={'body-lrg'}
+        fontWeight={'bold'}
+        text={'Product Name'}
+        padding={{ default: 5 }}
+      />
+      <Table.Item tag={'td'}>Widget Pro</Table.Item>
+    </Table.Item>
+    <Table.Item tag={'tr'}>
+      <Table.Title
+        size={'body-lrg'}
+        fontWeight={'bold'}
+        text={'Price'}
+        padding={{ default: 5 }}
+      />
+      <Table.Item tag={'td'}>$29.99</Table.Item>
+    </Table.Item>
+  </Table.Item>
+</Table>
+```
+
+### Responsive Text Alignment
+
+```tsx
+<Table>
+  <Table.Item tag={'tbody'}>
+    <Table.Item tag={'tr'}>
+      <Table.Item
+        tag={'td'}
+        textAlign={{
+          default: 'left',
+          med: 'center',
+          lrg: 'right'
+        }}
+      >
+        Responsive alignment
+      </Table.Item>
+    </Table.Item>
+  </Table.Item>
+</Table>
+```
+
+### Table with Background Colors
+
+```tsx
+<Table bg={'white'}>
+  <Table.Item tag={'tbody'}>
+    <Table.Item tag={'tr'}>
+      <Table.Item tag={'td'} bg={'black'}>
+        <Typography tag={'span'} color={'white'} text={'Dark cell'} />
+      </Table.Item>
+      <Table.Item tag={'td'}>Light cell</Table.Item>
+    </Table.Item>
+  </Table.Item>
+</Table>
+```
+
+### Complex Table Example
+
+```tsx
+<Table
+  layout={'fixed'}
+  borderCollapse={'collapse'}
+  verticalAlign={'middle'}
+>
+  <Table.Item tag={'thead'}>
+    <Table.Item tag={'tr'}>
+      <Table.Item
+        tag={'th'}
+        border={{
+          top: { default: true },
+          right: { med: true },
+          bottom: { med: true },
+          left: { med: true }
+        }}
+        borderColor={'black'}
+      >
+        <Typography tag={'span'} size={'body-med'} text={'Column 1'} />
+      </Table.Item>
+      <Table.Item
+        tag={'th'}
+        border={{
+          top: { default: true },
+          right: { med: true },
+          bottom: { med: true },
+          left: { med: true }
+        }}
+        borderColor={'black'}
+        textAlign={{ med: 'center' }}
+      >
+        <Typography tag={'span'} size={'body-med'} text={'Column 2'} />
+      </Table.Item>
+      <Table.Item
+        tag={'th'}
+        border={{
+          top: { default: true },
+          right: { med: true },
+          bottom: { med: true },
+          left: { med: true }
+        }}
+        borderColor={'black'}
+        textAlign={{ med: 'right' }}
+      >
+        <Typography tag={'span'} size={'body-med'} text={'Column 3'} />
+      </Table.Item>
+    </Table.Item>
+  </Table.Item>
+  <Table.Item tag={'tbody'}>
+    <Table.Item tag={'tr'}>
+      <Table.Title
+        size={'body-lrg'}
+        fontWeight={'bold'}
+        text={'Row Title'}
+        padding={{ default: 5 }}
+      />
+      <Table.Item
+        tag={'td'}
+        border={{
+          top: { default: true },
+          right: { med: true },
+          bottom: { med: true },
+          left: { med: true }
+        }}
+        borderColor={'black'}
+      >
+        <Typography tag={'span'} size={'body-med'} text={'Data'} />
+      </Table.Item>
+      <Table.Item
+        tag={'td'}
+        bg={'black'}
+        textAlign={{ med: 'center' }}
+      >
+        <Typography
+          tag={'span'}
+          size={'body-med'}
+          text={'Highlighted'}
+          color={'white'}
+        />
+      </Table.Item>
+    </Table.Item>
+  </Table.Item>
+  <Table.Item tag={'tfoot'}>
+    <Table.Item tag={'tr'}>
+      <Table.Item
+        tag={'td'}
+        border={{
+          top: { default: true },
+          bottom: { default: true }
+        }}
+        borderColor={'black'}
+      >
+        Footer
+      </Table.Item>
+      <Table.Item
+        tag={'td'}
+        border={{
+          top: { default: true },
+          bottom: { default: true }
+        }}
+        borderColor={'black'}
+        textAlign={{ med: 'center' }}
+      >
+        Total
+      </Table.Item>
+      <Table.Item
+        tag={'td'}
+        border={{
+          top: { default: true },
+          bottom: { default: true }
+        }}
+        borderColor={'black'}
+        textAlign={{ med: 'right' }}
+      >
+        $100
+      </Table.Item>
+    </Table.Item>
+  </Table.Item>
+</Table>
+```
+
+## Props
+
+### Table Props
+
+#### layout
+- **Type:** `'auto' | 'fixed'`
+- **Default:** None
+- **Description:** Controls the table layout algorithm. `'auto'` sizes columns based on content, `'fixed'` uses equal column widths or respects explicit widths for better performance with large tables
+
+#### borderCollapse
+- **Type:** `'collapse' | 'separate'`
+- **Default:** None
+- **Description:** Determines border rendering. `'collapse'` merges adjacent cell borders into single borders, `'separate'` keeps borders distinct with spacing
+
+#### verticalAlign
+- **Type:** `'top' | 'middle' | 'bottom' | 'baseline'`
+- **Default:** None
+- **Description:** Sets vertical alignment for all table cells. Aligns content to the top, middle, bottom, or text baseline of cells
+
+#### bg
+- **Type:** `GlobalBg` - `'black' | 'white'`
+- **Default:** None
+- **Description:** Background color for the entire table using design system colors
+
+#### border
+- **Type:** `Border`
+- **Default:** None
+- **Description:** Border configuration object with responsive breakpoint support. Works with `borderColor` to generate border styles
+
+#### borderColor
+- **Type:** Border color value
+- **Default:** None
+- **Description:** Color for table borders. Must be used with `border` prop to apply border styling
+
+#### hide
+- **Type:** `boolean`
+- **Default:** None
+- **Description:** Conditionally renders the table. When `true`, returns `null` instead of the table element
+
+#### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Additional CSS classes for custom styling, appended to base table classes
+
+#### children
+- **Type:** `React.ReactNode`
+- **Default:** None
+- **Description:** Table.Item children containing thead, tbody, tfoot, and tr elements
+
+#### ...rest
+- **Type:** Additional HTML attributes
+- **Description:** Any extra attributes (data attributes, aria attributes, etc.) are passed to the `<table>` element
+
+### Table.Item Props
+
+#### tag
+- **Type:** `'thead' | 'tbody' | 'tfoot' | 'tr' | 'th' | 'td'`
+- **Default:** `'td'`
+- **Description:** The HTML table element to render. Determines semantic meaning and default styling
+
+#### textAlign
+- **Type:** `BreakpointTextAlign`
+- **Default:** None
+- **Description:** Responsive text alignment with breakpoint support (default, sml, med, lrg, xlrg, xxlrg). Aligns text left, center, or right at different screen sizes
+
+#### bg
+- **Type:** `GlobalBg` - `'black' | 'white'`
+- **Default:** None
+- **Description:** Background color for the table cell using design system colors
+
+#### border
+- **Type:** `Border`
+- **Default:** None
+- **Description:** Border configuration with responsive support for top, right, bottom, left. Can specify different borders at different breakpoints
+
+#### borderColor
+- **Type:** Border color value
+- **Default:** None
+- **Description:** Color for cell borders. Works with `border` prop to generate border styling
+
+#### hide
+- **Type:** `boolean`
+- **Default:** None
+- **Description:** Conditionally renders the element. When `true`, returns `null`
+
+#### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Additional CSS classes for custom styling
+
+#### children
+- **Type:** `React.ReactNode`
+- **Default:** None
+- **Description:** Content to render within the table element
+
+#### ...rest
+- **Type:** Additional HTML attributes
+- **Description:** Any extra attributes are passed to the rendered table element
+
+### Table.Title Props
+
+Table.Title accepts all Typography props except `tag`, `display`, and `richText`:
+
+#### size
+- **Type:** `'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body-xxlrg' | 'body-xlrg' | 'body-lrg' | 'body-med' | 'body-sml'`
+- **Default:** None
+- **Description:** Typography size for the title text
+
+#### text
+- **Type:** `string`
+- **Default:** None
+- **Description:** Text content to display
+
+#### fontWeight
+- **Type:** `'light' | 'regular' | 'medium' | 'bold'`
+- **Default:** None
+- **Description:** Font weight for the title
+
+#### fontStyle
+- **Type:** `'italic' | 'oblique'`
+- **Default:** None
+- **Description:** Font style for the title
+
+#### textTransform
+- **Type:** `'capitalize' | 'uppercase' | 'lowercase'`
+- **Default:** None
+- **Description:** Text transformation
+
+#### color
+- **Type:** `GlobalColor`
+- **Default:** `'black'`
+- **Description:** Text color
+
+#### linkVariant
+- **Type:** `LinkVariant`
+- **Default:** `'primary'`
+- **Description:** Link color variant for any links in the title
+
+#### padding
+- **Type:** `Spacers`
+- **Default:** None
+- **Description:** Internal spacing via Spacer component
+
+#### margin
+- **Type:** `Spacers`
+- **Default:** None
+- **Description:** External spacing via Spacer component
+
+#### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Additional CSS classes (applied to the Table.Item wrapper, not the Typography)
+
+## Table Structure
+
+HTML tables have a specific semantic structure. Use the appropriate tags for proper accessibility and styling:
+
+### Semantic Tags
+
+- **`<thead>`** - Table header section containing column headers
+- **`<tbody>`** - Main table body containing data rows
+- **`<tfoot>`** - Table footer section containing summary or totals
+- **`<tr>`** - Table row containing cells
+- **`<th>`** - Header cell (use in thead or as row headers)
+- **`<td>`** - Data cell containing actual data
+
+### Proper Structure
+
+```tsx
+<Table>
+  <Table.Item tag={'thead'}>     {/* Header section */}
+    <Table.Item tag={'tr'}>       {/* Header row */}
+      <Table.Item tag={'th'}>Header</Table.Item>  {/* Header cells */}
+    </Table.Item>
+  </Table.Item>
+  <Table.Item tag={'tbody'}>     {/* Body section */}
+    <Table.Item tag={'tr'}>       {/* Data row */}
+      <Table.Item tag={'td'}>Data</Table.Item>    {/* Data cells */}
+    </Table.Item>
+  </Table.Item>
+  <Table.Item tag={'tfoot'}>     {/* Footer section */}
+    <Table.Item tag={'tr'}>       {/* Footer row */}
+      <Table.Item tag={'td'}>Footer</Table.Item>  {/* Footer cells */}
+    </Table.Item>
+  </Table.Item>
+</Table>
+```
+
+## Layout Modes
+
+### Auto Layout
+
+Best for tables where content determines column width:
+
+```tsx
+<Table layout={'auto'}>
+  {/* Columns size automatically based on content */}
+</Table>
+```
+
+**Pros:**
+- Content-driven sizing
+- Adapts to varying content lengths
+- Good for unpredictable data
+
+**Cons:**
+- Can cause layout shifts
+- Slower rendering with large tables
+- Less control over column widths
+
+### Fixed Layout
+
+Best for tables with consistent column widths:
+
+```tsx
+<Table layout={'fixed'}>
+  {/* Columns have equal width or use explicit widths */}
+</Table>
+```
+
+**Pros:**
+- Faster rendering
+- Predictable layout
+- No layout shifts
+- Better performance
+
+**Cons:**
+- Content may overflow or truncate
+- Requires width management
+- Less flexible
+
+## Border Patterns
+
+### Collapsed Borders
+
+Creates single borders between cells:
+
+```tsx
+<Table borderCollapse={'collapse'}>
+  <Table.Item tag={'tbody'}>
+    <Table.Item tag={'tr'}>
+      <Table.Item
+        tag={'td'}
+        border={{
+          top: { default: true },
+          right: { default: true },
+          bottom: { default: true },
+          left: { default: true }
+        }}
+        borderColor={'black'}
+      >
+        Cell with all borders
+      </Table.Item>
+    </Table.Item>
+  </Table.Item>
+</Table>
+```
+
+### Responsive Borders
+
+Apply borders only at specific breakpoints:
+
+```tsx
+<Table.Item
+  tag={'td'}
+  border={{
+    top: { default: true },        // Mobile and up
+    right: { med: true },           // Medium screens and up
+    bottom: { med: true },          // Medium screens and up
+    left: { med: true }             // Medium screens and up
+  }}
+  borderColor={'black'}
+>
+  Responsive borders
+</Table.Item>
+```
+
+## Best Practices
+
+### When to Use Table
+
+- Displaying tabular data with rows and columns
+- Creating data grids or comparison tables
+- Building pricing tables or feature comparisons
+- Showing schedules, calendars, or timetables
+- Presenting structured data relationships
+
+### When NOT to Use Table
+
+- Page layout (use Grid or Row instead)
+- Non-tabular content arrangement
+- Simple lists (use `<ul>` or `<ol>` instead)
+- Single-column data (use Typography with lists)
+- Responsive card-based layouts (tables can be challenging on mobile)
+
+### Accessibility Considerations
+
+**Use semantic headers:**
+```tsx
+<Table.Item tag={'th'} scope="col">Column Header</Table.Item>
+<Table.Item tag={'th'} scope="row">Row Header</Table.Item>
+```
+
+**Provide table captions:**
+```tsx
+<Table>
+  <caption>Monthly Sales Report</caption>
+  {/* table content */}
+</Table>
+```
+
+**Consider mobile users:**
+- Tables can be difficult to read on small screens
+- Consider hiding certain columns on mobile
+- Use horizontal scrolling for complex tables
+- Provide alternative views for mobile devices
+
+### Performance Tips
+
+1. **Use fixed layout for large tables** - Significantly faster rendering
+2. **Collapse borders when possible** - Reduces browser calculations
+3. **Minimize nested components** - Keep table structure flat
+4. **Avoid excessive borders** - Each border adds rendering overhead
+5. **Use hide prop conditionally** - Better than CSS display:none for performance
+
+## Responsive Strategies
+
+### Hide Columns on Mobile
+
+```tsx
+<Table.Item
+  tag={'td'}
+  hide={isMobile}  // Conditionally hide based on screen size
+>
+  Less important data
+</Table.Item>
+```
+
+### Responsive Alignment
+
+```tsx
+<Table.Item
+  tag={'td'}
+  textAlign={{
+    default: 'left',    // Left on mobile
+    med: 'center',      // Center on tablet
+    lrg: 'right'        // Right on desktop
+  }}
+>
+  Responsive content
+</Table.Item>
+```
+
+### Responsive Borders
+
+```tsx
+<Table.Item
+  tag={'td'}
+  border={{
+    top: { default: true },      // Always show top border
+    right: { med: true },         // Show right border on tablet+
+    bottom: { default: true },    // Always show bottom border
+    left: { med: true }          // Show left border on tablet+
+  }}
+  borderColor={'black'}
+>
+  Content
+</Table.Item>
+```

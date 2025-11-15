@@ -1,0 +1,636 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Atoms/Button' />
+
+# Button
+
+The **Button** component is a flexible action system that provides two complementary components for creating interactive buttons and navigation links styled as buttons. Built on flexbox with responsive controls, it supports multiple variants, widths, typography options, and alignment configurations.
+
+## Components
+
+### Button
+
+An interactive client-side button component for user actions like form submissions, clicks, and other JavaScript-driven interactions. This component uses the `'use client'` directive as it handles interactive events.
+
+**Use this when:** You need an interactive button that triggers JavaScript functionality (onClick handlers, form submissions, state changes).
+
+**Key features:**
+- Client-side component for interactivity
+- Three button types: button, submit, reset
+- Two style variants: primary, secondary
+- Responsive width control (auto, full)
+- Flexbox alignment and justification
+- Typography controls (font weight, text transform)
+- Responsive text alignment
+- Gap control for icon/text spacing
+- Disabled state support
+- Full HTML button attributes support
+
+### Button.Link
+
+A Next.js Link component styled as a button for navigation. This is a server component that provides button styling for links, combining the visual treatment of buttons with the navigation behavior of links.
+
+**Use this when:** You need navigation that looks like a button (e.g., "Learn More", "Sign Up", "View Details").
+
+**Key features:**
+- Server component (better for SEO and performance)
+- Next.js Link with button styling
+- Same styling options as Button
+- Automatic internal/external link handling
+- Target and rel attribute support
+- Safe defaults for external links (noopener noreferrer)
+- Full Next.js Link props support
+
+## Usage
+
+```tsx
+import { Button } from '@atoms/Button/Button.component'
+```
+
+### Basic Interactive Button
+
+```tsx
+<Button
+  variant={'primary'}
+  label={'Click me'}
+  onClick={() => console.log('Clicked!')}
+/>
+```
+
+### Button with Children
+
+```tsx
+<Button variant={'primary'} onClick={handleClick}>
+  <Icon name={'happy'} size={'sml'} />
+  Click me
+</Button>
+```
+
+### Submit Button
+
+```tsx
+<Button
+  variant={'primary'}
+  type={'submit'}
+  label={'Submit Form'}
+/>
+```
+
+### Full Width Button (Mobile)
+
+```tsx
+<Button
+  variant={'primary'}
+  width={{ default: 'full', med: 'auto' }}
+  label={'Full width on mobile'}
+/>
+```
+
+### Disabled Button
+
+```tsx
+<Button
+  variant={'primary'}
+  label={'Disabled'}
+  disabled={true}
+/>
+```
+
+### Button as Link (Navigation)
+
+```tsx
+<Button.Link
+  variant={'primary'}
+  href={'/about'}
+  label={'Learn More'}
+/>
+```
+
+### External Link as Button
+
+```tsx
+<Button.Link
+  variant={'secondary'}
+  href={'https://example.com'}
+  target={'_blank'}
+  label={'Visit External Site'}
+/>
+```
+
+### Button with Typography Controls
+
+```tsx
+<Button
+  variant={'primary'}
+  fontWeight={'bold'}
+  textTransform={'uppercase'}
+  textAlign={{ default: 'center' }}
+  label={'Bold Uppercase Button'}
+/>
+```
+
+### Button with Icon and Gap
+
+```tsx
+<Button
+  variant={'primary'}
+  gap={{ default: 2 }}
+  align={{ default: 'center' }}
+  justify={{ default: 'center' }}
+  onClick={handleClick}
+>
+  <Icon name={'happy'} size={'sml'} />
+  With Icon
+</Button>
+```
+
+### Centered Button Group
+
+```tsx
+<Row
+  display={{ default: 'flex' }}
+  gap={{ default: 4 }}
+  justify={{ default: 'center' }}
+>
+  <Button
+    variant={'secondary'}
+    label={'Cancel'}
+    onClick={handleCancel}
+  />
+  <Button
+    variant={'primary'}
+    type={'submit'}
+    label={'Confirm'}
+  />
+</Row>
+```
+
+## Props
+
+### Button Props
+
+#### variant
+- **Type:** `'primary' | 'secondary'`
+- **Default:** None
+- **Description:** Visual style variant of the button. Primary for main actions, secondary for alternative actions
+
+#### type
+- **Type:** `'button' | 'submit' | 'reset'`
+- **Default:** `'button'`
+- **Description:** HTML button type. Use 'submit' for form submission, 'reset' for form reset, 'button' for general actions
+
+#### label
+- **Type:** `string`
+- **Default:** None
+- **Description:** Text label displayed inside the button. Can be used alone or with children
+
+#### width
+- **Type:** `ButtonWidth`
+- **Default:** None (defaults to auto width based on content)
+- **Description:** Responsive width control. Values: 'auto' (fit content) or 'full' (100% width). Can be set per breakpoint
+- **Example:** `{ default: 'full', med: 'auto' }` - full width on mobile, auto width on tablet and up
+
+#### align
+- **Type:** `BreakpointFlexAlign`
+- **Default:** None
+- **Description:** Vertical alignment of button content (align-items). Values: 'start', 'center', 'end', 'stretch', 'baseline'
+
+#### justify
+- **Type:** `BreakpointJustify`
+- **Default:** None
+- **Description:** Horizontal alignment of button content (justify-content). Values: 'start', 'center', 'end', 'space-between', 'space-around', 'space-evenly'
+
+#### gap
+- **Type:** `BreakpointGap`
+- **Default:** None
+- **Description:** Space between button children (useful for icon + text buttons). Responsive across all breakpoints
+
+#### textAlign
+- **Type:** `BreakpointTextAlign`
+- **Default:** None
+- **Description:** Text alignment within the button. Values: 'left', 'center', 'right'. Responsive across all breakpoints
+
+#### fontWeight
+- **Type:** `'light' | 'regular' | 'medium' | 'bold'`
+- **Default:** None
+- **Description:** Font weight for button text
+
+#### textTransform
+- **Type:** `'capitalize' | 'uppercase' | 'lowercase'`
+- **Default:** None
+- **Description:** Text transformation for button label and children
+
+#### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Additional CSS classes for custom styling
+
+#### children
+- **Type:** `React.ReactNode`
+- **Description:** Content to render inside button (can include icons, text, etc.)
+
+#### disabled
+- **Type:** `boolean`
+- **Default:** `false`
+- **Description:** Disables button interaction and applies disabled styling
+
+#### onClick
+- **Type:** `(event: React.MouseEvent) => void`
+- **Default:** None
+- **Description:** Click event handler for button interaction
+
+#### ...rest
+- **Type:** `ButtonHTMLAttributes<HTMLButtonElement>`
+- **Description:** All standard HTML button attributes (aria-label, data attributes, etc.)
+
+### Button.Link Props
+
+#### href (Required)
+- **Type:** `string`
+- **Default:** None
+- **Description:** Navigation destination. Can be internal path ('/about') or external URL ('https://example.com')
+
+#### target
+- **Type:** `'_self' | '_blank' | '_parent' | '_top'`
+- **Default:** None
+- **Description:** Where to open the link. Use '_blank' for external links to open in new tab
+
+#### rel
+- **Type:** `string`
+- **Default:** Automatically set to 'noopener noreferrer' when target is '_blank'
+- **Description:** Link relationship. Common values: 'nofollow', 'noopener', 'noreferrer'
+
+#### variant
+- **Type:** `'primary' | 'secondary'`
+- **Default:** None
+- **Description:** Visual style variant of the button link
+
+#### label
+- **Type:** `string`
+- **Default:** None
+- **Description:** Text label displayed inside the button link
+
+#### width
+- **Type:** `ButtonWidth`
+- **Default:** None
+- **Description:** Responsive width control. Same as Button
+
+#### align
+- **Type:** `BreakpointFlexAlign`
+- **Default:** None
+- **Description:** Vertical alignment. Same as Button
+
+#### justify
+- **Type:** `BreakpointJustify`
+- **Default:** None
+- **Description:** Horizontal alignment. Same as Button
+
+#### gap
+- **Type:** `BreakpointGap`
+- **Default:** None
+- **Description:** Space between children. Same as Button
+
+#### textAlign
+- **Type:** `BreakpointTextAlign`
+- **Default:** None
+- **Description:** Text alignment. Same as Button
+
+#### fontWeight
+- **Type:** `'light' | 'regular' | 'medium' | 'bold'`
+- **Default:** None
+- **Description:** Font weight for link text
+
+#### textTransform
+- **Type:** `'capitalize' | 'uppercase' | 'lowercase'`
+- **Default:** None
+- **Description:** Text transformation for link
+
+#### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Additional CSS classes
+
+#### children
+- **Type:** `React.ReactNode`
+- **Description:** Content to render inside link
+
+#### ...rest
+- **Type:** `Omit<NextLinkProps, 'href'>`
+- **Description:** All Next.js Link props except href (prefetch, scroll, etc.)
+
+## Button Variants
+
+The Button component supports two visual variants:
+
+<table>
+  <thead>
+    <tr>
+      <th>Variant</th>
+      <th>Use Case</th>
+      <th>Visual Style</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>primary</strong></td>
+      <td>Main action, call-to-action, primary interaction</td>
+      <td>High contrast, prominent styling</td>
+    </tr>
+    <tr>
+      <td><strong>secondary</strong></td>
+      <td>Alternative action, less emphasis, cancel/back actions</td>
+      <td>Lower contrast, subtle styling</td>
+    </tr>
+  </tbody>
+</table>
+
+### Variant Usage Guidelines
+
+**Primary Buttons:**
+- Main page action (e.g., "Sign Up", "Get Started")
+- Form submission
+- Destructive actions with high importance
+- One primary button per section/view
+
+**Secondary Buttons:**
+- Alternative actions (e.g., "Learn More", "Cancel")
+- Navigation to less critical pages
+- Multiple secondary buttons per section is acceptable
+- Pair with primary button for action choices
+
+## Button Types
+
+Button supports three HTML button types:
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Behavior</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>button</strong></td>
+      <td>No default behavior, requires onClick handler</td>
+      <td>General actions, toggles, dialogs, custom interactions</td>
+    </tr>
+    <tr>
+      <td><strong>submit</strong></td>
+      <td>Submits parent form</td>
+      <td>Form submission buttons</td>
+    </tr>
+    <tr>
+      <td><strong>reset</strong></td>
+      <td>Resets parent form to initial values</td>
+      <td>Form reset buttons</td>
+    </tr>
+  </tbody>
+</table>
+
+## Responsive Width
+
+Buttons can have responsive width behavior:
+
+**auto width** - Button fits content size (default behavior)
+```tsx
+<Button
+  variant={'primary'}
+  width={{ default: 'auto' }}
+  label={'Auto Width'}
+/>
+```
+
+**full width** - Button stretches to 100% of container
+```tsx
+<Button
+  variant={'primary'}
+  width={{ default: 'full' }}
+  label={'Full Width'}
+/>
+```
+
+**Responsive pattern** - Full width on mobile, auto on desktop
+```tsx
+<Button
+  variant={'primary'}
+  width={{ default: 'full', med: 'auto' }}
+  label={'Responsive Width'}
+/>
+```
+
+## Best Practices
+
+### When to Use Button
+
+- Form submissions
+- Opening/closing modals or dialogs
+- Triggering JavaScript functions
+- Toggling UI states
+- Filtering or sorting data
+- Any action that doesn't navigate to a new page
+
+### When to Use Button.Link
+
+- Navigating to another page
+- Call-to-action links (e.g., "Get Started")
+- Download links
+- External website links
+- Any navigation that should look like a button
+
+### Accessibility
+
+**Button labels:**
+```tsx
+// Use label prop for simple text
+<Button variant={'primary'} label={'Save'} />
+
+// Use aria-label for icon-only buttons
+<Button
+  variant={'primary'}
+  aria-label={'Close dialog'}
+>
+  <Icon name={'close'} />
+</Button>
+```
+
+**Disabled buttons:**
+```tsx
+// Provide context for why button is disabled
+<Button
+  variant={'primary'}
+  label={'Submit'}
+  disabled={!isFormValid}
+  aria-describedby={'form-error'}
+/>
+```
+
+**Loading states:**
+```tsx
+<Button
+  variant={'primary'}
+  disabled={isLoading}
+  aria-busy={isLoading}
+>
+  {isLoading ? 'Loading...' : 'Submit'}
+</Button>
+```
+
+### Button Groups
+
+**Action groups:**
+```tsx
+<Row
+  display={{ default: 'flex' }}
+  gap={{ default: 3 }}
+  justify={{ default: 'flex-end' }}
+>
+  <Button variant={'secondary'} label={'Cancel'} />
+  <Button variant={'primary'} type={'submit'} label={'Save'} />
+</Row>
+```
+
+**Toggle groups:**
+```tsx
+<Row display={{ default: 'flex' }} gap={{ default: 2 }}>
+  <Button
+    variant={view === 'grid' ? 'primary' : 'secondary'}
+    onClick={() => setView('grid')}
+    label={'Grid'}
+  />
+  <Button
+    variant={view === 'list' ? 'primary' : 'secondary'}
+    onClick={() => setView('list')}
+    label={'List'}
+  />
+</Row>
+```
+
+### Performance Considerations
+
+**Button (Client Component):**
+- Only use when interactivity is needed
+- Adds JavaScript bundle size
+- Required for onClick, state management, etc.
+
+**Button.Link (Server Component):**
+- No JavaScript required
+- Better initial page load
+- Preferred for navigation
+- Automatically handles prefetching (Next.js optimization)
+
+### Common Patterns
+
+**Form Actions:**
+```tsx
+<form onSubmit={handleSubmit}>
+  {/* Form fields */}
+  <Row
+    display={{ default: 'flex' }}
+    gap={{ default: 3 }}
+    justify={{ default: 'space-between' }}
+  >
+    <Button
+      type={'reset'}
+      variant={'secondary'}
+      label={'Reset'}
+    />
+    <Button
+      type={'submit'}
+      variant={'primary'}
+      label={'Submit'}
+    />
+  </Row>
+</form>
+```
+
+**Call-to-Action:**
+```tsx
+<Button.Link
+  variant={'primary'}
+  href={'/signup'}
+  width={{ default: 'full', med: 'auto' }}
+  fontWeight={'bold'}
+  textTransform={'uppercase'}
+  label={'Get Started Free'}
+/>
+```
+
+**Icon Button:**
+```tsx
+<Button
+  variant={'secondary'}
+  gap={{ default: 2 }}
+  align={{ default: 'center' }}
+  justify={{ default: 'center' }}
+  onClick={handleShare}
+>
+  <Icon name={'share'} size={'sml'} />
+  Share
+</Button>
+```
+
+**Loading Button:**
+```tsx
+const [isLoading, setIsLoading] = useState(false)
+
+<Button
+  variant={'primary'}
+  disabled={isLoading}
+  onClick={handleAsyncAction}
+>
+  {isLoading ? 'Processing...' : 'Submit'}
+</Button>
+```
+
+## Button vs Link Component
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Button.Link</th>
+      <th>Link Component</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Visual Style</strong></td>
+      <td>Button styling (prominent, solid background)</td>
+      <td>Text link styling (underline, color change)</td>
+    </tr>
+    <tr>
+      <td><strong>Use Case</strong></td>
+      <td>Call-to-action navigation, prominent links</td>
+      <td>Inline text links, subtle navigation</td>
+    </tr>
+    <tr>
+      <td><strong>Emphasis</strong></td>
+      <td>High emphasis, stands out</td>
+      <td>Low emphasis, blends with content</td>
+    </tr>
+    <tr>
+      <td><strong>Variants</strong></td>
+      <td>primary, secondary (visual treatment)</td>
+      <td>primary, secondary (color variants)</td>
+    </tr>
+    <tr>
+      <td><strong>Typography</strong></td>
+      <td>Integrated Typography support</td>
+      <td>Wraps content with Typography component</td>
+    </tr>
+  </tbody>
+</table>
+
+**Use Button.Link when:**
+- The action is prominent and important
+- You want it to visually stand out
+- It's a call-to-action
+- It represents a primary user flow
+
+**Use Link component when:**
+- It's an inline text link
+- It's part of a sentence or paragraph
+- You want subtle navigation
+- It's supplementary information

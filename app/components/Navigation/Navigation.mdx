@@ -1,0 +1,163 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Components/Navigation' />
+
+# Navigation Component
+
+A flexible navigation component that supports nested sub-navigation and multiple variants. Built with accessibility in mind using semantic `<nav>` elements.
+
+## Import
+
+```tsx
+import { Navigation } from '@components/Navigation/Navigation.component'
+```
+
+## Props
+
+See `Navigation.types.ts` for complete type definitions.
+
+### `modifiers` (optional)
+
+Additional CSS class names to apply to the navigation component.
+
+- Type: `string[]`
+- Default: `[]`
+
+### `variant` (optional)
+
+Visual variant for the navigation layout.
+
+- Type: `'inline'`
+- Default: `undefined`
+
+### `navigation` (required)
+
+Array of navigation items to render.
+
+- Type: `NavigationItem[]`
+
+#### NavigationItem Properties
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `id` | `number` | No | Unique identifier for the navigation item |
+| `href` | `string` | No | URL or path for the link |
+| `title` | `string` | No | Display text for the link |
+| `target` | `LinkTarget` | No | Link target attribute (e.g., `_blank`, `_self`) |
+| `rel` | `LinkRel` | No | Link relationship attribute |
+| `subNav` | `NavigationItem[]` | No | Nested sub-navigation items |
+
+## Usage Examples
+
+### Basic Navigation
+
+```tsx
+<Navigation
+  navigation={[
+    {
+      id: 0,
+      href: '/',
+      title: 'Homepage'
+    },
+    {
+      id: 1,
+      href: '/contact',
+      title: 'Contact'
+    }
+  ]}
+/>
+```
+
+### Navigation with Variant
+
+```tsx
+<Navigation
+  variant="inline"
+  navigation={[
+    {
+      id: 0,
+      href: '/',
+      title: 'Homepage'
+    },
+    {
+      id: 1,
+      href: '/about',
+      title: 'About'
+    }
+  ]}
+/>
+```
+
+### Nested Sub-Navigation
+
+```tsx
+<Navigation
+  navigation={[
+    {
+      id: 0,
+      href: '/products',
+      title: 'Products',
+      subNav: [
+        {
+          id: 0,
+          href: '/products/category-1',
+          title: 'Category 1'
+        },
+        {
+          id: 1,
+          href: '/products/category-2',
+          title: 'Category 2'
+        }
+      ]
+    },
+    {
+      id: 1,
+      href: '/contact',
+      title: 'Contact'
+    }
+  ]}
+/>
+```
+
+### With Custom Modifiers
+
+```tsx
+<Navigation
+  modifiers={['custom-class', 'another-class']}
+  navigation={[
+    {
+      id: 0,
+      href: '/',
+      title: 'Homepage'
+    }
+  ]}
+/>
+```
+
+## Features
+
+- Server-side rendering compatible
+- Active link highlighting with `is-active` class
+- Support for external links with `target` and `rel` attributes
+- Nested sub-navigation support
+- Semantic HTML structure using `<nav>`, `<ul>`, and `<li>` elements
+- Fully typed with TypeScript
+
+## Mock Data
+
+```ts
+import { navigationMock } from '@components/Navigation/Navigation.mock'
+
+export const navigationMock: NavigationItem[] = [
+  {
+    id: 0,
+    href: '/',
+    title: 'Homepage'
+  },
+  {
+    id: 1,
+    href: '/contact',
+    title: 'Contact'
+  }
+]
+```

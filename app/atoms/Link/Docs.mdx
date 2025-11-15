@@ -1,0 +1,275 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Atoms/Link' />
+
+# Link
+
+The `Link` component is a Next.js link wrapper with built-in typography styling and active state detection. It combines Next.js routing with customizable typography and automatically highlights active links based on the current route.
+
+## Features
+
+- **Next.js integration** - Uses Next.js `<Link>` for optimized client-side navigation
+- **Active state detection** - Automatically detects and styles the active route
+- **Typography integration** - Full typography customization via Typography component
+- **Variant support** - Primary (dark) and secondary (light) color variants
+- **Client component** - Uses `'use client'` for pathname detection
+- **Type-safe** - Full TypeScript support with comprehensive prop types
+
+## Props
+
+- `href` - Destination URL (string or Next.js URL object) - **Required**
+- `variant` - Link color variant: `'primary'` | `'secondary'` (default: `'primary'`)
+- `title` - Link text content
+- `children` - Additional content to render after title
+- `typography` - Typography props for styling (size, padding, etc.)
+- `activeClass` - Custom CSS class to apply when link is active
+- `target` - Where to open the link: `'_self'` | `'_blank'` | `'_parent'` | `'_top'`
+- `rel` - Link relationship attribute (default: `'noreferrer'`)
+- `modifiers` - Array of custom CSS class names
+
+## Usage
+
+```tsx
+import { Link } from '@atoms/Link/Link.component'
+```
+
+### Basic Link
+
+```tsx
+<Link href="/about" title="About Us" />
+```
+
+### Internal Navigation
+
+```tsx
+<Link
+  href="/products"
+  title="View Products"
+  variant="primary"
+  typography={{
+    size: 'body-lrg',
+    padding: { default: 4 }
+  }}
+/>
+```
+
+### External Link
+
+```tsx
+<Link
+  href="https://example.com"
+  title="External Site"
+  target="_blank"
+  rel="noopener noreferrer"
+  variant="primary"
+/>
+```
+
+### Link with Children
+
+```tsx
+<Link href="/contact" title="Get in touch">
+  <span> - Email us today</span>
+</Link>
+```
+
+### Link with Typography Styling
+
+```tsx
+<Link
+  href="/blog"
+  title="Read Blog"
+  typography={{
+    size: 'body-xlrg',
+    weight: 'bold',
+    padding: { default: 6 },
+    align: 'center'
+  }}
+/>
+```
+
+### Active Link with Custom Class
+
+```tsx
+<Link
+  href="/dashboard"
+  title="Dashboard"
+  activeClass="nav-active"
+  variant="primary"
+/>
+```
+
+### Light Link (for dark backgrounds)
+
+```tsx
+<Link
+  href="/features"
+  title="Features"
+  variant="secondary"
+/>
+```
+
+## Common Use Cases
+
+### Navigation Menu
+
+```tsx
+<nav>
+  <Link href="/" title="Home" />
+  <Link href="/about" title="About" />
+  <Link href="/services" title="Services" />
+  <Link href="/contact" title="Contact" />
+</nav>
+```
+
+### Styled Navigation
+
+```tsx
+<Nav>
+  <Nav.Ul>
+    <Nav.Li>
+      <Link
+        href="/"
+        title="Home"
+        activeClass="nav-active"
+        typography={{ size: 'body-lrg', padding: { default: 4 } }}
+      />
+    </Nav.Li>
+    <Nav.Li>
+      <Link
+        href="/about"
+        title="About"
+        activeClass="nav-active"
+        typography={{ size: 'body-lrg', padding: { default: 4 } }}
+      />
+    </Nav.Li>
+  </Nav.Ul>
+</Nav>
+```
+
+### Footer Links
+
+```tsx
+<footer>
+  <Link
+    href="/privacy"
+    title="Privacy Policy"
+    variant="secondary"
+    typography={{ size: 'body-sml' }}
+  />
+  <Link
+    href="/terms"
+    title="Terms of Service"
+    variant="secondary"
+    typography={{ size: 'body-sml' }}
+  />
+</footer>
+```
+
+## Props Reference
+
+### href
+- **Type:** `string | UrlObject`
+- **Required:** Yes
+- **Description:** The destination URL. Can be a string path (e.g., `/about`) or a Next.js URL object for complex routing.
+
+### variant
+- **Type:** `'primary'` | `'secondary'`
+- **Default:** `'primary'`
+- **Description:** The color variant of the link. Use `'primary'` for dark links on light backgrounds, `'secondary'` for light links on dark backgrounds.
+
+### title
+- **Type:** `string`
+- **Description:** The main text content of the link. Displayed as the clickable text.
+
+### children
+- **Type:** `React.ReactNode`
+- **Description:** Additional content to render inside the link, after the title text.
+
+### typography
+- **Type:** `Omit<TypographyProps, 'modifiers' | 'tag' | 'richtext' | 'color' | 'text' | 'linkVariant'>`
+- **Description:** Typography settings to customize the link appearance. Supports all Typography props except the omitted ones.
+- **Common options:**
+  - `size` - Font size variant
+  - `weight` - Font weight
+  - `padding` - Padding object with breakpoints
+  - `align` - Text alignment
+
+### activeClass
+- **Type:** `string`
+- **Description:** Custom CSS class to apply when the link matches the current route. Useful for styling active navigation items.
+
+### target
+- **Type:** `'_self'` | `'_blank'` | `'_parent'` | `'_top'`
+- **Description:** Specifies where to open the linked document. Use `'_blank'` for external links that should open in a new tab.
+
+### rel
+- **Type:** `'noopener'` | `'noreferrer'` | `'nofollow'` | `'noopener noreferrer'` | etc.
+- **Default:** `'noreferrer'`
+- **Description:** Defines the relationship between the current document and the linked document. Always use `'noopener noreferrer'` with `target="_blank"` for security.
+
+### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Array of additional CSS class names for custom styling.
+
+## Active State Detection
+
+The Link component automatically detects when it's pointing to the current route:
+
+- Exact match: `/about` matches pathname `/about`
+- Prefix match: `/blog` matches `/blog`, `/blog/post-1`, etc.
+- Normalized paths: Trailing slashes are ignored
+
+When active, the link receives the `activeClass` CSS class (if provided).
+
+## Color Variants
+
+Link colors are defined in `app/styles/settings/colors.scss`:
+
+```scss
+link: (
+  primary: (
+    color: $black,
+    focus: color-mix(in oklab, $white, $black 60%),
+    hover: color-mix(in oklab, $white, $black 50%),
+    active: color-mix(in oklab, $white, $black 40%)
+  ),
+  secondary: (
+    color: $white,
+    focus: color-mix(in oklab, $black, $white 60%),
+    hover: color-mix(in oklab, $black, $white 50%),
+    active: color-mix(in oklab, $black, $white 40%)
+  )
+)
+```
+
+## Accessibility
+
+- Uses semantic `<a>` element for proper navigation
+- Supports keyboard navigation (Tab, Enter)
+- Properly announces link destination to screen readers
+- Includes focus states for keyboard users
+- Active state helps users understand current location
+
+## Best Practices
+
+1. **Always provide href** - The href prop is required for proper navigation
+2. **Use meaningful titles** - Link text should describe the destination
+3. **External links** - Use `target="_blank"` and `rel="noopener noreferrer"` for external links
+4. **Active states** - Use `activeClass` for navigation menus to show current location
+5. **Choose correct variant** - Primary for light backgrounds, secondary for dark backgrounds
+6. **Avoid generic text** - Don't use "click here" or "read more" without context
+
+## Client Component Note
+
+The Link component uses `'use client'` because it:
+- Uses `usePathname()` hook for active state detection
+- Requires client-side routing
+- Needs access to current pathname for highlighting active links
+
+## Related Components
+
+- **Typography** - Used internally for text styling
+- **Nav** - Often used together for navigation menus
+- **Button** - For action-based interactions vs navigation

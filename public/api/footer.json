@@ -1,0 +1,18 @@
+{
+  "navigation": [
+    {
+      "id": 0,
+      "href": "/",
+      "title": "Homepage",
+      "typography": {
+        "color": "white"
+      }
+    },
+    {
+      "id": 1,
+      "href": "/contact",
+      "title": "Contact"
+    }
+  ],
+  "description": "Site by <a href=\"https://tetloose.com\">Tetloose</a>"
+}

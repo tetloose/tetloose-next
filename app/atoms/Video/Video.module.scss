@@ -1,0 +1,9 @@
+@use '@styles/settings' as *;
+
+.video {
+  width: 100%;
+  height: auto;
+
+  @extend %ratios;
+  @extend %image-size;
+}

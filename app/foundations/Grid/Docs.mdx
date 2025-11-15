@@ -1,0 +1,414 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Foundations/Grid' />
+
+# Grid
+
+The **Grid** component is a responsive layout system that provides two complementary components for building CSS grid-based layouts. It dynamically generates grid templates with inline styles and supports responsive configurations.
+
+## Components
+
+### Grid
+
+The outer container that establishes the responsive grid layout. This component defines the overall grid structure with rows, columns, and optional height constraints that can be customized across different breakpoints (default, sml, med, lrg, xlrg, xxlrg).
+
+**Use this when:** You need to create the main grid container that will hold Grid.Item children.
+
+**Key features:**
+- Defines grid template rows and columns with responsive breakpoint support
+- Supports responsive height control
+- Responsive border control with breakpoint support
+- Generates dynamic inline styles for each specified breakpoint
+- Uses mobile-first approach (default = mobile, then progressively larger breakpoints)
+- Sets the overall grid context
+
+### Grid.Item
+
+Individual items that position themselves within a Grid. Each item can span specific rows and columns within the parent grid, with positioning that can be customized per breakpoint.
+
+**Use this when:** You need to position content within a grid layout.
+
+**Key features:**
+- Positions itself using grid row/column placement with responsive breakpoint support
+- Can span multiple rows or columns
+- Supports repositioning across breakpoints (default, sml, med, lrg, xlrg, xxlrg)
+- Responsive border control with breakpoint support
+- Background color customization
+- Uses mobile-first approach for positioning
+- Cannot set grid template (positioning only)
+
+## Usage
+
+```tsx
+import { Grid } from '@foundations/Grid/Grid.component'
+```
+
+```tsx
+<Grid
+  tag={'main'}
+  rows={{
+    default: ['min-content', 'min-content', 'auto', 'min-content'],
+    lrg: ['min-content', 'auto', 'min-content']
+  }}
+  columns={{
+    default: [1],
+    lrg: [0.5, 1.5]
+  }}
+  height={{ default: 'viewport-fullscreen' }}
+>
+  <Grid.Item
+    tag={'header'}
+    bg={'black'}
+    rows={{ default: [1] }}
+    columns={{
+      default: [1],
+      lrg: [1, 3]
+    }}
+  >
+    {/* row 1, column 1 - 3 */}
+  </Grid.Item>
+  <Grid.Item
+    rows={{
+      default: [2]
+    }}
+    columns={{
+      default: [1],
+      lrg: [1, 2]
+    }}
+  >
+    {/* mobile row 2 column 1, desktop row 2 column 1 - 2 */}
+  </Grid.Item>
+  <Grid.Item
+    tag={'section'}
+    rows={{
+      default: [3],
+      lrg: [2]
+    }}
+    columns={{
+      default: [1],
+      lrg: [2, 3]
+    }}
+  >
+    {/* mobile row 3 column 1, desktop row 2 column 2 - 3 */}
+  </Grid.Item>
+  <Grid.Item
+    bg={'black'}
+    tag={'footer'}
+    rows={{
+      default: [4],
+      lrg: [3]
+    }}
+    columns={{
+      default: [1],
+      lrg: [1, 3]
+    }}
+  >
+    {/* mobile row 4 column 1, desktop row 3 column 1 - 3 */}
+  </Grid.Item>
+</Grid>
+```
+
+### Grid with Borders
+
+```tsx
+<Grid
+  tag={'main'}
+  rows={{
+    default: ['min-content', 'auto']
+  }}
+  columns={{
+    default: [1],
+    med: [1, 1]
+  }}
+  border={{
+    top: { default: true },
+    bottom: { default: true }
+  }}
+  borderColor={'black'}
+>
+  <Grid.Item
+    rows={{ default: [1] }}
+    columns={{ default: [1] }}
+    border={{
+      top: { default: true },
+      right: { med: true },
+      bottom: { med: true },
+      left: { med: true }
+    }}
+    borderColor={'black'}
+  >
+    {/* Grid item with responsive borders */}
+  </Grid.Item>
+  <Grid.Item
+    rows={{
+      default: [2],
+      med: [1]
+    }}
+    columns={{
+      default: [1],
+      med: [2]
+    }}
+    border={{
+      bottom: { default: true }
+    }}
+    borderColor={'black'}
+  >
+    {/* Grid item with bottom border */}
+  </Grid.Item>
+</Grid>
+```
+
+## Props
+
+### Grid Props
+
+#### rows (Required)
+- **Type:** `RowProps`
+- **Description:** Defines the grid template rows. Supports responsive breakpoints.
+- **Example:** `{ default: ['60px', 'auto', '40px'] }` creates three rows with fixed header/footer heights
+
+#### columns (Required)
+- **Type:** `ColumnProps`
+- **Description:** Defines the grid template columns. Supports responsive breakpoints and fractional units.
+- **Example:** `{ default: [1, 2] }` creates two columns in a 1:2 ratio
+
+#### height
+- **Type:** `BreakpointHeight['height']`
+- **Default:** None
+- **Description:** Sets responsive height values for the grid wrapper (e.g., viewport-fullscreen, parent-fullscreen)
+
+#### tag
+- **Type:** `Tags`
+- **Default:** `'main'`
+- **Description:** The HTML element tag for the wrapper (e.g., 'main', 'div', 'section')
+
+#### bg
+- **Type:** `GlobalBg` - `'black' | 'white'`
+- **Default:** None
+- **Description:** Background color class for the grid wrapper
+
+#### border
+- **Type:** `Border`
+- **Default:** None
+- **Description:** Border configuration object with responsive breakpoint support for top, right, bottom, and left borders. Each direction can be enabled/disabled per breakpoint
+- **Example:** `{ top: { default: true }, bottom: { med: true } }` adds a top border on all screens and bottom border on medium screens and up
+
+#### borderColor
+- **Type:** Border color value
+- **Default:** None
+- **Description:** Color for grid wrapper borders. Must be used with `border` prop to apply border styling
+
+#### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Additional CSS classes for custom styling
+
+#### children
+- **Type:** `React.ReactNode`
+- **Description:** Grid.Item children to be rendered within the grid wrapper
+
+#### ...rest
+- **Type:** Additional HTML attributes
+- **Description:** Any extra attributes (data attributes, aria attributes, etc.) are passed to the rendered element
+
+### Grid.Item Props
+
+#### rows (Required)
+- **Type:** `RowProps`
+- **Description:** Defines which grid rows this item occupies. Use `[start, end]` notation for placement.
+- **Example:** `{ default: [1, 3] }` places item from row 1 to row 3 (spanning 2 rows)
+
+#### columns (Required)
+- **Type:** `ColumnProps`
+- **Description:** Defines which grid columns this item occupies. Use `[start, end]` notation for placement.
+- **Example:** `{ default: [2] }` places item in column 2, `{ default: [1, 3] }` spans columns 1-3
+
+#### tag
+- **Type:** `Tags`
+- **Default:** `'section'`
+- **Description:** The HTML element tag for the item
+
+#### bg
+- **Type:** `GlobalBg` - `'black' | 'white'`
+- **Default:** None
+- **Description:** Background color class for the grid item
+
+#### border
+- **Type:** `Border`
+- **Default:** None
+- **Description:** Border configuration object with responsive breakpoint support for top, right, bottom, and left borders. Each direction can be enabled/disabled per breakpoint
+- **Example:** `{ top: { default: true }, right: { med: true }, bottom: { med: true }, left: { med: true } }` adds a top border on all screens and side borders on medium screens and up
+
+#### borderColor
+- **Type:** Border color value
+- **Default:** None
+- **Description:** Color for grid item borders. Must be used with `border` prop to apply border styling
+
+#### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Additional CSS classes for custom styling
+
+#### children
+- **Type:** `React.ReactNode`
+- **Description:** Content to be rendered within the grid item
+
+#### ...rest
+- **Type:** Additional HTML attributes
+- **Description:** Any extra attributes (data attributes, aria attributes, etc.) are passed to the rendered element
+
+## Border System
+
+Both Grid and Grid.Item support responsive border styling through the `border` and `borderColor` props. Borders can be applied to any or all sides (top, right, bottom, left) and can be configured differently at each breakpoint.
+
+### Basic Borders
+
+Apply borders to specific sides:
+
+```tsx
+<Grid.Item
+  rows={{ default: [1] }}
+  columns={{ default: [1] }}
+  border={{
+    top: { default: true },
+    bottom: { default: true }
+  }}
+  borderColor={'black'}
+>
+  Content with top and bottom borders
+</Grid.Item>
+```
+
+### Responsive Borders
+
+Change border configuration at different breakpoints:
+
+```tsx
+<Grid.Item
+  rows={{ default: [1] }}
+  columns={{ default: [1] }}
+  border={{
+    top: { default: true },        // Top border on all screens
+    right: { med: true },           // Right border on medium and up
+    bottom: { default: true },      // Bottom border on all screens
+    left: { med: true }            // Left border on medium and up
+  }}
+  borderColor={'black'}
+>
+  Responsive borders
+</Grid.Item>
+```
+
+### All Borders
+
+Apply borders to all sides:
+
+```tsx
+<Grid.Item
+  rows={{ default: [1] }}
+  columns={{ default: [1] }}
+  border={{
+    top: { default: true },
+    right: { default: true },
+    bottom: { default: true },
+    left: { default: true }
+  }}
+  borderColor={'black'}
+>
+  Fully bordered content
+</Grid.Item>
+```
+
+### Border on Wrapper
+
+Apply borders to the entire grid container:
+
+```tsx
+<Grid
+  rows={{ default: ['auto'] }}
+  columns={{ default: [1] }}
+  border={{
+    top: { default: true },
+    bottom: { default: true }
+  }}
+  borderColor={'black'}
+>
+  {/* Grid items */}
+</Grid>
+```
+
+## Best Practices
+
+### When to Use Grid
+
+- Creating complex page layouts with multiple regions
+- Building responsive layouts that need different structures at different breakpoints
+- Designing card-based layouts with consistent spacing
+- Creating dashboard layouts with header, sidebar, content, and footer
+- Building magazine-style layouts with overlapping or offset elements
+
+### When NOT to Use Grid
+
+- Simple vertical stacking (use standard block elements or Spacer)
+- Single row of items (consider Row component or flexbox)
+- Tables of data (use Table component for semantic HTML)
+- Text-heavy content (use Typography and standard flow)
+- When you need IE11 support without fallbacks
+
+### Performance Considerations
+
+The Grid component generates inline styles dynamically for each instance. While this provides maximum flexibility:
+
+- Each Grid and Grid.Item creates a unique CSS class
+- Styles are injected into the document via `<style>` tags
+- The UUID system ensures no class name conflicts
+- Consider the performance impact when rendering many grids on a single page
+
+### Grid Template Syntax
+
+Rows and columns accept various CSS grid values:
+
+**Fixed sizes:**
+```tsx
+rows={{ default: ['100px', '200px', '100px'] }}
+```
+
+**Fractional units:**
+```tsx
+columns={{ default: [1, 2, 1] }}  // 1fr 2fr 1fr
+```
+
+**Auto sizing:**
+```tsx
+rows={{ default: ['auto', 'min-content', 'max-content'] }}
+```
+
+**Mixed values:**
+```tsx
+rows={{ default: ['60px', 'auto', 'min-content'] }}
+```
+
+### Mobile-First Approach
+
+The Grid system uses a mobile-first approach where the `default` breakpoint represents mobile:
+
+1. Start with `default` for mobile layout
+2. Add breakpoints as needed for larger screens: `sml`, `med`, `lrg`, `xlrg`, `xxlrg`
+3. Each breakpoint overrides the previous, maintaining earlier values
+
+```tsx
+<Grid
+  rows={{
+    default: ['auto', 'auto', 'auto', 'auto'],  // 4 rows on mobile (stacked)
+    med: ['auto', 'auto'],                       // 2 rows on tablet
+    lrg: ['auto']                                // 1 row on desktop
+  }}
+  columns={{
+    default: [1],                                // 1 column on mobile
+    med: [1, 1],                                 // 2 columns on tablet
+    lrg: [1, 1, 1, 1]                           // 4 columns on desktop
+  }}
+>
+  {/* Grid items reflow based on template */}
+</Grid>
+```

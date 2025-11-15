@@ -1,0 +1,2 @@
+@use '@styles/settings' as *;
+@include selection(deep-get($colors, default, black), deep-get($colors, default, white));

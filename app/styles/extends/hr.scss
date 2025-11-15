@@ -1,0 +1,29 @@
+@use 'sass:map';
+@use '@styles/mixins' as *;
+@use '@styles/settings/colors' as *;
+
+%hr {
+  hr {
+    width: 100%;
+
+    @include sizing(height, size(0.25));
+  }
+
+  &.color-black {
+    hr {
+      background-color: deep-get($colors, default, black);
+    }
+  }
+
+  &.color-white {
+    hr {
+      background-color: deep-get($colors, default, white);
+    }
+  }
+
+  &.color-red {
+    hr {
+      background-color: deep-get($colors, default, red);
+    }
+  }
+}

@@ -1,0 +1,25 @@
+@use '@styles/mixins/deep-get' as *;
+@use '@styles/settings/colors' as *;
+
+@mixin scrollbar(
+  $size: 1.25rem,
+  $foreground-color: deep-get($colors, default, black),
+  $background-color: deep-get($colors, default, white)
+) {
+  scrollbar-color: $foreground-color $background-color;
+  scrollbar-width: thin;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $foreground-color;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $background-color;
+  }
+}

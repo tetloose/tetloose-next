@@ -1,0 +1,767 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Foundations/Row' />
+
+# Row
+
+The **Row** component is a flexible layout system built on CSS Flexbox that provides two complementary components for creating responsive row-based layouts. It uses a 12-column grid system with responsive breakpoint support, making it ideal for traditional webpage layouts, card grids, and flexible content arrangements.
+
+## Components
+
+### Row
+
+The outer flexbox container that establishes the row layout context. This component controls the overall flex behavior including alignment, justification, wrapping, and direction with responsive breakpoint support.
+
+**Use this when:** You need to create a horizontal flex container that will hold Row.Column children.
+
+**Key features:**
+- Flexbox-based layout with full flex properties control
+- Default display flex with wrap behavior
+- Responsive alignment (align-items) and justification (justify-content)
+- Flexible direction control (row, column, row-reverse, column-reverse)
+- Responsive wrap control (wrap, nowrap, wrap-reverse)
+- Directional padding with responsive breakpoints
+- Background color and border support
+- Height control with responsive breakpoints
+- Mobile-first approach (default = mobile, then progressively larger breakpoints)
+
+### Row.Column
+
+Individual column items that position themselves within a Row. Based on a 12-column grid system where columns can occupy 1-12 units, or use auto width. Each column can have its own flex properties and responsive width.
+
+**Use this when:** You need to position content within a row layout with specific width constraints.
+
+**Key features:**
+- 12-column grid system (width values 1-12, or 'auto')
+- Responsive width control across all breakpoints
+- Inherits all flex properties (align, justify, direction, wrap)
+- Can function as a nested flex container
+- Gap control for spacing between children
+- Directional padding with responsive breakpoints
+- Background color and border support
+- Height control with responsive breakpoints
+
+## Usage
+
+```tsx
+import { Row } from '@foundations/Row/Row.component'
+```
+
+### Basic Row
+
+```tsx
+<Row>
+  <Row.Column width={{ default: 12 }}>
+    <p>Full width column</p>
+  </Row.Column>
+</Row>
+```
+
+### Two Column Layout
+
+```tsx
+<Row>
+  <Row.Column width={{ default: 6 }}>
+    <p>Left column - 50%</p>
+  </Row.Column>
+  <Row.Column width={{ default: 6 }}>
+    <p>Right column - 50%</p>
+  </Row.Column>
+</Row>
+```
+
+### Three Column Layout
+
+```tsx
+<Row>
+  <Row.Column width={{ default: 4 }}>
+    <p>Column 1 - 33.33%</p>
+  </Row.Column>
+  <Row.Column width={{ default: 4 }}>
+    <p>Column 2 - 33.33%</p>
+  </Row.Column>
+  <Row.Column width={{ default: 4 }}>
+    <p>Column 3 - 33.33%</p>
+  </Row.Column>
+</Row>
+```
+
+### Responsive Layout
+
+```tsx
+<Row>
+  <Row.Column
+    width={{
+      default: 12,  // Full width on mobile
+      med: 6,       // Half width on tablet
+      lrg: 4        // Third width on desktop
+    }}
+  >
+    <p>Responsive column</p>
+  </Row.Column>
+  <Row.Column
+    width={{
+      default: 12,
+      med: 6,
+      lrg: 4
+    }}
+  >
+    <p>Responsive column</p>
+  </Row.Column>
+  <Row.Column
+    width={{
+      default: 12,
+      med: 12,
+      lrg: 4
+    }}
+  >
+    <p>Responsive column</p>
+  </Row.Column>
+</Row>
+```
+
+### With Padding (Gutters)
+
+```tsx
+<Row
+  padding={{
+    left: { default: 6 },
+    right: { default: 6 }
+  }}
+>
+  <Row.Column
+    padding={{
+      left: { default: 6 },
+      right: { default: 6 }
+    }}
+    width={{ default: 6 }}
+  >
+    <p>Column with padding</p>
+  </Row.Column>
+  <Row.Column
+    padding={{
+      left: { default: 6 },
+      right: { default: 6 }
+    }}
+    width={{ default: 6 }}
+  >
+    <p>Column with padding</p>
+  </Row.Column>
+</Row>
+```
+
+### Alignment and Justification
+
+```tsx
+<Row
+  align={{ default: 'center' }}
+  justify={{ default: 'space-between' }}
+>
+  <Row.Column width={{ default: 'auto' }}>
+    <p>Auto width column</p>
+  </Row.Column>
+  <Row.Column width={{ default: 'auto' }}>
+    <p>Auto width column</p>
+  </Row.Column>
+</Row>
+```
+
+### With Borders
+
+```tsx
+<Row>
+  <Row.Column
+    width={{ default: 6 }}
+    border={{
+      right: { default: true }
+    }}
+    borderColor={'black'}
+  >
+    <p>Left column with right border</p>
+  </Row.Column>
+  <Row.Column width={{ default: 6 }}>
+    <p>Right column</p>
+  </Row.Column>
+</Row>
+```
+
+### Page Layout Example
+
+```tsx
+<Row tag={'main'}>
+  <Row.Column
+    tag={'header'}
+    width={{ default: 12 }}
+    border={{ bottom: { default: true } }}
+    borderColor={'black'}
+  >
+    <h1>Header</h1>
+  </Row.Column>
+
+  <Row.Column
+    tag={'aside'}
+    width={{
+      default: 12,
+      med: 4
+    }}
+  >
+    <nav>Sidebar</nav>
+  </Row.Column>
+
+  <Row.Column
+    tag={'section'}
+    width={{
+      default: 12,
+      med: 8
+    }}
+  >
+    <article>Main Content</article>
+  </Row.Column>
+
+  <Row.Column
+    tag={'footer'}
+    width={{ default: 12 }}
+    border={{ top: { default: true } }}
+    borderColor={'black'}
+  >
+    <p>Footer</p>
+  </Row.Column>
+</Row>
+```
+
+### Nested Rows
+
+```tsx
+<Row>
+  <Row.Column width={{ default: 12 }}>
+    <Row>
+      <Row.Column width={{ default: 6 }}>
+        <p>Nested column 1</p>
+      </Row.Column>
+      <Row.Column width={{ default: 6 }}>
+        <p>Nested column 2</p>
+      </Row.Column>
+    </Row>
+  </Row.Column>
+</Row>
+```
+
+## Props
+
+### Row Props
+
+#### display
+- **Type:** `BreakpointDisplay`
+- **Default:** `{ default: 'flex' }`
+- **Description:** Controls the CSS display property with responsive breakpoint support. Defaults to flex for flexbox layout
+
+#### align
+- **Type:** `BreakpointFlexAlign`
+- **Default:** None
+- **Description:** Sets align-items (vertical alignment in flex row). Values: 'start', 'center', 'end', 'stretch', 'baseline'. Responsive across all breakpoints
+
+#### justify
+- **Type:** `BreakpointJustify`
+- **Default:** None
+- **Description:** Sets justify-content (horizontal alignment in flex row). Values: 'start', 'center', 'end', 'space-between', 'space-around', 'space-evenly'. Responsive across all breakpoints
+
+#### direction
+- **Type:** `BreakpointDirection`
+- **Default:** None
+- **Description:** Sets flex-direction. Values: 'row', 'column', 'row-reverse', 'column-reverse'. Responsive across all breakpoints
+
+#### wrap
+- **Type:** `BreakpointFlexWrap`
+- **Default:** `{ default: 'wrap' }`
+- **Description:** Sets flex-wrap behavior. Values: 'wrap', 'nowrap', 'wrap-reverse'. Defaults to wrap for responsive column wrapping
+
+#### padding
+- **Type:** `Padding`
+- **Default:** None
+- **Description:** Directional padding with responsive breakpoint support. Accepts top, right, bottom, left with values 0-10 per breakpoint
+- **Example:** `{ left: { default: 6 }, right: { default: 6 } }`
+
+#### height
+- **Type:** `BreakpointHeight`
+- **Default:** None
+- **Description:** Responsive height values (e.g., 'viewport-fullscreen', 'parent-fullscreen'). Can be set differently per breakpoint
+
+#### tag
+- **Type:** `Tags`
+- **Default:** `'div'`
+- **Description:** The HTML element tag for the wrapper (e.g., 'div', 'main', 'section', 'article')
+
+#### bg
+- **Type:** `GlobalBg` - `'black' | 'white'`
+- **Default:** None
+- **Description:** Background color for the row wrapper
+
+#### border
+- **Type:** `Border`
+- **Default:** None
+- **Description:** Border configuration object with responsive breakpoint support for top, right, bottom, and left borders
+
+#### borderColor
+- **Type:** Border color value
+- **Default:** None
+- **Description:** Color for row borders. Must be used with `border` prop to apply border styling
+
+#### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Additional CSS classes for custom styling
+
+#### ref
+- **Type:** `React.Ref<HTMLDivElement>`
+- **Default:** None
+- **Description:** React ref for accessing the underlying element
+
+#### children
+- **Type:** `React.ReactNode`
+- **Description:** Row.Column children to be rendered within the row wrapper
+
+#### ...rest
+- **Type:** Additional HTML attributes
+- **Description:** Any extra attributes are passed to the rendered element
+
+### Row.Column Props
+
+#### width
+- **Type:** `BreakpointWidth`
+- **Default:** None (defaults to full width if not specified)
+- **Description:** Column width based on 12-column grid system. Values: 'auto', 1-12. Responsive across all breakpoints
+- **Example:** `{ default: 12, med: 6, lrg: 4 }` creates a column that is full-width on mobile, half-width on tablet, and third-width on desktop
+
+#### display
+- **Type:** `BreakpointDisplay`
+- **Default:** None
+- **Description:** Controls the CSS display property. Can be used to make columns flex containers themselves
+
+#### align
+- **Type:** `BreakpointFlexAlign`
+- **Default:** None
+- **Description:** Sets align-items when column is a flex container. Values: 'start', 'center', 'end', 'stretch', 'baseline'
+
+#### justify
+- **Type:** `BreakpointJustify`
+- **Default:** None
+- **Description:** Sets justify-content when column is a flex container. Values: 'start', 'center', 'end', 'space-between', 'space-around', 'space-evenly'
+
+#### direction
+- **Type:** `BreakpointDirection`
+- **Default:** None
+- **Description:** Sets flex-direction when column is a flex container. Values: 'row', 'column', 'row-reverse', 'column-reverse'
+
+#### wrap
+- **Type:** `BreakpointFlexWrap`
+- **Default:** None
+- **Description:** Sets flex-wrap when column is a flex container. Values: 'wrap', 'nowrap', 'wrap-reverse'
+
+#### gap
+- **Type:** `BreakpointGap`
+- **Default:** None
+- **Description:** Sets gap between flex children when column is a flex container. Responsive across all breakpoints
+
+#### padding
+- **Type:** `Padding`
+- **Default:** None
+- **Description:** Directional padding with responsive breakpoint support. Accepts top, right, bottom, left with values 0-10 per breakpoint
+- **Example:** `{ left: { default: 6 }, right: { default: 6 } }`
+
+#### height
+- **Type:** `BreakpointHeight`
+- **Default:** None
+- **Description:** Responsive height values. Can be set differently per breakpoint
+
+#### tag
+- **Type:** `Tags`
+- **Default:** `'div'`
+- **Description:** The HTML element tag for the column (e.g., 'div', 'section', 'article', 'aside', 'header', 'footer')
+
+#### bg
+- **Type:** `GlobalBg` - `'black' | 'white'`
+- **Default:** None
+- **Description:** Background color for the column
+
+#### border
+- **Type:** `Border`
+- **Default:** None
+- **Description:** Border configuration object with responsive breakpoint support for top, right, bottom, and left borders
+
+#### borderColor
+- **Type:** Border color value
+- **Default:** None
+- **Description:** Color for column borders. Must be used with `border` prop to apply border styling
+
+#### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Additional CSS classes for custom styling
+
+#### ref
+- **Type:** `React.Ref<HTMLDivElement>`
+- **Default:** None
+- **Description:** React ref for accessing the underlying element
+
+#### children
+- **Type:** `React.ReactNode`
+- **Description:** Content to be rendered within the column
+
+#### ...rest
+- **Type:** Additional HTML attributes
+- **Description:** Any extra attributes are passed to the rendered element
+
+## 12-Column Grid System
+
+The Row component uses a 12-column grid system where each column can occupy 1-12 units of space. This provides flexibility for common layout divisions:
+
+<table>
+  <thead>
+    <tr>
+      <th>Width Value</th>
+      <th>Percentage</th>
+      <th>Common Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1</strong></td>
+      <td>8.33%</td>
+      <td>Small icons, narrow sidebars</td>
+    </tr>
+    <tr>
+      <td><strong>2</strong></td>
+      <td>16.67%</td>
+      <td>Very narrow columns</td>
+    </tr>
+    <tr>
+      <td><strong>3</strong></td>
+      <td>25%</td>
+      <td>Quarter width, 4-column grid</td>
+    </tr>
+    <tr>
+      <td><strong>4</strong></td>
+      <td>33.33%</td>
+      <td>Third width, 3-column grid</td>
+    </tr>
+    <tr>
+      <td><strong>5</strong></td>
+      <td>41.67%</td>
+      <td>Offset layouts</td>
+    </tr>
+    <tr>
+      <td><strong>6</strong></td>
+      <td>50%</td>
+      <td>Half width, 2-column grid</td>
+    </tr>
+    <tr>
+      <td><strong>7</strong></td>
+      <td>58.33%</td>
+      <td>Asymmetric layouts</td>
+    </tr>
+    <tr>
+      <td><strong>8</strong></td>
+      <td>66.67%</td>
+      <td>Two-thirds width, main content area</td>
+    </tr>
+    <tr>
+      <td><strong>9</strong></td>
+      <td>75%</td>
+      <td>Three-quarters width</td>
+    </tr>
+    <tr>
+      <td><strong>10</strong></td>
+      <td>83.33%</td>
+      <td>Narrow sidebar layouts</td>
+    </tr>
+    <tr>
+      <td><strong>11</strong></td>
+      <td>91.67%</td>
+      <td>Very wide content with small sidebar</td>
+    </tr>
+    <tr>
+      <td><strong>12</strong></td>
+      <td>100%</td>
+      <td>Full width</td>
+    </tr>
+    <tr>
+      <td><strong>auto</strong></td>
+      <td>Content-based</td>
+      <td>Fit content width</td>
+    </tr>
+  </tbody>
+</table>
+
+### Common Layout Patterns
+
+**50/50 Split:**
+```tsx
+<Row>
+  <Row.Column width={{ default: 6 }}>Left</Row.Column>
+  <Row.Column width={{ default: 6 }}>Right</Row.Column>
+</Row>
+```
+
+**33/33/33 Split:**
+```tsx
+<Row>
+  <Row.Column width={{ default: 4 }}>Col 1</Row.Column>
+  <Row.Column width={{ default: 4 }}>Col 2</Row.Column>
+  <Row.Column width={{ default: 4 }}>Col 3</Row.Column>
+</Row>
+```
+
+**25/25/25/25 Split:**
+```tsx
+<Row>
+  <Row.Column width={{ default: 3 }}>Col 1</Row.Column>
+  <Row.Column width={{ default: 3 }}>Col 2</Row.Column>
+  <Row.Column width={{ default: 3 }}>Col 3</Row.Column>
+  <Row.Column width={{ default: 3 }}>Col 4</Row.Column>
+</Row>
+```
+
+**66/33 Split (Content/Sidebar):**
+```tsx
+<Row>
+  <Row.Column width={{ default: 8 }}>Main Content</Row.Column>
+  <Row.Column width={{ default: 4 }}>Sidebar</Row.Column>
+</Row>
+```
+
+## Responsive Breakpoints
+
+The Row component supports the following breakpoints in a mobile-first approach:
+
+- **default** - Mobile and up (base styles)
+- **sml** - Small tablets and up
+- **med** - Medium tablets and up
+- **lrg** - Laptops and up
+- **xlrg** - Large desktops and up
+- **xxlrg** - Extra large desktops and up
+
+### Mobile-First Example
+
+```tsx
+<Row>
+  <Row.Column
+    width={{
+      default: 12,  // Full width on mobile (stacks vertically)
+      sml: 12,      // Still full width on small tablets
+      med: 6,       // Half width on medium tablets (side-by-side)
+      lrg: 4,       // Third width on laptops (3 columns)
+      xlrg: 3       // Quarter width on large desktops (4 columns)
+    }}
+  >
+    Responsive Column
+  </Row.Column>
+  {/* Repeat for other columns */}
+</Row>
+```
+
+## Padding System
+
+Both Row and Row.Column support directional padding with responsive breakpoints. Padding uses the standardized 0-10 scale from the design system.
+
+### Padding Directions
+
+- **top** - Padding on top edge
+- **right** - Padding on right edge
+- **bottom** - Padding on bottom edge
+- **left** - Padding on left edge
+
+### Padding Examples
+
+**Horizontal padding (gutters):**
+```tsx
+<Row.Column
+  padding={{
+    left: { default: 6 },
+    right: { default: 6 }
+  }}
+>
+  Content with horizontal padding
+</Row.Column>
+```
+
+**Vertical padding:**
+```tsx
+<Row.Column
+  padding={{
+    top: { default: 5 },
+    bottom: { default: 5 }
+  }}
+>
+  Content with vertical padding
+</Row.Column>
+```
+
+**All sides:**
+```tsx
+<Row.Column
+  padding={{
+    top: { default: 4 },
+    right: { default: 4 },
+    bottom: { default: 4 },
+    left: { default: 4 }
+  }}
+>
+  Content with padding on all sides
+</Row.Column>
+```
+
+**Responsive padding:**
+```tsx
+<Row.Column
+  padding={{
+    left: { default: 3, med: 6, lrg: 10 },
+    right: { default: 3, med: 6, lrg: 10 }
+  }}
+>
+  Content with progressively larger horizontal padding
+</Row.Column>
+```
+
+## Best Practices
+
+### When to Use Row
+
+- Creating horizontal layouts with columns
+- Building card grids with responsive wrapping
+- Designing traditional webpage layouts (header, sidebar, content, footer)
+- Creating forms with side-by-side inputs
+- Building pricing tables or feature comparison layouts
+- Flexbox-based responsive designs
+
+### When NOT to Use Row
+
+- Complex 2D grid layouts (use Grid component instead)
+- Simple vertical stacking (use standard block elements)
+- Tables of data (use Table component for semantic HTML)
+- Single full-width content (no layout needed)
+- Overlapping or offset designs (consider Grid component)
+
+### Row vs Grid
+
+**Use Row when:**
+- Content flows in one direction (primarily horizontal)
+- You need a traditional column-based layout (12-column grid)
+- Columns should wrap to new lines responsively
+- Simple alignment and justification is sufficient
+
+**Use Grid when:**
+- You need 2D layout control (rows AND columns)
+- Content placement needs to change significantly across breakpoints
+- You need overlapping or offset elements
+- Precise control over both dimensions is required
+
+### Performance Considerations
+
+The Row component uses CSS classes rather than inline styles:
+- Faster rendering than dynamic inline styles
+- Better browser optimization and caching
+- No runtime style generation overhead
+- Suitable for rendering many rows/columns on a page
+
+### Flexbox Alignment Reference
+
+**align (align-items) - Cross-axis alignment:**
+- `start` - Align to start of cross axis (top in row direction)
+- `center` - Center on cross axis (vertically centered in row direction)
+- `end` - Align to end of cross axis (bottom in row direction)
+- `stretch` - Stretch to fill container (default flexbox behavior)
+- `baseline` - Align to text baseline
+
+**justify (justify-content) - Main-axis alignment:**
+- `start` - Pack items to start (left in row direction)
+- `center` - Pack items to center (horizontally centered in row direction)
+- `end` - Pack items to end (right in row direction)
+- `space-between` - Distribute with first/last at edges
+- `space-around` - Distribute with equal space around items
+- `space-evenly` - Distribute with equal space between items
+
+### Common Patterns
+
+**Centered Content:**
+```tsx
+<Row
+  align={{ default: 'center' }}
+  justify={{ default: 'center' }}
+  height={{ default: 'viewport-fullscreen' }}
+>
+  <Row.Column width={{ default: 'auto' }}>
+    <h1>Centered Content</h1>
+  </Row.Column>
+</Row>
+```
+
+**Card Grid:**
+```tsx
+<Row>
+  {cards.map((card) => (
+    <Row.Column
+      key={card.id}
+      width={{
+        default: 12,
+        sml: 6,
+        med: 4,
+        lrg: 3
+      }}
+      padding={{
+        left: { default: 3 },
+        right: { default: 3 },
+        bottom: { default: 6 }
+      }}
+    >
+      <Card {...card} />
+    </Row.Column>
+  ))}
+</Row>
+```
+
+**Sticky Sidebar:**
+```tsx
+<Row>
+  <Row.Column
+    tag={'aside'}
+    width={{
+      default: 12,
+      lrg: 4
+    }}
+  >
+    <div style={{ position: 'sticky', top: 0 }}>
+      Sidebar
+    </div>
+  </Row.Column>
+  <Row.Column
+    tag={'main'}
+    width={{
+      default: 12,
+      lrg: 8
+    }}
+  >
+    Main Content
+  </Row.Column>
+</Row>
+```
+
+**Hero Section:**
+```tsx
+<Row
+  tag={'section'}
+  align={{ default: 'center' }}
+  justify={{ default: 'center' }}
+  height={{ default: 'viewport-fullscreen' }}
+  bg={'black'}
+>
+  <Row.Column width={{ default: 10, lrg: 8 }}>
+    <Typography
+      tag={'h1'}
+      size={'h1'}
+      color={'white'}
+      textAlign={{ default: 'center' }}
+      text={'Welcome to Our Site'}
+    />
+  </Row.Column>
+</Row>
+```

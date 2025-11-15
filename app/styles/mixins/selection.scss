@@ -1,0 +1,12 @@
+@use '@styles/mixins/deep-get' as *;
+@use '@styles/settings/colors' as *;
+
+@mixin selection(
+  $bg: deep-get($colors, default, black),
+  $color: deep-get($colors, default, white)
+) {
+  ::selection {
+    background-color: $bg;
+    color: $color;
+  }
+}

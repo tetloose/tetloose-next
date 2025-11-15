@@ -1,0 +1,186 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Foundations/Nav' />
+
+# Nav
+
+The `Nav` component is a semantic navigation wrapper built using a compound component pattern. It provides a clean, type-safe API for building navigation menus with proper HTML structure (`<nav>`, `<ul>`, `<li>`).
+
+## Features
+
+- **Compound component pattern** - Clean, composable API with `Nav`, `Nav.Ul`, and `Nav.Li`
+- **Semantic HTML** - Renders proper navigation markup for accessibility
+- **Custom styling** - Supports modifiers for custom CSS classes
+- **Flexible structure** - Supports nested navigation and custom content
+- **Type-safe** - Full TypeScript support for all sub-components
+
+## Component Structure
+
+```tsx
+Nav         // Renders <nav> element
+Nav.Ul      // Renders <ul> element
+Nav.Li      // Renders <li> element
+```
+
+## Props
+
+All three components (`Nav`, `Nav.Ul`, `Nav.Li`) accept the same props:
+
+- `modifiers` - Array of custom CSS class names for styling
+- `children` - React children to render inside the element
+
+### Nav Props
+- `modifiers` - Type: `string[]`, Default: `[]`
+- `children` - Type: `React.ReactNode`
+
+### Nav.Ul Props
+- `modifiers` - Type: `string[]`, Default: `[]`
+- `children` - Type: `React.ReactNode`
+
+### Nav.Li Props
+- `modifiers` - Type: `string[]`, Default: `[]`
+- `children` - Type: `React.ReactNode`
+
+## Usage
+
+```tsx
+import { Nav } from '@foundations/Nav/Nav.component'
+```
+
+### Basic Navigation
+
+```tsx
+<Nav>
+  <Nav.Ul>
+    <Nav.Li>Home</Nav.Li>
+    <Nav.Li>About</Nav.Li>
+    <Nav.Li>Contact</Nav.Li>
+  </Nav.Ul>
+</Nav>
+```
+
+**Renders:**
+```html
+<nav>
+  <ul>
+    <li>Home</li>
+    <li>About</li>
+    <li>Contact</li>
+  </ul>
+</nav>
+```
+
+### With Custom Modifiers
+
+```tsx
+<Nav modifiers={['main-nav']}>
+  <Nav.Ul modifiers={['nav-list']}>
+    <Nav.Li modifiers={['nav-item', 'active']}>Home</Nav.Li>
+    <Nav.Li modifiers={['nav-item']}>About</Nav.Li>
+    <Nav.Li modifiers={['nav-item']}>Contact</Nav.Li>
+  </Nav.Ul>
+</Nav>
+```
+
+**Renders:**
+```html
+<nav class="main-nav">
+  <ul class="nav-list">
+    <li class="nav-item active">Home</li>
+    <li class="nav-item">About</li>
+    <li class="nav-item">Contact</li>
+  </ul>
+</nav>
+```
+
+### Nested Navigation
+
+```tsx
+<Nav>
+  <Nav.Ul>
+    <Nav.Li>Home</Nav.Li>
+    <Nav.Li>
+      Products
+      <Nav.Ul>
+        <Nav.Li>Product 1</Nav.Li>
+        <Nav.Li>Product 2</Nav.Li>
+        <Nav.Li>Product 3</Nav.Li>
+      </Nav.Ul>
+    </Nav.Li>
+    <Nav.Li>Contact</Nav.Li>
+  </Nav.Ul>
+</Nav>
+```
+
+**Renders:**
+```html
+<nav>
+  <ul>
+    <li>Home</li>
+    <li>
+      Products
+      <ul>
+        <li>Product 1</li>
+        <li>Product 2</li>
+        <li>Product 3</li>
+      </ul>
+    </li>
+    <li>Contact</li>
+  </ul>
+</nav>
+```
+
+### With Link Components
+
+```tsx
+<Nav>
+  <Nav.Ul>
+    <Nav.Li>
+      <Link to="/">Home</Link>
+    </Nav.Li>
+    <Nav.Li>
+      <Link to="/about">About</Link>
+    </Nav.Li>
+    <Nav.Li>
+      <Link to="/contact">Contact</Link>
+    </Nav.Li>
+  </Nav.Ul>
+</Nav>
+```
+
+## Best Practices
+
+1. **Always wrap Nav.Li in Nav.Ul** - Maintain proper HTML structure
+2. **Use semantic markup** - Nav component provides the `<nav>` landmark for screen readers
+3. **Apply modifiers consistently** - Use modifiers for styling instead of inline styles
+4. **Nest properly** - When creating dropdown menus, nest `Nav.Ul` inside `Nav.Li`
+5. **Combine with Link component** - Use the Link atom for actual navigation links inside Nav.Li
+
+## Accessibility
+
+- The `<nav>` element provides a navigation landmark for screen readers
+- Maintains proper list structure (`ul` > `li`) for assistive technologies
+- Can be enhanced with ARIA attributes via modifiers or additional props
+
+## Why Compound Components?
+
+The compound component pattern (using `Object.assign`) provides:
+
+1. **Clean API** - `<Nav>` instead of `<Nav tag="nav">`
+2. **Type Safety** - Each sub-component has its own props and types
+3. **Better DX** - Autocomplete works for `Nav.Ul` and `Nav.Li`
+4. **Consistency** - Matches patterns like `Video.Html5`, `Video.YouTube`
+5. **Flexibility** - Easy to extend with more sub-components if needed
+
+## Implementation Note
+
+The Nav component uses `Object.assign` to merge the main component with sub-components:
+
+```tsx
+export const Nav = Object.assign(NavWrapper, {
+  Ul: NavUl,
+  Li: NavLi
+})
+```
+
+This allows `Nav` to be used as both a component and a namespace for sub-components.

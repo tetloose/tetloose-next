@@ -1,0 +1,721 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Atoms/Image' />
+
+# Image
+
+The **Image** component is a responsive image system built on Next.js Image component with optimized loading, lazy loading, and automatic responsive sizing. It provides control over aspect ratios, object-fit behavior, and positioning with full responsive breakpoint support.
+
+## Overview
+
+The Image component wraps Next.js's optimized Image component to provide:
+
+- Automatic image optimization and lazy loading
+- Responsive aspect ratio control
+- Object-fit sizing (cover, contain)
+- Flexible positioning options
+- Responsive srcset generation
+- Performance-optimized defaults
+
+**Key features:**
+- Next.js Image optimization (WebP, responsive sizes)
+- Lazy loading by default
+- Responsive aspect ratios (1x1, 3x2, 16x9, 21x9, fullscreen)
+- Object-fit control (cover, contain)
+- 9-point positioning system
+- Automatic responsive srcset
+
+## Usage
+
+```tsx
+import { Image } from '@atoms/Image/Image.component'
+```
+
+### Basic Image
+
+```tsx
+<Image
+  src={'/images/hero.jpg'}
+  width={1920}
+  height={1080}
+  alt={'Hero image'}
+/>
+```
+
+### Image with Aspect Ratio
+
+```tsx
+<Image
+  src={'/images/product.jpg'}
+  width={1200}
+  height={800}
+  alt={'Product photo'}
+  ratio={{ default: '16x9' }}
+  size={{ default: 'cover' }}
+/>
+```
+
+### Responsive Aspect Ratios
+
+```tsx
+<Image
+  src={'/images/banner.jpg'}
+  width={1920}
+  height={1080}
+  alt={'Banner image'}
+  ratio={{ default: '1x1', med: '16x9', lrg: '21x9' }}
+  size={{ default: 'cover' }}
+/>
+```
+
+### Image with Position Control
+
+```tsx
+<Image
+  src={'/images/person.jpg'}
+  width={1200}
+  height={1600}
+  alt={'Person portrait'}
+  ratio={{ default: '1x1' }}
+  size={{ default: 'cover' }}
+  position={{ default: 'center-top' }}
+/>
+```
+
+### Contain Image (Show Full Image)
+
+```tsx
+<Image
+  src={'/images/logo.png'}
+  width={500}
+  height={500}
+  alt={'Company logo'}
+  ratio={{ default: '1x1' }}
+  size={{ default: 'contain' }}
+  position={{ default: 'center' }}
+/>
+```
+
+### Gallery Image
+
+```tsx
+<Image
+  src={'/images/gallery/photo-1.jpg'}
+  width={800}
+  height={600}
+  alt={'Gallery photo'}
+  ratio={{ default: '1x1', med: '3x2' }}
+  size={{ default: 'cover' }}
+  position={{ default: 'center' }}
+/>
+```
+
+### Hero Image (Fullscreen)
+
+```tsx
+<Image
+  src={'/images/hero-bg.jpg'}
+  width={1920}
+  height={1080}
+  alt={'Hero background'}
+  ratio={{ default: 'fullscreen' }}
+  size={{ default: 'cover' }}
+  position={{ default: 'center' }}
+/>
+```
+
+### Responsive Size and Position
+
+```tsx
+<Image
+  src={'/images/product-detail.jpg'}
+  width={1600}
+  height={1200}
+  alt={'Product detail'}
+  ratio={{ default: '1x1', med: '3x2', lrg: '16x9' }}
+  size={{ default: 'cover', med: 'contain' }}
+  position={{ default: 'center', med: 'left-center' }}
+/>
+```
+
+## Props
+
+### src
+- **Type:** `string`
+- **Default:** None
+- **Description:** Image source URL. Can be local (starts with /) or external (full URL). Component returns null if src is not provided
+
+### width
+- **Type:** `number`
+- **Default:** None
+- **Description:** Intrinsic width of the image in pixels. Required for Next.js Image optimization
+
+### height
+- **Type:** `number`
+- **Default:** None
+- **Description:** Intrinsic height of the image in pixels. Required for Next.js Image optimization
+
+### alt
+- **Type:** `string`
+- **Default:** `''` (empty string)
+- **Description:** Alternative text for accessibility and SEO. Defaults to empty string if not provided
+
+### size
+- **Type:** `BreakpointImageSize`
+- **Default:** None
+- **Description:** Controls how the image fits within its container (object-fit). Responsive across all breakpoints
+- **Values:** `'cover'` | `'contain'`
+  - **cover**: Image fills container, may be cropped
+  - **contain**: Image fits within container, shows full image
+- **Example:** `{ default: 'cover', med: 'contain' }`
+
+### ratio
+- **Type:** `BreakpointRatios`
+- **Default:** None
+- **Description:** Aspect ratio of the image container. Responsive across all breakpoints
+- **Values:** `'1x1'` | `'3x2'` | `'16x9'` | `'21x9'` | `'fullscreen'`
+- **Example:** `{ default: '1x1', med: '16x9', lrg: '21x9' }`
+
+### position
+- **Type:** `BreakpointImagePosition`
+- **Default:** None
+- **Description:** Position of the image within its container (object-position). Responsive across all breakpoints
+- **Values:**
+  - `'center'`
+  - `'left-top'` | `'left-center'` | `'left-bottom'`
+  - `'center-top'` | `'center-bottom'`
+  - `'right-top'` | `'right-center'` | `'right-bottom'`
+- **Example:** `{ default: 'center', med: 'left-center' }`
+
+### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Additional CSS classes for custom styling
+
+## Aspect Ratios
+
+The Image component supports five predefined aspect ratios:
+
+<table>
+  <thead>
+    <tr>
+      <th>Ratio</th>
+      <th>Dimensions</th>
+      <th>Common Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1x1</strong></td>
+      <td>Square (1:1)</td>
+      <td>Avatars, thumbnails, social media posts, product images</td>
+    </tr>
+    <tr>
+      <td><strong>3x2</strong></td>
+      <td>Landscape (3:2)</td>
+      <td>Classic photo ratio, gallery images, print photography</td>
+    </tr>
+    <tr>
+      <td><strong>16x9</strong></td>
+      <td>Widescreen (16:9)</td>
+      <td>Video thumbnails, modern displays, hero images, banners</td>
+    </tr>
+    <tr>
+      <td><strong>21x9</strong></td>
+      <td>Ultrawide (21:9)</td>
+      <td>Cinematic images, panoramic views, ultra-wide banners</td>
+    </tr>
+    <tr>
+      <td><strong>fullscreen</strong></td>
+      <td>Full viewport</td>
+      <td>Hero sections, splash screens, full-page backgrounds</td>
+    </tr>
+  </tbody>
+</table>
+
+### Responsive Ratios Pattern
+
+**Mobile square, desktop widescreen:**
+```tsx
+<Image
+  src={'/images/hero.jpg'}
+  width={1920}
+  height={1080}
+  alt={'Hero'}
+  ratio={{ default: '1x1', med: '16x9' }}
+  size={{ default: 'cover' }}
+/>
+```
+
+**Progressive widening:**
+```tsx
+<Image
+  src={'/images/banner.jpg'}
+  width={2560}
+  height={1080}
+  alt={'Banner'}
+  ratio={{ default: '1x1', sml: '3x2', med: '16x9', lrg: '21x9' }}
+  size={{ default: 'cover' }}
+/>
+```
+
+## Image Size (Object-Fit)
+
+The `size` prop controls how the image fills its container:
+
+<table>
+  <thead>
+    <tr>
+      <th>Size</th>
+      <th>Behavior</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>cover</strong></td>
+      <td>Image fills container completely, may crop to maintain aspect ratio</td>
+      <td>Hero images, backgrounds, thumbnails where cropping is acceptable</td>
+    </tr>
+    <tr>
+      <td><strong>contain</strong></td>
+      <td>Image fits within container, shows full image, may have empty space</td>
+      <td>Logos, product photos where full image must be visible, diagrams</td>
+    </tr>
+  </tbody>
+</table>
+
+### Cover vs Contain Examples
+
+**Cover (fills container, may crop):**
+```tsx
+<Image
+  src={'/images/background.jpg'}
+  width={1920}
+  height={1080}
+  alt={'Background'}
+  ratio={{ default: '16x9' }}
+  size={{ default: 'cover' }}
+  position={{ default: 'center' }}
+/>
+```
+
+**Contain (shows full image):**
+```tsx
+<Image
+  src={'/images/logo.png'}
+  width={800}
+  height={800}
+  alt={'Logo'}
+  ratio={{ default: '1x1' }}
+  size={{ default: 'contain' }}
+  position={{ default: 'center' }}
+/>
+```
+
+## Image Position
+
+The `position` prop provides 9-point positioning control using object-position:
+
+<table>
+  <thead>
+    <tr>
+      <th>Position</th>
+      <th>Description</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>center</strong></td>
+      <td>Center both horizontally and vertically</td>
+      <td>Default position, balanced composition</td>
+    </tr>
+    <tr>
+      <td><strong>left-top</strong></td>
+      <td>Align to top-left corner</td>
+      <td>Logos, important content in top-left</td>
+    </tr>
+    <tr>
+      <td><strong>left-center</strong></td>
+      <td>Align to left, centered vertically</td>
+      <td>Portraits with subject on left</td>
+    </tr>
+    <tr>
+      <td><strong>left-bottom</strong></td>
+      <td>Align to bottom-left corner</td>
+      <td>Content anchored to bottom-left</td>
+    </tr>
+    <tr>
+      <td><strong>center-top</strong></td>
+      <td>Center horizontally, align to top</td>
+      <td>Headers, faces in portraits</td>
+    </tr>
+    <tr>
+      <td><strong>center-bottom</strong></td>
+      <td>Center horizontally, align to bottom</td>
+      <td>Footers, ground-level content</td>
+    </tr>
+    <tr>
+      <td><strong>right-top</strong></td>
+      <td>Align to top-right corner</td>
+      <td>Content in top-right</td>
+    </tr>
+    <tr>
+      <td><strong>right-center</strong></td>
+      <td>Align to right, centered vertically</td>
+      <td>Portraits with subject on right</td>
+    </tr>
+    <tr>
+      <td><strong>right-bottom</strong></td>
+      <td>Align to bottom-right corner</td>
+      <td>Content anchored to bottom-right</td>
+    </tr>
+  </tbody>
+</table>
+
+### Position Examples
+
+**Portrait with face at top:**
+```tsx
+<Image
+  src={'/images/person.jpg'}
+  width={1200}
+  height={1600}
+  alt={'Person'}
+  ratio={{ default: '1x1' }}
+  size={{ default: 'cover' }}
+  position={{ default: 'center-top' }}
+/>
+```
+
+**Subject on left side:**
+```tsx
+<Image
+  src={'/images/product-left.jpg'}
+  width={1600}
+  height={900}
+  alt={'Product'}
+  ratio={{ default: '16x9' }}
+  size={{ default: 'cover' }}
+  position={{ default: 'left-center' }}
+/>
+```
+
+## Automatic Responsive Images
+
+The Image component automatically generates responsive srcset for optimal loading:
+
+```
+sizes="(min-width:1280px) 1024px, (min-width:768px) 768px, (min-width:480px) 480px, 100vw"
+```
+
+This provides:
+- **Desktop (1280px+)**: 1024px image width
+- **Tablet (768px+)**: 768px image width
+- **Mobile (480px+)**: 480px image width
+- **Small mobile**: Full viewport width
+
+Next.js automatically generates WebP versions and multiple sizes for optimal performance.
+
+## Best Practices
+
+### Accessibility
+
+**Always provide descriptive alt text:**
+```tsx
+// Good: Descriptive alt text
+<Image
+  src={'/images/product.jpg'}
+  width={800}
+  height={600}
+  alt={'Blue running shoes on white background'}
+/>
+
+// Bad: Generic or missing alt
+<Image
+  src={'/images/product.jpg'}
+  width={800}
+  height={600}
+  alt={'Image'}
+/>
+```
+
+**Decorative images:**
+```tsx
+// Use empty alt for decorative images
+<Image
+  src={'/images/decoration.svg'}
+  width={100}
+  height={100}
+  alt={''}
+/>
+```
+
+### Performance
+
+**Use appropriate image dimensions:**
+```tsx
+// Good: Match expected display size
+<Image
+  src={'/images/thumbnail.jpg'}
+  width={400}
+  height={300}
+  alt={'Thumbnail'}
+/>
+
+// Avoid: Unnecessarily large source image
+<Image
+  src={'/images/thumbnail.jpg'}
+  width={4000}
+  height={3000}
+  alt={'Thumbnail'}
+/>
+```
+
+**Let Next.js handle optimization:**
+```tsx
+// The component automatically handles:
+// - WebP conversion
+// - Responsive srcset
+// - Lazy loading
+// - Size optimization
+<Image
+  src={'/images/hero.jpg'}
+  width={1920}
+  height={1080}
+  alt={'Hero image'}
+  ratio={{ default: '16x9' }}
+  size={{ default: 'cover' }}
+/>
+```
+
+### Responsive Design
+
+**Mobile-first aspect ratios:**
+```tsx
+// Start with square for mobile, expand for desktop
+<Image
+  src={'/images/feature.jpg'}
+  width={1920}
+  height={1080}
+  alt={'Feature'}
+  ratio={{ default: '1x1', med: '16x9', lrg: '21x9' }}
+  size={{ default: 'cover' }}
+/>
+```
+
+**Adjust position for crops:**
+```tsx
+// Ensure important content visible at all sizes
+<Image
+  src={'/images/portrait.jpg'}
+  width={1200}
+  height={1600}
+  alt={'Person portrait'}
+  ratio={{ default: '1x1', med: '3x2' }}
+  size={{ default: 'cover' }}
+  position={{ default: 'center-top', med: 'center' }}
+/>
+```
+
+### Cover vs Contain
+
+**Use cover for:**
+- Hero images
+- Background images
+- Thumbnails in grids
+- Images where cropping is acceptable
+- Full-bleed imagery
+
+**Use contain for:**
+- Logos
+- Product images (show full product)
+- Diagrams and infographics
+- Images where full content must be visible
+- Artwork and illustrations
+
+## Common Patterns
+
+### Hero Image
+
+```tsx
+<Image
+  src={'/images/hero.jpg'}
+  width={1920}
+  height={1080}
+  alt={'Welcome to our site'}
+  ratio={{ default: '16x9', lrg: 'fullscreen' }}
+  size={{ default: 'cover' }}
+  position={{ default: 'center' }}
+/>
+```
+
+### Product Grid
+
+```tsx
+<Image
+  src={'/images/product-1.jpg'}
+  width={800}
+  height={800}
+  alt={'Product name'}
+  ratio={{ default: '1x1' }}
+  size={{ default: 'contain' }}
+  position={{ default: 'center' }}
+/>
+```
+
+### Blog Thumbnail
+
+```tsx
+<Image
+  src={'/images/blog-post.jpg'}
+  width={1200}
+  height={800}
+  alt={'Blog post title'}
+  ratio={{ default: '1x1', med: '3x2', lrg: '16x9' }}
+  size={{ default: 'cover' }}
+  position={{ default: 'center' }}
+/>
+```
+
+### Avatar/Profile Image
+
+```tsx
+<Image
+  src={'/images/avatar.jpg'}
+  width={400}
+  height={400}
+  alt={'User name'}
+  ratio={{ default: '1x1' }}
+  size={{ default: 'cover' }}
+  position={{ default: 'center-top' }}
+/>
+```
+
+### Logo
+
+```tsx
+<Image
+  src={'/images/logo.png'}
+  width={500}
+  height={200}
+  alt={'Company name'}
+  ratio={{ default: '3x2' }}
+  size={{ default: 'contain' }}
+  position={{ default: 'center' }}
+/>
+```
+
+### Gallery Image
+
+```tsx
+<Image
+  src={'/images/gallery/photo.jpg'}
+  width={1600}
+  height={1200}
+  alt={'Gallery photo description'}
+  ratio={{ default: '1x1', med: '3x2' }}
+  size={{ default: 'cover' }}
+  position={{ default: 'center' }}
+/>
+```
+
+### Banner with Text Overlay
+
+```tsx
+<Image
+  src={'/images/banner.jpg'}
+  width={2560}
+  height={600}
+  alt={''}
+  ratio={{ default: '16x9', lrg: '21x9' }}
+  size={{ default: 'cover' }}
+  position={{ default: 'center' }}
+/>
+```
+
+## Next.js Image Optimization
+
+The Image component leverages Next.js's built-in image optimization:
+
+**Automatic features:**
+- WebP/AVIF format conversion (when supported)
+- Responsive image generation
+- Lazy loading (loading="lazy")
+- Automatic srcset generation
+- Size optimization
+
+**Built-in configuration:**
+```tsx
+loading={'lazy'}                // Lazy load for performance
+sizes={'...'}                   // Responsive srcset
+```
+
+**External images:**
+For external image URLs, configure domains in `next.config.js`:
+```js
+images: {
+  domains: ['example.com', 'cdn.example.com']
+}
+```
+
+## Troubleshooting
+
+### Image Not Displaying
+
+**Check src prop:**
+```tsx
+// Ensure src is provided (component returns null without src)
+{imageUrl && (
+  <Image
+    src={imageUrl}
+    width={800}
+    height={600}
+    alt={'Description'}
+  />
+)}
+```
+
+### Image Distorted
+
+**Use ratio prop:**
+```tsx
+// Set aspect ratio to prevent distortion
+<Image
+  src={'/images/photo.jpg'}
+  width={1200}
+  height={800}
+  alt={'Photo'}
+  ratio={{ default: '3x2' }}  // Maintains aspect ratio
+  size={{ default: 'cover' }}
+/>
+```
+
+### Wrong Part Cropped
+
+**Adjust position:**
+```tsx
+// Position the focal point
+<Image
+  src={'/images/portrait.jpg'}
+  width={1200}
+  height={1600}
+  alt={'Portrait'}
+  ratio={{ default: '1x1' }}
+  size={{ default: 'cover' }}
+  position={{ default: 'center-top' }}  // Keeps face visible
+/>
+```
+
+### External Images Not Loading
+
+**Configure Next.js:**
+```js
+// next.config.js
+module.exports = {
+  images: {
+    domains: ['your-cdn.com']
+  }
+}
+```

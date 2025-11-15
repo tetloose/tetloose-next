@@ -1,0 +1,130 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Components/RichText' />
+
+# RichText Component
+
+A content-rich section component that renders HTML content with proper typography styling. The component wraps content in a centered, responsive grid layout with built-in spacing and padding.
+
+## Import
+
+```tsx
+import { RichText } from '@components/RichText/RichText.component'
+```
+
+## Props
+
+See `RichText.types.ts` for complete type definitions.
+
+### `modifiers` (optional)
+
+Additional CSS class names to apply to the component.
+
+- Type: `string[]`
+- Default: `[]`
+
+### `richText` (optional)
+
+HTML content string to render. Supports full HTML markup including headings, paragraphs, lists, links, and inline formatting.
+
+- Type: `string`
+- Default: `undefined`
+
+## Usage Examples
+
+### Basic Usage
+
+```tsx
+<RichText
+  richText={'<p>Hello, world!</p>'}
+/>
+```
+
+### Rich Content with Multiple Elements
+
+```tsx
+<RichText
+  richText={`
+    <h2>Welcome to Our Site</h2>
+    <p>
+      This is a paragraph with <strong>bold text</strong> and
+      <em>italic text</em>.
+    </p>
+    <ul>
+      <li>First item</li>
+      <li>Second item</li>
+      <li>Third item</li>
+    </ul>
+  `}
+/>
+```
+
+### With Custom Modifiers
+
+```tsx
+<RichText
+  modifiers={['custom-spacing', 'dark-theme']}
+  richText={'<h1>Styled Content</h1><p>Custom styled rich text content.</p>'}
+/>
+```
+
+### Complex HTML Content
+
+```tsx
+<RichText
+  richText={`
+    <h1>Main Heading</h1>
+    <p>
+      Lorem ipsum dolor sit amet, <strong>consectetur</strong> adipisicing elit.
+      <u>Underscored text</u> may be used for emphasis, along with <em>italicized text</em>.
+      Visit <a href="https://example.com" target="_blank" rel="noopener noreferrer">our website</a> for more info.
+    </p>
+    <h2>Subheading</h2>
+    <ol>
+      <li>Ordered list item one</li>
+      <li>Ordered list item two</li>
+      <li>Ordered list item three</li>
+    </ol>
+  `}
+/>
+```
+
+## Supported HTML Elements
+
+The RichText component supports rendering the following HTML elements:
+
+- **Headings**: `<h1>`, `<h2>`, `<h3>`, `<h4>`, `<h5>`, `<h6>`
+- **Paragraphs**: `<p>`
+- **Lists**: `<ul>`, `<ol>`, `<li>`
+- **Links**: `<a>` with `href`, `target`, and `rel` attributes
+- **Inline formatting**: `<strong>`, `<em>`, `<u>`
+
+## Layout & Spacing
+
+The component automatically provides:
+
+- Centered content alignment
+- Responsive column layout (10/12 columns width)
+- Top padding of 6 units on both the section and column
+- Centered horizontal justification
+
+## Features
+
+- Server-side rendering compatible
+- Responsive grid layout using Row/Column foundation
+- Typography component integration for consistent text styling
+- HTML sanitization handled by Typography component
+- Flexible content width (10 columns out of 12)
+- Built-in spacing and padding
+- Fully typed with TypeScript
+
+## Mock Data
+
+```ts
+import { globalRichTextMock } from '@global/global.mock'
+
+// Example usage
+<RichText richText={globalRichTextMock} />
+```
+
+The `globalRichTextMock` includes examples of all supported HTML elements with various formatting options.

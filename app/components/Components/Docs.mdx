@@ -1,0 +1,215 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Components/Components' />
+
+# Components Component
+
+A dynamic component renderer that maps layout types to their corresponding components. This component acts as a flexible content builder, allowing you to render different component types from a single data structure.
+
+## Import
+
+```tsx
+import { Components } from '@components/Components/Components.component'
+```
+
+## Props
+
+See `Components.types.ts` for complete type definitions.
+
+### `components` (optional)
+
+Array of component configurations to render. Each item must include a `layout` property that determines which component to render.
+
+- Type: `Components[]`
+- Default: `undefined`
+
+#### Component Item Structure
+
+Each component in the array is a discriminated union type based on the `layout` property:
+
+| Layout Type | Properties | Component Rendered |
+|-------------|-----------|-------------------|
+| `'hero'` | All Hero props (title, image, etc.) | `<Hero />` |
+| `'richText'` | All RichText props (richText, etc.) | `<RichText />` |
+
+## Usage Examples
+
+### Basic Usage with Hero
+
+```tsx
+<Components
+  components={[
+    {
+      layout: 'hero',
+      title: {
+        tag: 'h1',
+        text: 'Welcome',
+        size: 'h1',
+        fontWeight: 'bold'
+      },
+      image: {
+        src: '/images/hero.jpg',
+        width: 1200,
+        height: 600,
+        alt: 'Hero image'
+      }
+    }
+  ]}
+/>
+```
+
+### Basic Usage with RichText
+
+```tsx
+<Components
+  components={[
+    {
+      layout: 'richText',
+      richText: '<h2>About Us</h2><p>We are a great company.</p>'
+    }
+  ]}
+/>
+```
+
+### Multiple Components
+
+```tsx
+<Components
+  components={[
+    {
+      layout: 'hero',
+      title: {
+        tag: 'h1',
+        text: 'Hero Section',
+        size: 'h1',
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        textAlign: { default: 'center' }
+      },
+      image: {
+        src: '/images/hero.jpg',
+        width: 1200,
+        height: 600,
+        alt: 'Hero banner'
+      }
+    },
+    {
+      layout: 'richText',
+      richText: `
+        <h2>Our Story</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <ul>
+          <li>Point one</li>
+          <li>Point two</li>
+          <li>Point three</li>
+        </ul>
+      `
+    }
+  ]}
+/>
+```
+
+### Mixed Content Page Builder
+
+```tsx
+<Components
+  components={[
+    {
+      layout: 'hero',
+      title: {
+        tag: 'h1',
+        text: 'Welcome to Our Site',
+        size: 'h1',
+        fontWeight: 'bold',
+        textAlign: { default: 'center' }
+      },
+      image: {
+        src: 'http://localhost:3000/api/media/banner.jpg',
+        width: 1920,
+        height: 1080,
+        alt: 'Welcome banner'
+      }
+    },
+    {
+      layout: 'richText',
+      richText: '<p>Introduction paragraph with <strong>important</strong> information.</p>'
+    },
+    {
+      layout: 'richText',
+      richText: `
+        <h2>Features</h2>
+        <ul>
+          <li>Feature one</li>
+          <li>Feature two</li>
+          <li>Feature three</li>
+        </ul>
+      `
+    }
+  ]}
+/>
+```
+
+## Component Types
+
+### Hero Component
+
+When `layout: 'hero'`, the following props are available:
+
+- `title`: Typography props object with tag, text, size, fontWeight, etc.
+- `image`: Image props object with src, width, height, alt
+- `modifiers`: Optional CSS class names array
+
+See [Hero documentation](/docs/components-hero--docs) for full details.
+
+### RichText Component
+
+When `layout: 'richText'`, the following props are available:
+
+- `richText`: HTML string content
+- `modifiers`: Optional CSS class names array
+
+See [RichText documentation](/docs/components-richtext--docs) for full details.
+
+## Features
+
+- **Type-safe rendering**: Discriminated union ensures correct props for each layout type
+- **Flexible content composition**: Mix different component types in any order
+- **Automatic key generation**: Uses layout type and index for React keys
+- **Extensible architecture**: Easy to add new component types
+- **Server component compatible**: Designed for Next.js App Router
+- **Fallback handling**: Returns 'no components' when components array is empty
+
+## Adding New Component Types
+
+To add a new component type:
+
+1. Import the new component in `Components.component.tsx`
+2. Add the layout type and props to the union in `Components.types.ts`:
+   ```ts
+   export type Components =
+     | ({ layout: 'hero' } & Hero)
+     | ({ layout: 'richText' } & RichText)
+     | ({ layout: 'newComponent' } & NewComponent) // Add here
+   ```
+3. Add the rendering logic in the component:
+   ```tsx
+   {layout === 'newComponent' ? <NewComponent {...rest} /> : null}
+   ```
+
+## Mock Data
+
+```ts
+import { componentsMock } from '@components/Components/Components.mock'
+
+// Example usage
+<Components components={componentsMock} />
+```
+
+The mock includes examples of both Hero and RichText components.
+
+## Best Practices
+
+- Always provide a unique combination of `layout` and content for proper React key generation
+- Ensure all required props for each layout type are provided
+- Use TypeScript to leverage type checking for component props
+- Consider the visual flow when ordering components in the array

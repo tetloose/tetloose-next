@@ -1,0 +1,59 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*storybook.log
+
+node_modules
+build
+storybook-static
+coverage
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+!.env.example
+!.gitkeep
+.idea
+.DS_Store
+*:[Zz]one.Identifier*
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+*.pem
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# env files (can opt-in for committing if needed)
+.env*
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

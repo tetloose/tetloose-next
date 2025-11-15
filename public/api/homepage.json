@@ -1,0 +1,53 @@
+{
+  "date": "2025-03-20T12:15:58",
+  "components": [
+    {
+      "layout": "hero",
+      "title": {
+      "tag": "h1",
+      "text": "Homepage",
+      "size": "h1",
+      "fontWeight": "bold",
+      "textTransform": "uppercase",
+      "textAlign": { "default": "center" }
+    },
+      "image": {
+        "src": "/api/media/example.jpg",
+        "width": 400,
+        "height": 150,
+        "alt": "Hero image"
+      }
+    },
+    {
+      "layout": "richText",
+      "richText": "<p style=\"text-align: center;\">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos labore magnam nihil, porro vitae aperiam nam itaque debitis numquam quibusdam, quis, voluptate vel assumenda? Ut ea magni ratione veniam rem.</p>\r\n<p style=\"text-align: center;\">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos labore magnam nihil, porro vitae aperiam nam itaque debitis numquam quibusdam, quis, voluptate vel assumenda? Ut ea magni ratione veniam rem.</p>\r\n<p style=\"text-align: center;\">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos labore magnam nihil, porro vitae aperiam nam itaque debitis numquam quibusdam, quis, voluptate vel assumenda? Ut ea magni ratione veniam rem.</p>\r\n<p style=\"text-align: center;\"><a class=\"primary\" href=\"https://google.com\" target=\"_blank\" rel=\"noopener\">Get in contact now</a></p>"
+    }
+  ],
+  "seo": {
+    "title": "Homepage - Tetloose Next",
+    "description": "Meta description for the page, homepage.",
+    "robots": {
+      "index": "noindex",
+      "follow": "follow"
+    },
+    "ogLocale": "en_US",
+    "ogType": "article",
+    "ogTitle": "Social Title",
+    "ogDescription": "Social description",
+    "ogUrl": "http://localhost:3000/",
+    "ogSiteName": "Homepage - Tetloose Next",
+    "articleModifiedTime": "2025-09-20T09:04:44+00:00",
+    "ogImage": [
+      {
+        "width": 467,
+        "height": 467,
+        "url": "http://localhost:3000/api/media/example.jpg",
+        "type": "image/jpg"
+      }
+    ],
+    "twitterCard": "summary_large_image",
+    "twitterTitle": "Social X title",
+    "twitterDescription": "Social X Description",
+    "twitterImage": "/api/media/example.jpg"
+  }
+}

@@ -1,0 +1,226 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Foundations/Spacer' />
+
+# Spacer
+
+The **Spacer** component is a lightweight utility wrapper for applying consistent, responsive spacing throughout your application. It renders as a `<span>` element and provides a standardized system for controlling padding, margin, and display properties across all breakpoints. The component intelligently optimizes rendering by passing through children directly when no spacing or display props are provided.
+
+## Purpose
+
+The Spacer component serves as a spacing abstraction layer that ensures consistent spacing values across your entire application. Instead of writing custom CSS for margins and paddings, you use predefined spacing values (0-10) that automatically adapt to different screen sizes.
+
+**Use this when:** You need to add consistent spacing to any element or component without writing custom CSS.
+
+**Key features:**
+- Standardized spacing scale from 0-10 for consistent spacing across the app
+- Full responsive breakpoint support (default, sml, med, lrg, xlrg, xxlrg)
+- Mobile-first approach with progressive enhancement
+- Controls padding, margin, and display properties
+- Performance optimized - returns children directly if no props provided
+- Lightweight span wrapper that doesn't interfere with layout
+- Works seamlessly with all components in the design system
+
+## Spacing Scale
+
+The Spacer uses a numeric scale from 0 to 10, where each number corresponds to a specific spacing value defined in your design system. These values ensure visual consistency and maintain proper spacing relationships throughout your application.
+
+**Available values:** `0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10`
+
+## Usage
+
+```tsx
+import { Spacer } from '@foundations/Spacer/Spacer.component'
+```
+
+### Basic Padding
+
+```tsx
+<Spacer display={{ default: 'block' }} padding={{ default: 5 }}>
+  <p>Content with padding level 5</p>
+</Spacer>
+```
+
+### Basic Margin
+
+```tsx
+<Spacer display={{ default: 'block' }} margin={{ default: 3 }}>
+  <p>Content with margin level 3</p>
+</Spacer>
+```
+
+### Combined Spacing
+
+```tsx
+<Spacer
+  display={{ default: 'block' }}
+  padding={{ default: 4 }}
+  margin={{ default: 2 }}
+>
+  <p>Content with both padding and margin</p>
+</Spacer>
+```
+
+### Responsive Spacing
+
+```tsx
+<Spacer
+  display={{ default: 'block' }}
+  padding={{
+    default: 2,
+    sml: 3,
+    med: 4,
+    lrg: 6,
+    xlrg: 8,
+    xxlrg: 10
+  }}
+>
+  <p>Content with progressively larger padding on larger screens</p>
+</Spacer>
+```
+
+### Inline Spacing
+
+```tsx
+<Spacer
+  display={{ default: 'inline-block' }}
+  margin={{ default: 1 }}
+>
+  <span>Inline element with margin</span>
+</Spacer>
+```
+
+### Responsive Display Changes
+
+```tsx
+<Spacer
+  display={{
+    default: 'block',
+    med: 'inline-block',
+    lrg: 'flex'
+  }}
+  padding={{ default: 3 }}
+>
+  <div>Content that changes display property across breakpoints</div>
+</Spacer>
+```
+
+### With Custom Modifiers
+
+```tsx
+<Spacer
+  display={{ default: 'block' }}
+  padding={{ default: 5 }}
+  modifiers={['custom-class', styles.specialWrapper]}
+>
+  <p>Content with custom CSS classes</p>
+</Spacer>
+```
+
+### Zero Spacing (Reset)
+
+```tsx
+<Spacer
+  display={{ default: 'block' }}
+  padding={{ default: 0 }}
+  margin={{ default: 0 }}
+>
+  <p>Content with explicitly zero spacing</p>
+</Spacer>
+```
+
+## Props
+
+### display
+- **Type:** `BreakpointDisplay`
+- **Default:** None
+- **Description:** Controls the CSS display property with responsive breakpoint support. Common values include 'block', 'inline-block', 'flex', 'inline-flex', etc. Can be set differently for each breakpoint (default, sml, med, lrg, xlrg, xxlrg)
+
+### padding
+- **Type:** `BreakpointSpacers`
+- **Default:** None
+- **Description:** Sets internal spacing using the standardized scale (0-10). Supports responsive values across all breakpoints. Use this to add space inside the wrapper around the children
+
+### margin
+- **Type:** `BreakpointSpacers`
+- **Default:** None
+- **Description:** Sets external spacing using the standardized scale (0-10). Supports responsive values across all breakpoints. Use this to add space around the wrapper itself
+
+### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Additional CSS classes appended to the component's base classes for custom styling or overrides
+
+### children
+- **Type:** `React.ReactNode`
+- **Default:** None
+- **Description:** Content to be wrapped by the Spacer component. If no spacing or display props are provided, children are returned directly without a wrapper
+
+### ref
+- **Type:** `Ref<HTMLElement>`
+- **Default:** None
+- **Description:** React ref for accessing the underlying span element
+
+### ...rest
+- **Type:** Additional HTML attributes
+- **Description:** Any extra attributes (data attributes, aria attributes, etc.) are passed to the underlying `<span>` element
+
+## Responsive Breakpoints
+
+The Spacer component supports the following breakpoints in a mobile-first approach:
+
+- **default** - Mobile and up (base styles)
+- **sml** - Small tablets and up
+- **med** - Medium tablets and up
+- **lrg** - Laptops and up
+- **xlrg** - Large desktops and up
+- **xxlrg** - Extra large desktops and up
+
+Example showing all breakpoints:
+
+```tsx
+<Spacer
+  display={{ default: 'block' }}
+  padding={{
+    default: 1,   // Mobile: smallest padding
+    sml: 2,       // Small tablets: slightly larger
+    med: 3,       // Medium tablets: medium padding
+    lrg: 5,       // Laptops: larger padding
+    xlrg: 7,      // Large desktops: more padding
+    xxlrg: 10     // Extra large: maximum padding
+  }}
+>
+  <p>Responsive content</p>
+</Spacer>
+```
+
+## Best Practices
+
+### When to Use Spacer
+
+- Adding consistent spacing to components
+- Creating responsive spacing that adapts to screen size
+- Wrapping elements that need standardized padding/margin
+- Controlling display properties responsively
+- Maintaining spacing consistency across the design system
+
+### When NOT to Use Spacer
+
+- If you need complex layout control (use Grid or Row instead)
+- When the component already accepts padding/margin props (pass them directly)
+- For single-use custom spacing (use inline styles or custom CSS)
+- When no spacing or display changes are needed (unnecessary wrapper)
+
+### Performance Optimization
+
+The Spacer component includes a built-in optimization:
+
+```tsx
+if (!margin && !padding && !display) return children ?? null
+```
+
+This means if you don't provide any spacing or display props, the children are returned directly without a wrapper element, keeping the DOM clean and performant.
+
+### Integration with Other Components
+
+Many components in this design system integrate Spacer functionality directly. For example, Typography accepts `padding` and `margin` props that internally use the Spacer component. Check component documentation to see if built-in spacing is available before wrapping with Spacer.

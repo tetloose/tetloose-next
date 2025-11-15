@@ -1,0 +1,229 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Components/Logo' />
+
+# Logo
+
+The `Logo` component is a clickable logo that links to a specified route, typically the homepage. It combines the `Link` and `Image` components to create an accessible, navigable logo element with optimized image loading.
+
+## Features
+
+- **Clickable logo** - Wraps image in Link component for navigation
+- **Image optimization** - Uses Image component with proper sizing
+- **Type-safe** - Full TypeScript support for link and image props
+- **Flexible styling** - Supports custom modifiers for both link and image
+- **Accessibility** - Semantic markup with proper alt text
+- **SEO-friendly** - Uses Next.js Link for client-side navigation
+
+## Props
+
+- `link` - Optional LinkProps configuration object for the link wrapper
+- `image` - Optional ImageProps configuration object for the logo image
+
+## Usage
+
+```tsx
+import { Logo } from '@components/Logo/Logo.component'
+```
+
+### Basic Logo
+
+```tsx
+<Logo
+  link={{
+    href: '/'
+  }}
+  image={{
+    src: '/logo.svg',
+    alt: 'Company Name',
+    width: 200,
+    height: 50
+  }}
+/>
+```
+
+### Logo with Custom Styling
+
+```tsx
+<Logo
+  link={{
+    href: '/',
+    modifiers: ['custom-link-class']
+  }}
+  image={{
+    src: '/logo.png',
+    alt: 'Brand Logo',
+    width: 180,
+    height: 60,
+    modifiers: ['custom-image-class']
+  }}
+/>
+```
+
+### Logo with Image Props
+
+```tsx
+<Logo
+  link={{
+    href: '/'
+  }}
+  image={{
+    src: '/logo.webp',
+    alt: 'Site Logo',
+    width: 250,
+    height: 80,
+    loading: 'eager',
+    priority: true
+  }}
+/>
+```
+
+## Props Reference
+
+### link
+- **Type:** `LinkProps`
+- **Optional:** Yes
+- **Description:** Link configuration object. Accepts all Link component props including:
+  - `href` - Navigation destination (string)
+  - `modifiers` - Custom CSS classes (string[])
+  - `typography` - Typography configuration for the link wrapper
+  - All other Link component props
+
+### image
+- **Type:** `ImageProps`
+- **Optional:** Yes
+- **Description:** Image configuration object. Accepts all Image component props including:
+  - `src` - Image source URL (string)
+  - `alt` - Alt text for accessibility (string)
+  - `width` - Image width for aspect ratio (number)
+  - `height` - Image height for aspect ratio (number)
+  - `loading` - Loading strategy ('lazy' | 'eager')
+  - `priority` - Priority loading hint (boolean)
+  - `modifiers` - Custom CSS classes (string[])
+  - All other Image component props
+
+## Component Behavior
+
+- Returns `null` if either `link` or `image` props are missing
+- Always links to homepage (`href='/'`) by default
+- Link wrapper has `display: block` applied via typography prop
+- Image receives logo-specific styling via modifiers
+
+## Layout Structure
+
+The Logo component uses the following structure:
+
+```
+<Link href="/" modifiers={['logo', ...custom]}>
+  <Image modifiers={['logo__image']} {...image} />
+</Link>
+```
+
+## Styling
+
+Logo styles are defined in `Logo.module.scss`:
+
+```scss
+.logo {
+  // Link wrapper styling
+}
+
+.logo__image {
+  // Image styling
+}
+```
+
+## Common Use Cases
+
+### Header Logo
+
+```tsx
+<Logo
+  link={{
+    href: '/'
+  }}
+  image={{
+    src: '/header-logo.svg',
+    alt: 'Return to homepage',
+    width: 180,
+    height: 45
+  }}
+/>
+```
+
+### Footer Logo
+
+```tsx
+<Logo
+  link={{
+    href: '/',
+    modifiers: ['footer-logo-link']
+  }}
+  image={{
+    src: '/footer-logo.svg',
+    alt: 'Company Name',
+    width: 150,
+    height: 40,
+    modifiers: ['footer-logo-image']
+  }}
+/>
+```
+
+### High-Priority Logo (Above the Fold)
+
+```tsx
+<Logo
+  link={{
+    href: '/'
+  }}
+  image={{
+    src: '/logo.png',
+    alt: 'Brand Name',
+    width: 200,
+    height: 50,
+    loading: 'eager',
+    priority: true
+  }}
+/>
+```
+
+### SVG Logo
+
+```tsx
+<Logo
+  link={{
+    href: '/'
+  }}
+  image={{
+    src: '/logo.svg',
+    alt: 'Site Logo',
+    width: 220,
+    height: 60
+  }}
+/>
+```
+
+## Best Practices
+
+1. **Provide alt text** - Always include descriptive alt text for accessibility
+2. **Use appropriate dimensions** - Match image width/height to actual logo size to prevent CLS
+3. **Optimize image format** - Use SVG for logos when possible, or WebP/PNG for raster logos
+4. **Set priority for above-fold logos** - Use `priority: true` for logos in the header
+5. **Keep logos simple** - Ensure logos are clear and readable at various sizes
+6. **Test contrast** - Ensure logo is visible on both light and dark backgrounds
+7. **Consistent sizing** - Maintain consistent logo dimensions across the site
+
+## Accessibility
+
+- Uses semantic `<a>` tag via Link component
+- Requires `alt` text for the image
+- Link provides clear navigation purpose
+- Keyboard navigation is fully supported
+- Focus states are handled by Link component
+
+## Related Components
+
+- **Link** - Used for navigation wrapper
+- **Image** - Used for logo rendering
+- **Navigation** - Often contains Logo component
+- **Header** - Typically includes Logo component

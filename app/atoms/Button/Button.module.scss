@@ -1,0 +1,91 @@
+@use 'sass:map';
+@use '@styles/settings' as *;
+@use './Button-vars' as *;
+@use './Button-mixins' as *;
+
+.button {
+  background-color: transparent;
+  border-style: solid;
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  outline-style: solid;
+  outline-color: transparent;
+  text-decoration: none;
+
+  @include user-select(true);
+
+  &.default-width-auto {
+    width: auto;
+  }
+
+  &.default-width-full {
+    width: 100%;
+  }
+
+  @each $breakpoint in vars(settings, breakpoints) {
+    @include mq(vars(breakpoint, #{$breakpoint})) {
+      &.#{$breakpoint}-width-auto {
+        width: auto;
+      }
+
+      &.#{$breakpoint}-width-full {
+        width: 100%;
+      }
+    }
+  }
+
+  @include mq-hover {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    opacity: .4;
+
+    @include disable(true);
+  }
+
+  &.primary {
+    background-color: deep-get($button, primary, bg);
+    border-color: deep-get($button, primary, border);
+    color: deep-get($button, primary, color);
+
+    @include button;
+
+    &:focus {
+      background-color: deep-get($button, primary, focus, bg);
+    }
+
+    @include mq-hover {
+      &:hover {
+        background-color: deep-get($button, primary, hover, bg);
+      }
+
+      &:active {
+        background-color: deep-get($button, primary, active, bg);
+      }
+    }
+  }
+
+  &.secondary {
+    background-color: deep-get($button, secondary, bg);
+    border-color: deep-get($button, secondary, border);
+    color: deep-get($button, secondary, color);
+
+    @include button;
+
+    &:focus {
+      background-color: deep-get($button, secondary, focus, bg);
+    }
+
+    @include mq-hover {
+      &:hover {
+        background-color: deep-get($button, secondary, hover, bg);
+      }
+
+      &:active {
+        background-color: deep-get($button, secondary, active, bg);
+      }
+    }
+  }
+}

@@ -1,0 +1,191 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Foundations/Typography' />
+
+# Typography
+
+The **Typography** component is a versatile text rendering system that provides semantic HTML elements with customizable styling and responsive behavior. It supports both plain text and rich HTML content, integrates with the Spacer component for spacing control, and offers extensive typography options including font weights, text alignment, and transformations.
+
+## Rendering Modes
+
+### Text Mode
+
+Standard mode for rendering plain text content with Typography styling. This is the default behavior when using the `text` prop or `children`.
+
+**Use this when:** You need to render simple text content with consistent styling and semantic HTML tags.
+
+**Key features:**
+- Renders semantic HTML elements (h1-h6, p, span, etc.)
+- Supports all typography styling options
+- Integrates with Spacer for padding/margin control
+- Responsive text alignment and white space handling
+- Font weight, style, and transformation options
+- Color and link variant customization
+
+### Rich Text Mode
+
+Advanced mode for rendering complex HTML content when the `richText` prop is provided. Internally uses the RichText component for enhanced HTML parsing and rendering.
+
+**Use this when:** You need to display content from a CMS or render complex HTML structures with nested elements.
+
+**Key features:**
+- Parses and renders HTML strings safely
+- Inherits color and link variant settings
+- Supports responsive text alignment and display properties
+- Integrates with Spacer for spacing control
+- Limited font styling options (no fontWeight, fontStyle, textTransform, whiteSpace in rich text mode)
+
+## Usage
+
+```tsx
+import { Typography } from '@foundations/Typography/Typography.component'
+```
+
+### Basic Text
+
+```tsx
+<Typography
+  tag={'h1'}
+  size={'h1'}
+  text={'Welcome to our site'}
+  color={'black'}
+  padding={{ default: 5 }}
+/>
+```
+
+### Body Copy
+
+```tsx
+<Typography
+  tag={'p'}
+  size={'body-med'}
+  text={'This is a paragraph with medium body text.'}
+  fontWeight={'regular'}
+  margin={{ default: 3 }}
+/>
+```
+
+### Responsive Text Alignment
+
+```tsx
+<Typography
+  tag={'h2'}
+  size={'h2'}
+  text={'Responsive Heading'}
+  textAlign={{
+    default: 'left',
+    med: 'center',
+    lrg: 'right'
+  }}
+/>
+```
+
+### Rich Text Content
+
+```tsx
+<Typography
+  richText={'<p>This is <strong>rich</strong> HTML content with <a href="#">links</a>.</p>'}
+  linkVariant={'primary'}
+  color={'black'}
+  padding={{ default: 4 }}
+/>
+```
+
+### With Custom Modifiers
+
+```tsx
+<Typography
+  tag={'span'}
+  size={'body-sml'}
+  text={'Custom styled text'}
+  modifiers={['custom-class', styles.specialText]}
+  fontWeight={'bold'}
+  textTransform={'uppercase'}
+/>
+```
+
+## Props
+
+### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Additional CSS classes appended to the component's base classes for custom styling
+
+### tag
+- **Type:** `'span' | 'nav' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'em' | 'label' | 'time' | 'ul' | 'ol' | 'li'`
+- **Default:** `'span'`
+- **Description:** The semantic HTML tag to render. Determines the element type and default behavior
+
+### size
+- **Type:** `'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body-xxlrg' | 'body-xlrg' | 'body-lrg' | 'body-med' | 'body-sml'`
+- **Default:** None
+- **Description:** Defines the text size and corresponding typography styles. Not applied in richText mode
+
+### padding
+- **Type:** `Spacers`
+- **Default:** None
+- **Description:** Internal spacing applied via the Spacer wrapper. Supports responsive breakpoint values
+
+### margin
+- **Type:** `Spacers`
+- **Default:** None
+- **Description:** External spacing applied via the Spacer wrapper. Supports responsive breakpoint values
+
+### color
+- **Type:** `GlobalColor`
+- **Default:** `'black'`
+- **Description:** Text color applied via CSS class. Available in both text and richText modes
+
+### linkVariant
+- **Type:** `LinkVariant`
+- **Default:** `'primary'`
+- **Description:** Link color variant applied to anchor tags within the typography content
+
+### fontWeight
+- **Type:** `'light' | 'regular' | 'medium' | 'bold'`
+- **Default:** None
+- **Description:** Font weight setting. Only available in text mode (not richText)
+
+### fontStyle
+- **Type:** `'italic' | 'oblique'`
+- **Default:** None
+- **Description:** Font style setting. Only available in text mode (not richText)
+
+### textTransform
+- **Type:** `'capitalize' | 'uppercase' | 'lowercase'`
+- **Default:** None
+- **Description:** Text transformation setting. Only available in text mode (not richText)
+
+### whiteSpace
+- **Type:** `BreakpointWhiteSpace`
+- **Default:** None
+- **Description:** Controls white space handling with responsive breakpoint support. Only available in text mode (not richText)
+
+### textAlign
+- **Type:** `BreakpointTextAlign`
+- **Default:** None
+- **Description:** Text alignment with responsive breakpoint support (default, sml, med, lrg, xlrg, xxlrg)
+
+### display
+- **Type:** `BreakpointDisplay`
+- **Default:** None
+- **Description:** Display property with responsive breakpoint support
+
+### text
+- **Type:** `string`
+- **Default:** None
+- **Description:** Plain text content to render. Mutually exclusive with richText
+
+### richText
+- **Type:** `string`
+- **Default:** None
+- **Description:** HTML string to render as rich content. When provided, component uses RichText rendering mode
+
+### children
+- **Type:** `React.ReactNode`
+- **Default:** None
+- **Description:** Child elements to render within the typography component
+
+### ...rest
+- **Type:** Additional HTML attributes
+- **Description:** Any extra attributes are passed to the rendered HTML element

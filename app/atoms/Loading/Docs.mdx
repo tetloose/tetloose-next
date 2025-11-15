@@ -1,0 +1,152 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Atoms/Loading' />
+
+# Loading
+
+The `Loading` component is an animated circular spinner for indicating loading states. It's a lightweight, accessible loading indicator that can be used inline or positioned absolutely.
+
+## Features
+
+- **Animated spinner** - Smooth rotating circle animation
+- **Color variants** - Black and white color options
+- **Flexible positioning** - Inline or centered positioning
+- **Lightweight** - Pure CSS animation, no JavaScript required
+- **Customizable** - Supports custom modifiers for additional styling
+
+## Props
+
+- `color` - Spinner color variant: `'black'` | `'white'` (default: `'black'`)
+- `center` - Absolute center positioning in parent container (default: `false`)
+- `modifiers` - Array of custom CSS class names for additional styling
+
+## Usage
+
+```tsx
+import { Loading } from '@atoms/Loading/Loading.component'
+```
+
+### Basic Loading Spinner
+
+```tsx
+<Loading color="black" />
+```
+
+### Centered Loading Spinner
+
+Use `center` to position the spinner in the center of its parent container:
+
+```tsx
+<div style={{ position: 'relative', height: '400px' }}>
+  <Loading color="black" center />
+</div>
+```
+
+### White Spinner (for dark backgrounds)
+
+```tsx
+<div style={{ background: 'black', padding: '2rem' }}>
+  <Loading color="white" />
+</div>
+```
+
+### With Custom Modifiers
+
+```tsx
+<Loading color="black" modifiers={['custom-loading-class']} />
+```
+
+## Common Use Cases
+
+### Inline Loading State
+```tsx
+<button disabled>
+  <Loading color="white" /> Loading...
+</button>
+```
+
+### Full Page Loading
+```tsx
+<div style={{ position: 'fixed', inset: 0 }}>
+  <Loading color="black" center />
+</div>
+```
+
+### Component Loading State
+```tsx
+function DataComponent() {
+  const [loading, setLoading] = useState(true)
+
+  if (loading) {
+    return (
+      <div style={{ position: 'relative', minHeight: '200px' }}>
+        <Loading color="black" center />
+      </div>
+    )
+  }
+
+  return <div>{/* your content */}</div>
+}
+```
+
+### Form Submission
+```tsx
+<form onSubmit={handleSubmit}>
+  {/* form fields */}
+  <button type="submit" disabled={isSubmitting}>
+    {isSubmitting ? <Loading color="white" /> : 'Submit'}
+  </button>
+</form>
+```
+
+## Props Reference
+
+### color
+- **Type:** `'black'` | `'white'`
+- **Default:** `'black'`
+- **Description:** The color of the loading spinner. Use `'black'` for light backgrounds and `'white'` for dark backgrounds.
+
+### center
+- **Type:** `boolean`
+- **Default:** `false`
+- **Description:** When `true`, positions the spinner absolutely in the center of its parent container using `position: absolute` with `top: 50%` and `left: 50%` transforms. The parent container should have `position: relative` or another positioning context.
+
+### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Array of additional CSS class names to apply for custom styling.
+
+## Accessibility
+
+- The Loading component is a visual indicator only
+- Consider adding `aria-label` or `aria-live` regions when using for important loading states
+- Ensure loading states don't block screen reader navigation
+
+### Example with Accessibility
+```tsx
+<div role="status" aria-live="polite" aria-label="Loading content">
+  <Loading color="black" center />
+  <span className="visually-hidden">Loading...</span>
+</div>
+```
+
+## Styling
+
+The spinner animation is pure CSS using keyframes:
+- **Size:** Controlled by CSS sizing utility (default: `size(12)`)
+- **Border width:** `size(0.75)` for both top and right borders
+- **Animation:** 1 second linear infinite rotation
+- **Colors:** Sourced from `$colors.default` (black/white)
+
+## Best Practices
+
+1. **Use appropriate colors** - Black spinners on light backgrounds, white on dark
+2. **Provide context** - Let users know what's loading when possible
+3. **Set proper positioning** - Use `center` for overlay scenarios, inline for button/form states
+4. **Consider accessibility** - Add ARIA labels for screen reader users
+5. **Don't overuse** - Only show loading indicators for operations that take noticeable time (>300ms)
+
+## Related Components
+
+- **Notification** - For showing loading messages with toast notifications
+- **Button** - Often used together for loading button states

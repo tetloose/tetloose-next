@@ -1,0 +1,56 @@
+@use '@styles/mixins/media-query' as *;
+@use '@styles/mixins/transition' as *;
+@use '@styles/mixins/deep-get' as *;
+@use '@styles/settings/colors' as *;
+@use '@styles/settings/variables' as *;
+@use 'sass:map';
+
+%a {
+  a:not([class*='Button']) {
+    text-decoration: underline;
+    text-decoration-skip-ink: auto;
+
+    @include mq-hover {
+      cursor: pointer;
+
+      @include transition;
+    }
+  }
+
+  &.link-primary a:not([class*='Button']) {
+    color: deep-get($colors, link, primary, color);
+
+    &:focus {
+      color: deep-get($colors, link, primary, focus);
+    }
+
+    @include mq-hover {
+      &:hover {
+        color: deep-get($colors, link, primary, hover);
+      }
+
+      &:active {
+        color: deep-get($colors, link, primary, active);
+      }
+    }
+  }
+
+  &.link-secondary a:not([class*='Button']) {
+    color: deep-get($colors, link, secondary, color);
+
+    @include mq-hover {
+      &:focus {
+        color: deep-get($colors, link, secondary, focus);
+      }
+
+      &:hover {
+        color: deep-get($colors, link, secondary, hover);
+        text-decoration: none;
+      }
+
+      &:active {
+        color: deep-get($colors, link, secondary, active);
+      }
+    }
+  }
+}

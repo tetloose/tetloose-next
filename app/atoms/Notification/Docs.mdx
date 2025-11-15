@@ -1,0 +1,269 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Atoms/Notification' />
+
+# Notification
+
+The `Notification` component is a client-side toast notification system built on top of `react-hot-toast`. It provides a simple way to display temporary notifications for user feedback during form submissions, data operations, and testing.
+
+## Features
+
+- **Client-side only** - Requires browser APIs, uses `'use client'` directive
+- **Multiple notification types** - Default, success, error, and loading states
+- **Error handling** - Supports both Error objects and string messages
+- **Toast notifications** - Non-blocking, temporary messages
+- **Easy integration** - Simple hook-based API via `useNotification`
+- **Automatic dismissal** - Notifications automatically disappear after a timeout
+
+## Component Structure
+
+```tsx
+Notification          // Toast container component
+useNotification()    // Hook to trigger notifications
+```
+
+## Installation
+
+The Notification component should be placed once in your app layout or root component:
+
+```tsx
+import { Notification } from '@atoms/Notification/Notification.component'
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <Notification />
+      </body>
+    </html>
+  )
+}
+```
+
+## Usage
+
+### Import the Hook
+
+```tsx
+'use client'
+
+import { useNotification } from '@hooks/Notification/use-notification.hooks'
+```
+
+### Basic Usage
+
+```tsx
+const notify = useNotification()
+
+// In your event handler
+notify('Operation completed', 'success')
+```
+
+### Notification Types
+
+The `useNotification` hook accepts two parameters:
+1. `notification` - The message (string or Error object)
+2. `type` - The notification type: `'default'` | `'success'` | `'error'` | `'loading'`
+
+#### Default Notification
+```tsx
+const notify = useNotification()
+notify('This is a notification', 'default')
+```
+
+#### Success Notification
+```tsx
+const notify = useNotification()
+notify('Success! Your action completed', 'success')
+```
+
+#### Error Notification
+```tsx
+const notify = useNotification()
+notify('Error! Something went wrong', 'error')
+```
+
+#### Loading Notification
+```tsx
+const notify = useNotification()
+notify('Loading... Please wait', 'loading')
+```
+
+### With Error Objects
+
+The notification system can handle Error objects automatically:
+
+```tsx
+const notify = useNotification()
+
+try {
+  await somethingThatMightFail()
+} catch (error) {
+  notify(error, 'error') // Automatically extracts error.message
+}
+```
+
+## Real-World Examples
+
+### Form Submission
+
+```tsx
+'use client'
+
+import { useNotification } from '@hooks/Notification/use-notification.hooks'
+
+export function ContactForm() {
+  const notify = useNotification()
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+
+    notify('Submitting form...', 'loading')
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body: new FormData(e.target as HTMLFormElement)
+      })
+
+      if (response.ok) {
+        notify('Form submitted successfully!', 'success')
+      } else {
+        notify('Failed to submit form', 'error')
+      }
+    } catch (error) {
+      notify(error, 'error')
+    }
+  }
+
+  return <form onSubmit={handleSubmit}>{/* form fields */}</form>
+}
+```
+
+### API Request
+
+```tsx
+'use client'
+
+import { useNotification } from '@hooks/Notification/use-notification.hooks'
+
+export function DataFetcher() {
+  const notify = useNotification()
+
+  const fetchData = async () => {
+    try {
+      notify('Fetching data...', 'loading')
+      const data = await fetch('/api/data').then(r => r.json())
+      notify('Data loaded successfully', 'success')
+      return data
+    } catch (error) {
+      notify(error, 'error')
+    }
+  }
+
+  return <button onClick={fetchData}>Load Data</button>
+}
+```
+
+### Testing Scenarios
+
+```tsx
+'use client'
+
+import { useNotification } from '@hooks/Notification/use-notification.hooks'
+
+export function TestComponent() {
+  const notify = useNotification()
+
+  const testNotifications = () => {
+    notify('Testing default notification', 'default')
+
+    setTimeout(() => {
+      notify('Testing success notification', 'success')
+    }, 1000)
+
+    setTimeout(() => {
+      notify('Testing error notification', 'error')
+    }, 2000)
+  }
+
+  return <button onClick={testNotifications}>Test Notifications</button>
+}
+```
+
+## Hook API
+
+### useNotification()
+
+Returns a `notify` function to trigger notifications.
+
+**Signature:**
+```tsx
+const notify = useNotification()
+notify(message: string | Error, type: NotificationType): void
+```
+
+**Parameters:**
+- `message` - The notification message (string) or Error object
+- `type` - Notification type: `'default'` | `'success'` | `'error'` | `'loading'`
+
+**Type Behaviors:**
+- `'default'` - Basic gray notification
+- `'success'` - Green notification with success icon
+- `'error'` - Red notification with error icon
+- `'loading'` - Blue notification with loading spinner
+
+## Best Practices
+
+1. **Place once in layout** - Add `<Notification />` to your root layout, not in individual components
+2. **Use appropriate types** - Match notification types to user actions (success for completions, error for failures)
+3. **Keep messages concise** - Toast notifications should be brief and actionable
+4. **Handle errors gracefully** - Pass Error objects directly to the notify function
+5. **Use loading state** - Show loading notifications for async operations
+6. **Client-side only** - Only use in components with `'use client'` directive
+
+## Client Component Requirement
+
+The Notification component **requires** the `'use client'` directive because:
+- It uses browser-side toast notifications
+- `react-hot-toast` requires client-side APIs
+- It's used for interactive user feedback
+- Toast positioning and animations require DOM manipulation
+
+## Common Use Cases
+
+- ✅ Form submission feedback
+- ✅ API request status updates
+- ✅ Error handling and display
+- ✅ Loading state indicators
+- ✅ User action confirmations
+- ✅ Testing and development feedback
+
+## Styling
+
+The notification appearance is controlled by `react-hot-toast`. You can customize the toast styling by passing options to the `<Toaster />` component:
+
+```tsx
+export const Notification = () => (
+  <Toaster
+    position="top-right"
+    toastOptions={{
+      duration: 4000,
+      style: {
+        background: '#363636',
+        color: '#fff',
+      },
+    }}
+  />
+)
+```
+
+For more customization options, refer to the [react-hot-toast documentation](https://react-hot-toast.com/).
+
+## Implementation Note
+
+The Notification component is a thin wrapper around `react-hot-toast`:
+- **Component**: Renders the `<Toaster />` container
+- **Hook**: Provides a typed interface for triggering notifications
+- **Type Safety**: Ensures only valid notification types are used

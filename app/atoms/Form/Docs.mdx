@@ -1,0 +1,661 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Atoms/Form' />
+
+# Form
+
+The `Form` component is a comprehensive form system built using a compound component pattern, integrated with React Hook Form for validation and state management. It provides a complete set of form controls with consistent styling, error handling, and responsive behavior.
+
+## Features
+
+- **Compound component pattern** - Clean API with Form, Form.Input, Form.Label, etc.
+- **React Hook Form integration** - Built-in validation and state management
+- **Error state handling** - Visual feedback for validation errors
+- **Variant support** - Primary variant for consistent theming
+- **Responsive spacing** - Flexible padding and margin via Spacer component
+- **Type-safe** - Full TypeScript support
+- **Accessible** - Semantic HTML with proper label associations
+
+## Component Structure
+
+```tsx
+Form              // Main form wrapper
+Form.Input        // Text, password, number, tel, URL inputs
+Form.Textarea     // Multi-line text input
+Form.Select       // Dropdown selection
+Form.Radio        // Radio button with label
+Form.Checkbox     // Checkbox with label
+Form.Label        // Standalone label
+Form.Actions      // Submit and reset buttons container
+```
+
+## Installation
+
+```tsx
+import { Form } from '@atoms/Form/Form.component'
+import { useForm } from 'react-hook-form'
+import type { SubmitHandler } from 'react-hook-form'
+```
+
+## Basic Usage
+
+### Simple Contact Form
+
+```tsx
+type FormInputs = {
+  name: string
+  email: string
+  message: string
+}
+
+function ContactForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid }
+  } = useForm<FormInputs>({
+    mode: 'onTouched' // Validate on blur, then on change
+  })
+
+  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    console.log(data)
+  }
+
+  return (
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form.Label
+        htmlFor="name"
+        label={{
+          text: `Name${errors.name ? ' (required)' : ''}`,
+          size: 'body-med'
+        }}
+        error={!!errors.name}
+      />
+      <Form.Input
+        id="name"
+        placeholder="Your name"
+        padding={{ default: 2 }}
+        error={!!errors.name}
+        {...register('name', { required: true })}
+      />
+
+      <Form.Label
+        htmlFor="email"
+        label={{
+          text: `Email${errors.email ? ' (required)' : ''}`,
+          size: 'body-med'
+        }}
+        error={!!errors.email}
+      />
+      <Form.Input
+        id="email"
+        type="text"
+        placeholder="your@email.com"
+        padding={{ default: 2 }}
+        error={!!errors.email}
+        {...register('email', {
+          required: true,
+          pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+        })}
+      />
+
+      <Form.Label
+        htmlFor="message"
+        label={{
+          text: `Message${errors.message ? ' (required)' : ''}`,
+          size: 'body-med'
+        }}
+        error={!!errors.message}
+      />
+      <Form.Textarea
+        id="message"
+        placeholder="Your message"
+        padding={{ default: 2 }}
+        error={!!errors.message}
+        {...register('message', { required: true })}
+      />
+
+      <Form.Actions
+        inputs={{
+          layout: {
+            display: { default: 'flex' },
+            justify: { default: 'flex-end' },
+            gap: { default: 4 }
+          },
+          submit: {
+            variant: 'primary',
+            label: 'Send',
+            disabled: !isValid
+          }
+        }}
+      />
+    </Form>
+  )
+}
+```
+
+## Form Components
+
+### Form (Root)
+
+The main form wrapper element.
+
+**Props:**
+- `onSubmit` - Form submission handler (required)
+- `onReset` - Form reset handler
+- `modifiers` - Array of custom CSS classes
+- All standard form HTML attributes
+
+**Example:**
+```tsx
+<Form onSubmit={handleSubmit(onSubmit)}>
+  {/* form fields */}
+</Form>
+```
+
+### Form.Input
+
+Text input field with support for various input types.
+
+**Props:**
+- `variant` - Style variant: `'primary'` (default)
+- `type` - Input type: `'text'` | `'password'` | `'number'` | `'tel'` | `'url'` (default: `'text'`)
+- `error` - Boolean to show error state
+- `padding` - Spacing object with breakpoints
+- `margin` - Margin object with breakpoints
+- `modifiers` - Array of custom CSS classes
+- All standard input HTML attributes
+
+**Example:**
+```tsx
+<Form.Input
+  id="username"
+  type="text"
+  placeholder="Username"
+  padding={{ default: 2 }}
+  error={!!errors.username}
+  {...register('username', { required: true })}
+/>
+```
+
+### Form.Textarea
+
+Multi-line text input field.
+
+**Props:**
+- `variant` - Style variant: `'primary'` (default)
+- `error` - Boolean to show error state
+- `padding` - Spacing object with breakpoints
+- `margin` - Margin object with breakpoints
+- `modifiers` - Array of custom CSS classes
+- All standard textarea HTML attributes
+
+**Example:**
+```tsx
+<Form.Textarea
+  id="message"
+  placeholder="Enter your message"
+  padding={{ default: 2 }}
+  error={!!errors.message}
+  {...register('message', { required: true })}
+/>
+```
+
+### Form.Select
+
+Dropdown selection field.
+
+**Props:**
+- `variant` - Style variant: `'primary'` (default)
+- `options` - Array of option objects with `text` and `value` (required)
+- `error` - Boolean to show error state
+- `padding` - Spacing object with breakpoints
+- `margin` - Margin object with breakpoints
+- `modifiers` - Array of custom CSS classes
+- All standard select HTML attributes
+
+**Example:**
+```tsx
+const colorOptions = [
+  { text: 'Select a color', value: '' },
+  { text: 'Red', value: 'red' },
+  { text: 'Blue', value: 'blue' }
+]
+
+<Form.Select
+  id="color"
+  options={colorOptions}
+  padding={{ default: 2 }}
+  error={!!errors.color}
+  {...register('color', { required: true })}
+/>
+```
+
+### Form.Radio
+
+Radio button with integrated label.
+
+**Props:**
+- `variant` - Style variant: `'primary'` (default)
+- `label` - Label configuration object
+  - `text` - Label text
+  - `size` - Typography size
+  - Other Typography props
+- `error` - Boolean to show error state
+- `padding` - Spacing object with breakpoints
+- `margin` - Margin object with breakpoints
+- `htmlFor` - Label's for attribute
+- `id` - Input ID
+- `value` - Radio value
+- All standard input HTML attributes
+
+**Example:**
+```tsx
+<Form.Radio
+  htmlFor="option1"
+  id="option1"
+  value="option1"
+  label={{ text: 'Option 1', size: 'body-med' }}
+  padding={{ default: 2 }}
+  error={!!errors.choice}
+  {...register('choice', { required: true })}
+/>
+```
+
+### Form.Checkbox
+
+Checkbox with integrated label.
+
+**Props:**
+- `variant` - Style variant: `'primary'` (default)
+- `label` - Label configuration object
+  - `text` - Label text
+  - `size` - Typography size
+  - Other Typography props
+- `error` - Boolean to show error state
+- `padding` - Spacing object with breakpoints
+- `margin` - Margin object with breakpoints
+- `htmlFor` - Label's for attribute
+- `id` - Input ID
+- `value` - Checkbox value
+- All standard input HTML attributes
+
+**Example:**
+```tsx
+<Form.Checkbox
+  htmlFor="terms"
+  id="terms"
+  value="accepted"
+  label={{ text: 'I accept the terms', size: 'body-med' }}
+  padding={{ default: 2 }}
+  error={!!errors.terms}
+  {...register('terms', { required: true })}
+/>
+```
+
+### Form.Label
+
+Standalone label element with Typography integration.
+
+**Props:**
+- `label` - Typography configuration object
+  - `text` - Label text
+  - `size` - Typography size
+  - `fontWeight` - Font weight
+  - Other Typography props
+- `error` - Boolean to show error state
+- `padding` - Spacing object with breakpoints
+- `margin` - Margin object with breakpoints
+- `htmlFor` - Associated input ID
+- `children` - Additional content
+- All standard label HTML attributes
+
+**Example:**
+```tsx
+<Form.Label
+  htmlFor="username"
+  label={{
+    text: `Username${errors.username ? ' (required)' : ''}`,
+    size: 'body-med',
+    fontWeight: 'medium'
+  }}
+  error={!!errors.username}
+  padding={{ default: 6 }}
+/>
+```
+
+### Form.Actions
+
+Container for submit and reset buttons.
+
+**Props:**
+- `inputs` - Configuration object
+  - `layout` - Column layout props (display, gap, justify, padding, etc.)
+  - `submit` - Submit button props (variant, label, disabled)
+  - `reset` - Reset button props (variant, label, disabled)
+- `children` - Additional content
+- `modifiers` - Array of custom CSS classes
+
+**Example:**
+```tsx
+<Form.Actions
+  inputs={{
+    layout: {
+      display: { default: 'flex' },
+      gap: { default: 4 },
+      justify: { default: 'flex-end' }
+    },
+    submit: {
+      variant: 'primary',
+      label: 'Submit',
+      disabled: !isValid
+    },
+    reset: {
+      variant: 'secondary',
+      label: 'Reset'
+    }
+  }}
+/>
+```
+
+## React Hook Form Integration
+
+The Form component is designed to work seamlessly with React Hook Form.
+
+### Validation Modes
+
+```tsx
+const { register, handleSubmit, formState: { errors } } = useForm({
+  mode: 'onTouched' // Recommended: validates after blur, then on change
+  // Other modes:
+  // 'onChange' - validates on every keystroke
+  // 'onBlur' - validates only on blur
+  // 'onSubmit' - validates only on submit (default)
+  // 'all' - validates on change and blur
+})
+```
+
+### Error Handling Pattern
+
+```tsx
+const { errors } = formState
+
+// Destructure errors
+const { username: usernameError, email: emailError } = errors
+
+// Use in components
+<Form.Label
+  label={{
+    text: `Username${usernameError ? ' (required)' : ''}`,
+    size: 'body-med'
+  }}
+  error={!!usernameError}
+/>
+<Form.Input
+  error={!!usernameError}
+  {...register('username', { required: true })}
+/>
+```
+
+### Form Submission
+
+```tsx
+const onSubmit: SubmitHandler<FormInputs> = (data) => {
+  // Data is typed and validated
+  console.log(data)
+
+  // Show success notification
+  notify('Form submitted!', 'success')
+
+  // Reset form
+  reset()
+}
+
+<Form onSubmit={handleSubmit(onSubmit)}>
+  {/* fields */}
+</Form>
+```
+
+## Complete Example
+
+```tsx
+import { Form } from '@atoms/Form/Form.component'
+import { useForm } from 'react-hook-form'
+import { useNotification } from '@hooks/Notification/use-notification.hooks'
+import type { SubmitHandler } from 'react-hook-form'
+
+type RegistrationForm = {
+  username: string
+  email: string
+  password: string
+  country: string
+  newsletter: boolean
+  terms: boolean
+}
+
+export function RegistrationForm() {
+  const notify = useNotification()
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid }
+  } = useForm<RegistrationForm>({
+    mode: 'onTouched',
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      country: '',
+      newsletter: false,
+      terms: false
+    }
+  })
+
+  const onSubmit: SubmitHandler<RegistrationForm> = async (data) => {
+    try {
+      // Submit to API
+      await fetch('/api/register', {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+
+      notify('Registration successful!', 'success')
+      reset()
+    } catch (error) {
+      notify(error, 'error')
+    }
+  }
+
+  const countries = [
+    { text: 'Select your country', value: '' },
+    { text: 'United States', value: 'us' },
+    { text: 'United Kingdom', value: 'uk' },
+    { text: 'Canada', value: 'ca' }
+  ]
+
+  return (
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form.Label
+        htmlFor="username"
+        label={{
+          text: `Username${errors.username ? ' (required)' : ''}`,
+          size: 'body-med',
+          fontWeight: 'medium'
+        }}
+        error={!!errors.username}
+      />
+      <Form.Input
+        id="username"
+        placeholder="Username"
+        padding={{ default: 2 }}
+        error={!!errors.username}
+        {...register('username', {
+          required: true,
+          minLength: 3
+        })}
+      />
+
+      <Form.Label
+        htmlFor="email"
+        label={{
+          text: `Email${errors.email ? ' (required)' : ''}`,
+          size: 'body-med',
+          fontWeight: 'medium'
+        }}
+        error={!!errors.email}
+        padding={{ default: 6, top: { default: 6 } }}
+      />
+      <Form.Input
+        id="email"
+        type="text"
+        placeholder="email@example.com"
+        padding={{ default: 2 }}
+        error={!!errors.email}
+        {...register('email', {
+          required: true,
+          pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+        })}
+      />
+
+      <Form.Label
+        htmlFor="password"
+        label={{
+          text: `Password${errors.password ? ' (required)' : ''}`,
+          size: 'body-med',
+          fontWeight: 'medium'
+        }}
+        error={!!errors.password}
+        padding={{ default: 6, top: { default: 6 } }}
+      />
+      <Form.Input
+        id="password"
+        type="password"
+        placeholder="Password"
+        padding={{ default: 2 }}
+        error={!!errors.password}
+        {...register('password', {
+          required: true,
+          minLength: 8
+        })}
+      />
+
+      <Form.Label
+        htmlFor="country"
+        label={{
+          text: `Country${errors.country ? ' (required)' : ''}`,
+          size: 'body-med',
+          fontWeight: 'medium'
+        }}
+        error={!!errors.country}
+        padding={{ default: 6, top: { default: 6 } }}
+      />
+      <Form.Select
+        id="country"
+        options={countries}
+        padding={{ default: 2 }}
+        error={!!errors.country}
+        {...register('country', { required: true })}
+      />
+
+      <Form.Checkbox
+        htmlFor="newsletter"
+        id="newsletter"
+        value="yes"
+        label={{
+          text: 'Subscribe to newsletter',
+          size: 'body-med'
+        }}
+        padding={{ default: 2, top: { default: 6 } }}
+        {...register('newsletter')}
+      />
+
+      <Form.Checkbox
+        htmlFor="terms"
+        id="terms"
+        value="accepted"
+        label={{
+          text: `Accept terms${errors.terms ? ' (required)' : ''}`,
+          size: 'body-med'
+        }}
+        padding={{ default: 2 }}
+        error={!!errors.terms}
+        {...register('terms', { required: true })}
+      />
+
+      <Form.Actions
+        inputs={{
+          layout: {
+            display: { default: 'flex' },
+            gap: { default: 4 },
+            justify: { default: 'flex-end' },
+            padding: { top: { default: 6 } }
+          },
+          submit: {
+            variant: 'primary',
+            label: 'Register',
+            disabled: !isValid
+          },
+          reset: {
+            variant: 'secondary',
+            label: 'Clear'
+          }
+        }}
+      />
+    </Form>
+  )
+}
+```
+
+## Styling
+
+Form styles are defined in `app/atoms/Form/Form.module.scss` and use variables from `_Form-vars.scss`:
+
+```scss
+$inputs: (
+  font-size: 16px,
+  line-height: 16px,
+  letter-spacing: 1.4px,
+  primary: (
+    border: color-mix(in oklab, $black, $white 90%),
+    color: $black,
+    placeholder: color-mix(in oklab, $black, $white 90%),
+    bg: $white,
+    select-arrow: $black,
+    hover: (
+      border: $black
+    ),
+    error: (
+      border: red,
+      color: red
+    )
+  )
+)
+```
+
+## Best Practices
+
+1. **Use validation modes** - Set `mode: 'onTouched'` for better UX
+2. **Show errors inline** - Display error state on both label and input
+3. **Disable submit when invalid** - Use `disabled: !isValid` on submit button
+4. **Type your forms** - Define TypeScript interfaces for form data
+5. **Reset after success** - Call `reset()` after successful submission
+6. **Use notifications** - Show feedback with `useNotification` hook
+7. **Handle async errors** - Wrap API calls in try/catch
+8. **Label associations** - Match `htmlFor` with `id` for accessibility
+
+## Accessibility
+
+- All inputs must have associated labels with `htmlFor` matching input `id`
+- Error states are visually indicated with `.has-error` class
+- Form uses semantic HTML elements
+- Keyboard navigation is fully supported
+- Screen readers announce errors and validation states
+
+## Related Components
+
+- **Button** - Used in Form.Actions for submit/reset
+- **Typography** - Used in Form.Label for text styling
+- **Spacer** - Used for padding and margin spacing
+- **Notification** - For showing form submission feedback

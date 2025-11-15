@@ -1,0 +1,24 @@
+@use '@styles/settings' as *;
+@use 'sass:color';
+
+$inputs: (
+  font-size: 16px,
+  line-height: 16px,
+  letter-spacing: 1.4px,
+  primary: (
+    border: color-mix(in oklab, $black, $white 90%),
+    color: $black,
+    placeholder: color-mix(in oklab, $black, $white 90%),
+    bg: $white,
+    select: (
+      arrow: $black,
+      error: $red
+    ),
+    hover: (
+      border: $black
+    ),
+    error: (
+      border: $red
+    )
+  )
+);

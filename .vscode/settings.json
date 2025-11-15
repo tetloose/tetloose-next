@@ -1,0 +1,64 @@
+{
+  "files.insertFinalNewline": true,
+  "emmet.triggerExpansionOnTab": true,
+  "emmet.includeLanguages": {
+    "CSS": "CSS",
+    "SCSS": "CSS",
+    "typescript": "typescriptreact"
+  },
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact"
+  ],
+  "stylelint.validate": [
+    "css",
+    "scss"
+  ],
+  "files.exclude": {
+    "yarn.lock": true,
+    "tsconfig.json": true,
+    "toolkit": true,
+    "stylelint.config.mjs": true,
+    "package.json": true,
+    "next.config.ts": true,
+    "next-env.d.ts": true,
+    "eslint.config.mjs": true,
+    ".gitignore": true,
+    ".editorconfig": true,
+    "node_modules": true,
+    ".vscode": true,
+    ".vitest": true,
+    ".scripts": true,
+    ".next": true,
+    ".husky": true,
+    ".storybook/manager.js": true,
+    ".storybook/main.ts": true,
+    "vite.config.ts": true,
+    ".env": true,
+    ".env.example": true
+  },
+  "search.exclude": {
+    "node_modules": true,
+    "build": true,
+    "storybook-static": true
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "prettier.enable": false
+  // "peacock.remoteColor": "#61dafb"
+}

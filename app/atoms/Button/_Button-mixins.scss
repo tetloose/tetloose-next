@@ -1,0 +1,22 @@
+@use '@styles/settings' as *;
+@use './Button-vars' as *;
+
+@mixin button {
+  display: inline-flex;
+  line-height: normal;
+
+  @include sizing('padding', [size(4), size(8)]);
+  @include sizing('border-width', size(.25));
+  @include sizing('font-size', deep-get($button, font-size));
+  @extend %f-heading;
+  @extend %font-weight;
+  @extend %text-transform;
+  @extend %text-align;
+  @extend %align;
+  @extend %justify;
+  @extend %gap;
+
+  @include mq-hover {
+    @include transition('all');
+  }
+}

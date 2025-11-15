@@ -1,0 +1,182 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Atoms/Video' />
+
+# Video
+
+The `Video` component provides three specialized video player implementations for different use cases:
+
+- **Video.Html5** - Native HTML5 video player for self-hosted videos
+- **Video.YouTube** - YouTube embed wrapper with simplified API
+- **Video.Vimeo** - Vimeo embed wrapper with simplified API
+
+## Features
+
+- **Multiple video sources** - HTML5, YouTube, and Vimeo support
+- **Responsive sizing** using breakpoint-based size and ratio props
+- **Aspect ratio control** to maintain consistent proportions
+- **Layout shift prevention** using width/height attributes (HTML5)
+- **Autoplay support** with automatic muting when needed
+- **Lazy loading** for embedded videos (YouTube/Vimeo)
+- **Accessibility** with required title attributes for embeds
+
+## Video.Html5 Props
+
+- `src` - Video source URL (required)
+- `width` - Intrinsic width for aspect ratio calculation and CLS prevention
+- `height` - Intrinsic height for aspect ratio calculation and CLS prevention
+- `ratio` - Responsive aspect ratio object (e.g., `{ default: '16x9', med: '4x3' }`)
+- `size` - Responsive size object (e.g., `{ default: 'cover', med: 'large' }`)
+- `controls` - Show native video controls (default: false)
+- `autoPlay` - Auto-play the video on load
+- `muted` - Mute the audio (required for autoplay in most browsers)
+- `loop` - Loop the video
+- `playsInline` - Play inline on mobile devices instead of fullscreen
+- `poster` - Poster image URL to show before video loads
+- `preload` - Preload strategy: 'auto' | 'metadata' | 'none'
+- `modifiers` - Array of custom CSS class modifiers
+
+## Video.YouTube / Video.Vimeo Props
+
+- `id` - Video ID from the platform URL (required)
+- `ratio` - Responsive aspect ratio object
+- `size` - Responsive size object
+- `autoPlay` - Auto-play the video (automatically mutes when enabled)
+- `muted` - Mute the audio (auto-enabled with autoPlay)
+- `loop` - Loop the video
+- `controls` - Show/hide player controls
+- `modifiers` - Array of custom CSS class modifiers
+
+## Breakpoints
+
+Available breakpoints: `default`, `sml`, `med`, `lrg`, `xlrg`, `xxlrg`
+
+## Layout Shift Prevention (HTML5 Only)
+
+For HTML5 videos, the `width` and `height` attributes work with CSS to prevent Cumulative Layout Shift (CLS):
+
+1. Browser uses `width` and `height` to calculate the intrinsic aspect ratio
+2. CSS scales the video responsively using `width: 100%`
+3. Browser maintains the aspect ratio, reserving the correct space immediately
+4. No layout shift occurs when the video loads
+
+**Example:** A video with `width="1920" height="1080"` on a 375px mobile screen will reserve 211px of height (375 × 1080 / 1920), not 1080px.
+
+## Usage Examples
+
+### HTML5 Video with Controls
+Standard self-hosted video with native controls:
+```tsx
+<Video.Html5
+  src="https://example.com/video.mp4"
+  width={1920}
+  height={1080}
+  ratio={{ default: '16x9' }}
+  size={{ default: 'cover' }}
+  controls
+  preload="metadata"
+  playsInline
+/>
+```
+
+### HTML5 Autoplay Video
+Background video that loops without controls:
+```tsx
+<Video.Html5
+  src="https://example.com/background.mp4"
+  width={1920}
+  height={1080}
+  ratio={{ default: '16x9' }}
+  size={{ default: 'cover' }}
+  autoPlay
+  muted
+  loop
+  playsInline
+  controls={false}
+/>
+```
+
+### HTML5 Video with Poster
+Video with custom poster image that defers loading:
+```tsx
+<Video.Html5
+  src="https://example.com/video.mp4"
+  poster="https://example.com/poster.jpg"
+  width={1920}
+  height={1080}
+  ratio={{ default: '16x9' }}
+  size={{ default: 'cover' }}
+  controls
+  preload="none"
+  playsInline
+/>
+```
+
+### YouTube Video
+Simple YouTube embed using video ID:
+```tsx
+<Video.YouTube
+  id="dQw4w9WgXcQ"
+  ratio={{ default: '16x9' }}
+  size={{ default: 'cover' }}
+/>
+```
+
+### YouTube Autoplay
+Auto-playing YouTube video (automatically muted):
+```tsx
+<Video.YouTube
+  id="dQw4w9WgXcQ"
+  ratio={{ default: '16x9' }}
+  size={{ default: 'cover' }}
+  autoPlay
+/>
+```
+
+### Vimeo Video
+Simple Vimeo embed using video ID:
+```tsx
+<Video.Vimeo
+  id="76979871"
+  ratio={{ default: '16x9' }}
+  size={{ default: 'cover' }}
+/>
+```
+
+### Vimeo Autoplay
+Auto-playing Vimeo video:
+```tsx
+<Video.Vimeo
+  id="76979871"
+  ratio={{ default: '16x9' }}
+  size={{ default: 'cover' }}
+  autoPlay
+/>
+```
+
+## Best Practices
+
+### HTML5 Videos
+1. **Always provide `width` and `height`** that match your aspect ratio to prevent CLS
+2. **Use `preload="metadata"`** for videos that will be played, or `"none"` for below-the-fold videos
+3. **Enable `playsInline`** for better mobile experience
+4. **Always mute autoplay videos** - browsers block unmuted autoplay
+5. **Provide a poster image** for better perceived performance
+
+### YouTube/Vimeo Embeds
+1. **Use video ID only** - the component builds the embed URL automatically
+2. **Autoplay is automatically muted** - both platforms require this
+3. **Videos are lazy loaded** by default for better performance
+4. **Use responsive `ratio` and `size`** for adaptive layouts
+
+## Platform-Specific Notes
+
+### YouTube
+- Autoplay requires mute (handled automatically)
+- Loop requires the video ID to be added to playlist parameter (handled automatically)
+- `controls` prop shows/hides all player controls
+
+### Vimeo
+- Autoplay requires mute (handled automatically)
+- Premium Vimeo accounts may have additional embed options
+- Some videos may have embedding restrictions set by the owner

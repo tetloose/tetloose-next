@@ -1,0 +1,215 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Layouts/Header' />
+
+# Header Layout
+
+A site-wide header layout with logo branding. The Header is split into two components:
+
+- **Header**: Async server component that fetches data from an API
+- **HeaderWrapper**: Presentational component that accepts props directly
+
+## Import
+
+```tsx
+// For production use (data fetching)
+import { Header } from '@layouts/Header/Header.component'
+
+// For Storybook/testing (with props)
+import { HeaderWrapper } from '@layouts/Header/Header-wrapper.component'
+```
+
+## Components
+
+### Header (Async Server Component)
+
+The top-level Header component fetches data and passes it to HeaderWrapper. Use this in your production application.
+
+**Props**: None - data is fetched automatically
+
+**Usage**:
+```tsx
+<Header />
+```
+
+### HeaderWrapper (Presentational Component)
+
+The HeaderWrapper component accepts props and renders the header UI. Use this in Storybook and tests.
+
+**Props** (see `Header.types.ts` for complete type definitions):
+
+#### `image` (optional)
+
+Logo image data to display in the header.
+
+- Type: `Image`
+- Properties: `src`, `alt`, `width`, `height`
+
+## Usage Examples
+
+### Production Usage (Data Fetching)
+
+In production, call the Header without props to fetch data from the API:
+
+```tsx
+import { Header } from '@layouts/Header/Header.component'
+import type { GlobalChildren } from '@global/global.types'
+
+export default function RootLayout({ children }: GlobalChildren) {
+  return (
+    <html lang='en'>
+      <body>
+        <Header />
+        {children ?? null}
+      </body>
+    </html>
+  )
+}
+```
+
+### Storybook/Testing Usage (With Props)
+
+Use HeaderWrapper with props for Storybook or testing scenarios:
+
+```tsx
+<HeaderWrapper
+  image={{
+    src: '/logo.svg',
+    alt: 'Company Logo',
+    width: 150,
+    height: 50
+  }}
+/>
+```
+
+### Dynamic Import (Performance Optimization)
+
+Use dynamic import for code splitting:
+
+```tsx
+import dynamic from 'next/dynamic'
+
+const Header = dynamic(() =>
+  import('@layouts/Header/Header.component').then(mod => ({ default: mod.Header }))
+)
+
+export default function RootLayout({ children }: GlobalChildren) {
+  return (
+    <html lang='en'>
+      <body>
+        <Header />
+        {children}
+      </body>
+    </html>
+  )
+}
+```
+
+### Header with Logo
+
+```tsx
+<HeaderWrapper
+  image={{
+    src: '/logo.svg',
+    alt: 'Company Logo',
+    width: 200,
+    height: 60
+  }}
+/>
+```
+
+## Architecture
+
+The Header layout follows a container/presentational pattern:
+
+1. **Header (Container)**:
+   - Async server component
+   - Fetches data from API
+   - Passes data to HeaderWrapper
+
+2. **HeaderWrapper (Presentational)**:
+   - Sync client-compatible component
+   - Receives data as props
+   - Handles all rendering logic
+
+This separation allows:
+- Clean data fetching in production
+- Easy testing with mock data
+- Storybook compatibility without async issues
+
+## Data Fetching
+
+The Header component fetches data from the API with the following configuration:
+
+- **Endpoint**: `header`
+- **Revalidation**: 60 seconds
+- **Cache Tags**: `['page:header']`
+
+This allows for incremental static regeneration and on-demand revalidation using Next.js cache tags.
+
+## Layout Structure
+
+The Header uses a structured grid layout:
+
+- **Container**: Grid.Item with header tag and black background
+- **Inner Layout**: Row with full parent height and centered alignment
+- **Logo Column**: Fixed width with Logo component
+
+## Styling
+
+- **Background**: Black (`bg={'black'}`)
+- **Padding**: 6 units on all sides
+- **Alignment**: Centered vertically
+- **Logo**: Container size with link to homepage
+
+## Components Used
+
+### Components:
+- **Logo**: Clickable logo component with image and link
+
+### Foundations:
+- **Grid/Grid.Item**: Main container structure
+- **Row/Row.Column**: Flexible layout and grid structure
+
+## Features
+
+- **Container/Presentational Pattern**: Clean separation between data fetching and rendering
+- **Async Server Component**: Header fetches data server-side for optimal performance
+- **Storybook Compatible**: HeaderWrapper works in Storybook without async issues
+- **Automatic Data Fetching**: Retrieves header content from API
+- **Revalidation**: Cache revalidates every 60 seconds
+- **On-Demand Revalidation**: Supports cache tag-based revalidation
+- **Responsive Layout**: Logo in flexible grid
+- **Semantic HTML**: Uses `<header>` tag for accessibility
+- **Type-Safe**: Fully typed with TypeScript
+- **Conditional Rendering**: Only renders logo if data is provided
+
+## Mock Data
+
+```ts
+import { headerMock } from '@layouts/Header/Header.mock'
+
+// Example usage in Storybook
+<HeaderWrapper {...headerMock} />
+```
+
+The mock includes a sample logo image.
+
+## Cache Revalidation
+
+To revalidate the header cache on-demand:
+
+```ts
+import { revalidateTag } from 'next/cache'
+
+revalidateTag('page:header')
+```
+
+## Best Practices
+
+- **Production**: Use `Header` component to leverage Next.js data fetching and caching
+- **Storybook/Tests**: Use `HeaderWrapper` component with mock data
+- **Cache Management**: Revalidate cache when header content changes in your CMS
+- **Performance**: Consider dynamic import for better initial page load performance
+- **Separation of Concerns**: Keep data fetching in Header, presentation in HeaderWrapper
+- **Logo Accessibility**: Always provide meaningful alt text for the logo image

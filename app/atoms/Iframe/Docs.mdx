@@ -1,0 +1,93 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Atoms/Iframe' />
+
+# Iframe
+
+The `Iframe` component is a responsive wrapper for embedding external content like videos, maps, and other iframe-based content.
+
+## Features
+
+- **Responsive sizing** using breakpoint-based size and ratio props
+- **Aspect ratio control** to maintain consistent proportions across viewports
+- **Layout shift prevention** using width/height attributes
+- **Lazy loading** support for better performance
+- **Accessibility** with required title attribute
+
+## Props
+
+- `src` - The URL of the content to embed (required)
+- `title` - Accessible title for the iframe (required)
+- `width` - Intrinsic width for aspect ratio calculation and CLS prevention
+- `height` - Intrinsic height for aspect ratio calculation and CLS prevention
+- `ratio` - Responsive aspect ratio object (e.g., `{ default: '16x9', med: '4x3' }`)
+- `size` - Responsive size object (e.g., `{ default: 'cover', med: 'large' }`)
+- `loading` - Native lazy loading ('lazy' | 'eager')
+- `allow` - Feature policy for the iframe
+- `allowFullScreen` - Enable fullscreen capability
+- `modifiers` - Array of custom CSS class modifiers
+
+## Breakpoints
+
+Available breakpoints: `default`, `sml`, `med`, `lrg`, `xlrg`, `xxlrg`
+
+## Layout Shift Prevention
+
+The `width` and `height` attributes work together with CSS to prevent Cumulative Layout Shift (CLS):
+
+1. Browser uses `width` and `height` to calculate the intrinsic aspect ratio
+2. CSS scales the iframe responsively using `width: 100%`
+3. Browser maintains the aspect ratio, reserving the correct space immediately
+4. No layout shift occurs when the iframe loads
+
+**Example:** An iframe with `width="1920" height="1080"` on a 375px mobile screen will reserve 211px of height (375 × 1080 / 1920), not 1080px.
+
+## Usage Examples
+
+### Video Embeds (YouTube, Vimeo)
+Use 16:9 aspect ratio with width/height that match the ratio:
+```tsx
+<Iframe
+  src="https://www.youtube.com/embed/VIDEO_ID"
+  title="Video Title"
+  width={1920}
+  height={1080}
+  ratio={{ default: '16x9' }}
+  size={{ default: 'cover' }}
+  allowFullScreen
+/>
+```
+
+### Maps
+Use 4:3 or 16:9 ratio, with responsive breakpoints:
+```tsx
+<Iframe
+  src="https://maps.google.com/..."
+  title="Map Location"
+  width={1600}
+  height={1200}
+  ratio={{ default: '4x3', med: '16x9' }}
+  size={{ default: 'cover' }}
+  allowFullScreen
+/>
+```
+
+### Fixed-size Content (Spotify)
+For non-responsive embeds, use explicit width/height without ratio:
+```tsx
+<Iframe
+  src="https://open.spotify.com/embed/..."
+  title="Spotify Player"
+  width={300}
+  height={380}
+  allow="encrypted-media"
+/>
+```
+
+## Best Practices
+
+1. **Always provide `title`** for accessibility
+2. **Use `width` and `height`** that match your aspect ratio to prevent CLS
+3. **Enable `loading="lazy"`** for off-screen iframes to improve performance
+4. **Set appropriate `allow` permissions** for security and functionality
+5. **Use responsive `ratio` and `size`** for adaptive layouts across devices

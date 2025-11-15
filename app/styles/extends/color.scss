@@ -1,0 +1,17 @@
+@use 'sass:map';
+@use '@styles/mixins/deep-get' as *;
+@use '@styles/settings/colors' as *;
+
+%color {
+  &.color-black {
+    color: deep-get($colors, default, black);
+  }
+
+  &.color-white {
+    color: deep-get($colors, default, white);
+  }
+
+  &.color-red {
+    color: deep-get($colors, default, red);
+  }
+}

@@ -1,0 +1,211 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Layouts/Footer' />
+
+# Footer Layout
+
+A site-wide footer layout with navigation and description text. The Footer is split into two components:
+
+- **Footer**: Async server component that fetches data from an API
+- **FooterWrapper**: Presentational component that accepts props directly
+
+## Import
+
+```tsx
+// For production use (data fetching)
+import { Footer } from '@layouts/Footer/Footer.component'
+
+// For Storybook/testing (with props)
+import { FooterWrapper } from '@layouts/Footer/FooterWrapper.component'
+```
+
+## Components
+
+### Footer (Async Server Component)
+
+The top-level Footer component fetches data and passes it to FooterWrapper. Use this in your production application.
+
+**Props**: None - data is fetched automatically
+
+**Usage**:
+```tsx
+<Footer />
+```
+
+### FooterWrapper (Presentational Component)
+
+The FooterWrapper component accepts props and renders the footer UI. Use this in Storybook and tests.
+
+**Props** (see `Footer.types.ts` for complete type definitions):
+
+#### `navigation` (optional)
+
+Navigation items to display in the footer.
+
+- Type: `NavigationItem[]`
+
+#### `description` (optional)
+
+Footer description text, typically used for copyright or additional information.
+
+- Type: `string`
+
+## Usage Examples
+
+### Production Usage (Data Fetching)
+
+In production, call the Footer without props to fetch data from the API:
+
+```tsx
+import { Footer } from '@layouts/Footer/Footer.component'
+import type { GlobalChildren } from '@global/global.types'
+
+export default function RootLayout({ children }: GlobalChildren) {
+  return (
+    <html lang='en'>
+      <body>
+        {children ?? null}
+        <Footer />
+      </body>
+    </html>
+  )
+}
+```
+
+### Storybook/Testing Usage (With Props)
+
+Use FooterWrapper with props for Storybook or testing scenarios:
+
+```tsx
+<FooterWrapper
+  navigation={[
+    { id: 0, href: '/', title: 'Home' },
+    { id: 1, href: '/about', title: 'About' },
+    { id: 2, href: '/contact', title: 'Contact' }
+  ]}
+  description="© 2025 Company Name. All rights reserved."
+/>
+```
+
+### Dynamic Import (Performance Optimization)
+
+Use dynamic import for code splitting:
+
+```tsx
+import dynamic from 'next/dynamic'
+
+const Footer = dynamic(() =>
+  import('@layouts/Footer/Footer.component').then(mod => ({ default: mod.Footer }))
+)
+
+export default function RootLayout({ children }: GlobalChildren) {
+  return (
+    <html lang='en'>
+      <body>
+        {children}
+        <Footer />
+      </body>
+    </html>
+  )
+}
+```
+
+## Architecture
+
+The Footer layout follows a container/presentational pattern:
+
+1. **Footer (Container)**:
+   - Async server component
+   - Fetches data from API
+   - Passes data to FooterWrapper
+
+2. **FooterWrapper (Presentational)**:
+   - Sync client-compatible component
+   - Receives data as props
+   - Handles all rendering logic
+
+This separation allows:
+- Clean data fetching in production
+- Easy testing with mock data
+- Storybook compatibility without async issues
+
+## Data Fetching
+
+The Footer component fetches data from the API with the following configuration:
+
+- **Endpoint**: `footer`
+- **Revalidation**: 60 seconds
+- **Cache Tags**: `['page:footer']`
+
+This allows for incremental static regeneration and on-demand revalidation using Next.js cache tags.
+
+## Layout Structure
+
+The Footer uses a structured grid layout:
+
+- **Container**: Grid.Item with footer tag and black background
+- **Inner Layout**: Row with full parent height and centered alignment
+- **Column**: Centered column with padding for navigation and description
+- **Navigation**: Rendered via Navigation component
+- **Description**: Displayed using Typography component with white text
+
+## Styling
+
+- **Background**: Black (`bg={'black'}`)
+- **Text Color**: White for description
+- **Text Size**: `body-xxlrg` for description
+- **Font Weight**: Bold for description
+- **Padding**: 6 units on all sides
+- **Alignment**: Centered horizontally and vertically
+
+## Components Used
+
+### Components:
+- **Navigation**: Displays footer navigation links
+
+### Foundations:
+- **Grid/Grid.Item**: Main container structure
+- **Row/Row.Column**: Flexible layout and spacing
+- **Typography**: Formatted text rendering
+
+## Features
+
+- **Container/Presentational Pattern**: Clean separation between data fetching and rendering
+- **Async Server Component**: Footer fetches data server-side for optimal performance
+- **Storybook Compatible**: FooterWrapper works in Storybook without async issues
+- **Automatic Data Fetching**: Retrieves footer content from API
+- **Revalidation**: Cache revalidates every 60 seconds
+- **On-Demand Revalidation**: Supports cache tag-based revalidation
+- **Responsive Layout**: Full-width footer with centered content
+- **Semantic HTML**: Uses `<footer>` tag for accessibility
+- **Type-Safe**: Fully typed with TypeScript
+
+## Mock Data
+
+```ts
+import { footerMock } from '@layouts/Footer/Footer.mock'
+
+// Example usage in Storybook
+<FooterWrapper {...footerMock} />
+```
+
+The mock includes sample navigation items and a copyright description.
+
+## Cache Revalidation
+
+To revalidate the footer cache on-demand:
+
+```ts
+import { revalidateTag } from 'next/cache'
+
+revalidateTag('page:footer')
+```
+
+## Best Practices
+
+- **Production**: Use `Footer` component to leverage Next.js data fetching and caching
+- **Storybook/Tests**: Use `FooterWrapper` component with mock data
+- **Cache Management**: Revalidate cache when footer content changes in your CMS
+- **Performance**: Consider dynamic import for better initial page load performance
+- **Data Structure**: Ensure navigation items have unique IDs for proper rendering
+- **Separation of Concerns**: Keep data fetching in Footer, presentation in FooterWrapper

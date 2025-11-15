@@ -1,0 +1,103 @@
+@use 'sass:map';
+@use 'sass:color';
+
+$white: #fff;
+$black: #000;
+$red: #aa0404;
+$colors: (
+  default: (
+    black: $black,
+    white: $white,
+    red: $red
+  ),
+  border: (
+    black: $black,
+    white: $white
+  ),
+  bg: (
+    white: (
+      bg: $white,
+      selection-bg: $black,
+      selection-color: $white
+    ),
+    black: (
+      bg: $black,
+      selection-bg: $white,
+      selection-color: $black
+    )
+  ),
+  link: (
+    primary: (
+      color: $black,
+      focus: color-mix(in oklab, $white, $black 60%),
+      hover: color-mix(in oklab, $white, $black 50%),
+      active: color-mix(in oklab, $white, $black 40%)
+    ),
+    secondary: (
+      color: $white,
+      focus: color-mix(in oklab, $black, $white 60%),
+      hover: color-mix(in oklab, $black, $white 50%),
+      active: color-mix(in oklab, $black, $white 40%)
+    )
+  ),
+  button: (
+    primary: (
+      border: $white,
+      color: $white,
+      bg: $black,
+      disabled: (
+        border: $white,
+        color: $white,
+        bg: $black,
+        outline: transparent
+      ),
+      hover: (
+        border: $black,
+        color: $black,
+        bg: $white,
+        outline: transparent
+      ),
+      active: (
+        border: $black,
+        color: $black,
+        bg: $white,
+        outline: transparent
+      ),
+      focus: (
+        border: $black,
+        color: $black,
+        bg: $white,
+        outline: $white
+      )
+    ),
+    secondary: (
+      border: $black,
+      color: $black,
+      bg: $white,
+      disabled: (
+        border: $black,
+        color: $black,
+        bg: $white,
+        outline: transparent
+      ),
+      hover: (
+        border: $white,
+        color: $white,
+        bg: $black,
+        outline: transparent
+      ),
+      active: (
+        border: $white,
+        color: $white,
+        bg: $black,
+        outline: transparent
+      ),
+      focus: (
+        border: $white,
+        color: $white,
+        bg: $black,
+        outline: $black
+      )
+    )
+  )
+);

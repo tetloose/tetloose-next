@@ -1,0 +1,252 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Components/Hero' />
+
+# Hero
+
+The `Hero` component is a full-width section component designed for creating impactful page headers. It displays a centred title and/or image within a responsive layout, making it perfect for landing pages, feature showcases, or section introductions.
+
+## Features
+
+- **Flexible content** - Display title, image, or both
+- **Centered layout** - Vertically and horizontally centred content
+- **Responsive** - Built on Row/Column grid system
+- **Image optimization** - Uses Image component with size control
+- **Typography integration** - Styled H1 titles with Typography component
+- **Customizable** - Supports modifiers for custom styling
+
+## Props
+
+- `title` - Optional Typography configuration object for the heading
+- `image` - Optional image object with src, alt, width, height
+- `modifiers` - Array of custom CSS class names
+
+## Usage
+
+```tsx
+import { Hero } from '@components/Hero/Hero.component'
+```
+
+### Hero with Title and Image
+
+```tsx
+<Hero
+  title={{
+    tag: 'h1',
+    text: 'Welcome to Our Platform',
+    size: 'h1',
+    fontWeight: 'bold',
+    textAlign: { default: 'center' }
+  }}
+  image={{
+    src: '/images/hero-bg.jpg',
+    alt: 'Platform overview',
+    width: 1200,
+    height: 600
+  }}
+/>
+```
+
+### Title Only Hero
+
+```tsx
+<Hero
+  title={{
+    tag: 'h1',
+    text: 'Our Services',
+    size: 'h1',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    textAlign: { default: 'center' }
+  }}
+/>
+```
+
+### Image Only Hero
+
+```tsx
+<Hero
+  image={{
+    src: '/images/background.jpg',
+    alt: 'Background',
+    width: 1920,
+    height: 800
+  }}
+/>
+```
+
+### With Custom Typography Styling
+
+```tsx
+<Hero
+  title={{
+    tag: 'h1',
+    text: 'Featured Content',
+    size: 'h2',
+    fontWeight: 'medium',
+    textAlign: { default: 'left', md: 'center' },
+    color: 'white'
+  }}
+  image={{
+    src: '/images/feature.jpg',
+    alt: 'Featured',
+    width: 1200,
+    height: 600
+  }}
+  modifiers={['hero--dark']}
+/>
+```
+
+## Props Reference
+
+### title
+- **Type:** `TypographyProps`
+- **Optional:** Yes
+- **Description:** Typography configuration object for the heading. Accepts all Typography component props including:
+  - `tag` - HTML tag (h1, h2, etc.)
+  - `text` - Heading text content
+  - `size` - Typography size variant
+  - `fontWeight` - Font weight
+  - `textAlign` - Text alignment (supports responsive breakpoints)
+  - `textTransform` - Text transformation (uppercase, lowercase, etc.)
+  - `color` - Text color
+  - All other Typography props
+
+### image
+- **Type:** `Image` object
+  - `src` - Image URL (string)
+  - `alt` - Alt text for accessibility (string)
+  - `width` - Image width for aspect ratio (number)
+  - `height` - Image height for aspect ratio (number)
+- **Optional:** Yes
+- **Description:** Image configuration object. The image will be displayed at full container width with cover sizing.
+
+### modifiers
+- **Type:** `string[]`
+- **Default:** `[]`
+- **Description:** Array of custom CSS class names to apply additional styling.
+
+## Layout Structure
+
+The Hero component uses the following structure:
+
+```
+<Row tag="section" align="center">     // Outer container, centred
+  <Row.Column>                          // Column wrapper
+    <Typography tag="h1">              // Title (if provided)
+      {title}
+    </Typography>
+    <Image size="cover">               // Image (if provided)
+      {image}
+    </Image>
+  </Row.Column>
+</Row>
+```
+
+## Styling
+
+Hero styles are defined in `Hero.module.scss`:
+
+```scss
+.hero {
+  // Full-width section styling
+}
+
+.hero__title {
+  // H1 title styling (uppercase, bold, centred)
+}
+
+.hero__image {
+  // Image container styling
+}
+```
+
+## Common Use Cases
+
+### Landing Page Hero
+```tsx
+<Hero
+  title={{
+    tag: 'h1',
+    text: 'Build Amazing Products',
+    size: 'h1',
+    fontWeight: 'bold',
+    textAlign: { default: 'center' }
+  }}
+  image={{
+    src: '/hero-landing.jpg',
+    alt: 'Product showcase',
+    width: 1920,
+    height: 1080
+  }}
+/>
+```
+
+### Section Divider
+```tsx
+<Hero
+  image={{
+    src: '/divider-image.jpg',
+    alt: '',
+    width: 1920,
+    height: 400
+  }}
+/>
+```
+
+### Feature Highlight
+```tsx
+<Hero
+  title={{
+    tag: 'h2',
+    text: 'New Feature Available',
+    size: 'h2',
+    fontWeight: 'bold',
+    textTransform: 'uppercase'
+  }}
+  modifiers={['hero--featured']}
+/>
+```
+
+### Page Header
+```tsx
+<Hero
+  title={{
+    tag: 'h1',
+    text: 'About Us',
+    size: 'h1',
+    fontWeight: 'bold',
+    textAlign: { default: 'center' }
+  }}
+  image={{
+    src: '/about-header.jpg',
+    alt: 'Company overview',
+    width: 1600,
+    height: 600
+  }}
+/>
+```
+
+## Best Practices
+
+1. **Provide alt text** - Always include descriptive alt text for images
+2. **Use appropriate dimensions** - Match image width/height to prevent CLS
+3. **Optimize images** - Use appropriately sized images for hero sections
+4. **Keep titles concise** - Short, impactful titles work best
+5. **Consider aspect ratios** - 16:9 or wider ratios work well for hero images
+6. **Use semantic HTML** - Component renders as `<section>` element
+
+## Accessibility
+
+- Renders as semantic `<section>` element
+- Title uses `<h1>` tag (should be used once per page)
+- Images require `alt` text for screen readers
+- Centered layout ensures content is easily discoverable
+- Keyboard navigation is fully supported
+
+## Related Components
+
+- **Row** - Used for layout structure
+- **Typography** - Used for title rendering
+- **Image** - Used for image display
+- **Grid** - Alternative layout option for complex heroes

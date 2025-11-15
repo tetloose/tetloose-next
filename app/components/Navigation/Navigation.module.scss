@@ -1,0 +1,25 @@
+@use '@styles/settings' as *;
+
+.navigation {
+  ul li {
+    a:not([class*='Button']) {
+      text-decoration: none;
+    }
+
+    .is-active a:not([class*='Button']) {
+      text-decoration: underline;
+    }
+  }
+
+  li {
+    list-style-type: none;
+  }
+
+  &.inline > ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include sizing('gap', size(4));
+  }
+}

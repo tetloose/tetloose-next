@@ -1,0 +1,24 @@
+@use '@styles/mixins/selection' as *;
+@use '@styles/mixins/deep-get' as *;
+@use '@styles/settings/colors' as *;
+@use 'sass:map';
+
+%bg {
+  &.bg-white {
+    background-color: deep-get($colors, bg, white, bg);
+
+    @include selection(
+      deep-get($colors, bg, white, selection-bg),
+      deep-get($colors, bg, white, selection-color)
+    );
+  }
+
+  &.bg-black {
+    background-color: deep-get($colors, bg, black, bg);
+
+    @include selection(
+      deep-get($colors, bg, black, selection-bg),
+      deep-get($colors, bg, black, selection-color)
+    );
+  }
+}

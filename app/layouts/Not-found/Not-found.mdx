@@ -1,0 +1,229 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title='Layouts/Not Found' />
+
+# NotFound Layout
+
+A full-screen error page component designed for 404 and other error states. Displays a centered, bordered container with a title, rich text content, and optional debug information.
+
+## Import
+
+```tsx
+import { NotFound } from '@layouts/Not-found/Not-found.component'
+```
+
+## Props
+
+See `Not-found.types.ts` for complete type definitions.
+
+All props are optional.
+
+### `title` (optional)
+
+Main heading text, typically used for error codes like "404" or "500".
+
+- Type: `string`
+- Default: `undefined`
+
+### `richText` (optional)
+
+HTML content to display below the title, typically used for error descriptions and help text.
+
+- Type: `string`
+- Default: `undefined`
+
+### `debug` (optional)
+
+Debug information displayed in italic text. Useful for development to show error details or stack traces.
+
+- Type: `string`
+- Default: `undefined`
+
+## Usage Examples
+
+### Basic 404 Page
+
+```tsx
+<NotFound
+  title="404"
+  richText="<p>The page you're looking for doesn't exist.</p>"
+/>
+```
+
+### With Debug Information (Development)
+
+```tsx
+<NotFound
+  title="404"
+  richText="<p>Page not found</p>"
+  debug="Route: /products/abc123 - No matching route found"
+/>
+```
+
+### Custom Error Page
+
+```tsx
+<NotFound
+  title="500"
+  richText="<h2>Internal Server Error</h2><p>Something went wrong on our end. Please try again later.</p>"
+/>
+```
+
+### Next.js not-found.tsx
+
+Create a `not-found.tsx` file in your app directory:
+
+```tsx
+import { NotFound } from '@layouts/Not-found/Not-found.component'
+
+export default function NotFoundPage() {
+  return (
+    <NotFound
+      title="404"
+      richText="<h2>Page Not Found</h2><p>The page you're looking for doesn't exist or has been moved.</p>"
+    />
+  )
+}
+```
+
+### Programmatic Navigation to 404
+
+Trigger the not-found page programmatically:
+
+```tsx
+import { notFound } from 'next/navigation'
+
+export default async function ProductPage({ params }: { params: { id: string } }) {
+  const product = await fetchProduct(params.id)
+
+  if (!product) {
+    notFound() // Renders not-found.tsx
+  }
+
+  return <ProductDetails product={product} />
+}
+```
+
+### With Rich Error Details
+
+```tsx
+<NotFound
+  title="Access Denied"
+  richText={`
+    <h2>403 - Forbidden</h2>
+    <p>You don't have permission to access this resource.</p>
+    <ul>
+      <li>Make sure you're logged in</li>
+      <li>Check your account permissions</li>
+      <li>Contact support if you believe this is an error</li>
+    </ul>
+  `}
+/>
+```
+
+## Layout Structure
+
+The NotFound component uses a centered layout:
+
+- **Container**: Row with full viewport height and centered alignment
+- **Content Box**: Column (8/12 width on medium+) with border and padding
+- **Title**: H1 typography element
+- **Rich Text**: Typography component for HTML content
+- **Debug Info**: Italic text displayed only when debug prop is provided
+
+## Text Alignment
+
+Text alignment changes based on the presence of debug information:
+
+- **Without debug**: Center-aligned (default for clean error pages)
+- **With debug**: Left-aligned (better readability for technical information)
+
+## Styling
+
+- **Container**: Full viewport height, centered content
+- **Content Box**:
+  - Width: 8 columns on medium screens and up
+  - Border: Black border on all sides
+  - Padding: 6 units on all sides
+- **Title**: H1 size, conditional alignment
+- **Rich Text**: 4 units padding, conditional alignment
+- **Debug Text**: Italic, left-aligned, 4 units padding
+
+## Components Used
+
+### Foundations:
+- **Row/Row.Column**: Flexible layout and grid structure
+- **Typography**: Text rendering with rich HTML support
+
+## Features
+
+- **Full viewport height**: Takes up entire screen for clear error display
+- **Responsive layout**: Adjusts width on different screen sizes
+- **Bordered container**: Visual separation and focus
+- **Rich text support**: Full HTML formatting for error messages
+- **Debug mode**: Optional technical information for development
+- **Conditional alignment**: Adapts based on debug prop presence
+- **Centered design**: Professional, clean error page presentation
+- **Type-safe**: Fully typed with TypeScript
+
+## Next.js Integration
+
+### File Convention
+
+Next.js uses special files for error handling:
+
+- `not-found.tsx`: Handles 404 errors
+- `error.tsx`: Handles runtime errors
+
+### not-found.tsx Example
+
+```tsx
+import { NotFound } from '@layouts/Not-found/Not-found.component'
+
+export default function NotFoundPage() {
+  return (
+    <NotFound
+      title="404"
+      richText="<h2>Oops! Page not found</h2><p>The page you're looking for doesn't exist.</p>"
+    />
+  )
+}
+```
+
+### error.tsx Example
+
+```tsx
+'use client'
+
+import { NotFound } from '@layouts/Not-found/Not-found.component'
+
+export default function ErrorPage({
+  error,
+  reset
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  return (
+    <NotFound
+      title="Error"
+      richText={`
+        <h2>Something went wrong</h2>
+        <p>An error occurred while processing your request.</p>
+        <button onclick="${reset}">Try again</button>
+      `}
+      debug={process.env.NODE_ENV === 'development' ? error.message : undefined}
+    />
+  )
+}
+```
+
+## Best Practices
+
+- **Production**: Omit debug prop to hide technical details from users
+- **Development**: Use debug prop to display error details for debugging
+- **User-Friendly Messages**: Keep richText content helpful and actionable
+- **Error Codes**: Use title for standard HTTP status codes (404, 500, etc.)
+- **Navigation**: Include links to homepage or other helpful pages in richText
+- **Accessibility**: Ensure error messages are clear and descriptive
+- **SEO**: Use appropriate meta tags in not-found.tsx for better indexing
