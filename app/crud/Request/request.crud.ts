@@ -5,7 +5,7 @@ export const request = async <T>({
   method,
   headers,
   body,
-  next,
+  // next, // testing only, implement cache bust
   cache = 'no-store' // testing only, implement cache bust
 }: RequestProps) => {
   const fetchOptions: RequestInit = {
@@ -16,7 +16,7 @@ export const request = async <T>({
       ...headers
     },
     credentials: 'include',
-    next,
+    // next, // testing only, implement cache bust
     cache
   }
 

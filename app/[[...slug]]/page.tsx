@@ -5,6 +5,7 @@ import { setSeo } from '@utils/set-seo/set-seo.utils'
 import { Components } from '@components/Components/Components.component'
 import { Spacer } from '@foundations/Spacer/Spacer.component'
 import { Loading } from '@atoms/Loading/Loading.component'
+import { SeoSchema } from '@utils/set-seo/set-seo.types'
 import type { PageData } from './page.types'
 import type { GlobalPageProps } from '@global/global.types'
 
@@ -20,7 +21,7 @@ export const generateMetadata = async ({ params }: GlobalPageProps) => {
     tags: [`page-seo:${pageUrl}`]
   })
 
-  return await setSeo({ seo })
+  return await setSeo({ seo: SeoSchema.parse(seo) })
 }
 
 const Page = async ({ params }: GlobalPageProps) => {

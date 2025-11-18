@@ -1,34 +1,41 @@
+import * as z from 'zod'
 import type { Metadata } from 'next'
 
-type OgImage = {
-  width?: number
-  height?: number
-  url?: string
-  type?: string
-}
+const OgImage = z.object({
+  width: z.number().optional(),
+  height: z.number().optional(),
+  url: z.string().optional(),
+  type: z.string().optional()
+})
 
-export type Robots = {
-  index?: string
-  follow?: string
-}
+const Robots = z.object({
+  index: z.string().optional(),
+  follow: z.string().optional()
+})
 
-export type Seo = {
-  title?: string
-  description?: string
-  ogLocale?: string
-  ogType?: string
-  ogTitle?: string
-  ogDescription?: string
-  ogUrl?: string
-  ogSiteName?: string
-  articleModifiedTime?: string
-  ogImage?: OgImage[]
-  twitterCard?: string
-  twitterTitle?: string
-  twitterDescription?: string
-  twitterImage?: string
-  robots?: Robots
-}
+export const SeoSchema = z
+  .object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+    ogLocale: z.string().optional(),
+    ogType: z.string().optional(),
+    ogTitle: z.string().optional(),
+    ogDescription: z.string().optional(),
+    ogUrl: z.string().optional(),
+    ogSiteName: z.string().optional(),
+    articleModifiedTime: z.string().optional(),
+    ogImage: z.array(OgImage).optional(),
+    twitterCard: z.string().optional(),
+    twitterTitle: z.string().optional(),
+    twitterDescription: z.string().optional(),
+    twitterImage: z.string().optional(),
+    robots: Robots.optional()
+  })
+  .optional()
+
+type Seo = z.infer<typeof SeoSchema>
+
+export type Robots = z.infer<typeof Robots>
 
 export type SeoProps = {
   seo?: Seo
