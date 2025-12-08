@@ -39,7 +39,6 @@ A modern, production-ready Next.js framework with a comprehensive component libr
 ### Prerequisites
 
 - Node.js 18+
-- Yarn package manager
 
 ### Installation
 
@@ -56,7 +55,7 @@ A modern, production-ready Next.js framework with a comprehensive component libr
 
 3. Run setup (installs packages, sets up Husky, and starts dev server):
    ```bash
-   yarn setup
+   npm run setup
    ```
 
 ## Development
@@ -66,7 +65,7 @@ A modern, production-ready Next.js framework with a comprehensive component libr
 Start the Next.js development server with Turbopack:
 
 ```bash
-yarn dev
+npm run dev
 ```
 
 Visit [http://localhost:3000](http://localhost:3000)
@@ -76,7 +75,7 @@ Visit [http://localhost:3000](http://localhost:3000)
 Launch Storybook for component development and documentation:
 
 ```bash
-yarn storybook
+npm run storybook
 ```
 
 Visit [http://localhost:6006](http://localhost:6006)
@@ -86,7 +85,7 @@ Visit [http://localhost:6006](http://localhost:6006)
 Use the interactive CLI to scaffold new components:
 
 ```bash
-yarn gen:component
+npm run gen:component
 ```
 
 Follow the prompts to create a new component with:
@@ -181,33 +180,33 @@ export const Button = ({ children, variant = 'primary' }: ButtonProps) => {
 
 | Command | Description |
 |---------|-------------|
-| `yarn setup` | Install packages, setup Husky, and start dev server |
-| `yarn dev` | Start Next.js development server with Turbopack |
-| `yarn storybook` | Launch Storybook in development mode |
-| `yarn gen:component` | Generate a new component with scaffolding |
+| `npm run setup` | Install packages, setup Husky, and start dev server |
+| `npm run dev` | Start Next.js development server with Turbopack |
+| `npm run storybook` | Launch Storybook in development mode |
+| `npm run gen:component` | Generate a new component with scaffolding |
 
 ### Building & Production
 
 | Command | Description |
 |---------|-------------|
-| `yarn build` | Build production Next.js application |
-| `yarn start` | Start production server |
-| `yarn build-storybook` | Build static Storybook for deployment |
+| `npm run build` | Build production Next.js application |
+| `npm run start` | Start production server |
+| `npm run build-storybook` | Build static Storybook for deployment |
 
 ### Testing & Quality
 
 | Command | Description |
 |---------|-------------|
-| `yarn test` | Run Vitest in interactive watch mode |
-| `yarn test:coverage` | Display test coverage statistics |
-| `yarn lint` | Lint TypeScript and SCSS files |
-| `yarn lint:fix` | Lint and auto-fix errors |
+| `npm run test` | Run Vitest in interactive watch mode |
+| `npm run test:coverage` | Display test coverage statistics |
+| `npm run lint` | Lint TypeScript and SCSS files |
+| `npm run lint:fix` | Lint and auto-fix errors |
 
 ### Git
 
 | Command | Description |
 |---------|-------------|
-| `yarn git:commit` | Interactive commit with prompts |
+| `npm run git:commit` | Interactive commit with prompts |
 
 ## Testing
 
@@ -216,13 +215,13 @@ export const Button = ({ children, variant = 'primary' }: ButtonProps) => {
 Run tests in watch mode:
 
 ```bash
-yarn test
+npm run test
 ```
 
 Generate coverage report:
 
 ```bash
-yarn test:coverage
+npm run test:coverage
 ```
 
 ### Example Test
@@ -297,9 +296,9 @@ Open command palette (`cmd + shift + p`) and type "recommended" to see workspace
 
 1. Create a feature branch: `git checkout -b feature/my-feature`
 2. Make your changes
-3. Run tests: `yarn test`
-4. Run linting: `yarn lint:fix`
-5. Commit changes: `yarn git:commit`
+3. Run tests: `npm run test`
+4. Run linting: `npm run lint:fix`
+5. Commit changes: `npm run git:commit`
 6. Push and create a pull request
 
 ## License

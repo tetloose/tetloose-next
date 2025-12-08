@@ -35,7 +35,8 @@ type Story = StoryObj<typeof Button>
 
 export const DefaultButton: Story = {
   args: {
-    label: 'No Style'
+    label: 'No Style',
+    type: 'button'
   }
 }
 
