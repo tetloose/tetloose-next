@@ -3,40 +3,37 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "setup": "yarn && husky install && yarn dev",
+    "setup": "npm install && husky install && npm run dev",
     "watch:typescript": "tsc --noEmit --watch",
     "watch:eslint": "chokidar 'app/**/*.{ts,tsx}' -c 'eslint \"app/**/*.{ts,tsx}\"'",
     "watch:styles": "chokidar 'app/**/*.{css,scss}' -c 'stylelint \"app/**/*.{css,scss}\"'",
-    "watch": "concurrently --names \"TypeScript,Eslint,Styles\" --prefix \"[{name}]\" --prefix-colors \"green,magenta,yellow\" \"yarn watch:typescript\" \"yarn watch:eslint\" \"yarn watch:styles\"",
+    "watch": "concurrently --names \"TypeScript,Eslint,Styles\" --prefix \"[{name}]\" --prefix-colors \"green,magenta,yellow\" \"npm run watch:typescript\" \"npm run watch:eslint\" \"npm run watch:styles\"",
     "dev": "next dev --turbopack",
     "lint": "eslint ./app && stylelint \"./app/**/*.scss\"",
     "lint:fix": "eslint ./app --fix && stylelint \"./app/**/*.scss\" --fix",
     "build": "next build",
     "start": "next start",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
     "gen:component": "bash toolkit generate-component",
     "git:commit": "bash toolkit git-commit",
-    "pre-commit": "yarn lint && yarn test run",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "pre-commit": "npm run lint && npm run test run"
   },
   "dependencies": {
     "clsx": "^2.1.1",
-    "next": "^15.5.4",
+    "next": "15.5.7",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hot-toast": "^2.6.0"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^4.1.1",
-    "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.37.0",
-    "@storybook/addon-a11y": "^9.1.10",
-    "@storybook/addon-designs": "^10.0.2",
-    "@storybook/addon-docs": "^9.1.10",
-    "@storybook/blocks": "^8.6.14",
-    "@storybook/nextjs-vite": "^9.1.10",
+    "@chromatic-com/storybook": "^4.1.3",
+    "@storybook/addon-a11y": "^10.1.4",
+    "@storybook/addon-designs": "^11.1.0",
+    "@storybook/addon-docs": "^10.1.4",
+    "@storybook/nextjs-vite": "^10.1.4",
     "@stylistic/stylelint-plugin": "^4.0.0",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
@@ -58,16 +55,16 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
-    "eslint-plugin-storybook": "^9.1.10",
     "eslint-plugin-unused-imports": "^4.3.0",
     "globals": "^16.4.0",
     "husky": "^9.1.7",
     "jsdom": "^27.0.0",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.6.2",
     "react-hook-form": "^7.64.0",
     "sass": "^1.93.2",
     "sass-embedded": "^1.93.2",
-    "storybook": "^9.1.10",
+    "storybook": "^10.1.4",
     "stylelint": "^16.25.0",
     "stylelint-config-standard": "^39.0.1",
     "stylelint-config-standard-scss": "^16.0.0",
@@ -85,5 +82,14 @@
     "singleQuote": true,
     "jsxSingleQuote": true,
     "trailingComma": "none"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "vitest related --run"
+    ],
+    "*.{css,scss}": [
+      "stylelint --fix"
+    ]
   }
 }

@@ -4,9 +4,9 @@ export const request = async <T>({
   url,
   method,
   headers,
-  body,
-  next,
-  cache = 'no-store' // testing only, implement cache bust
+  body
+  // next,
+  // cache = 'no-store' // testing only, implement cache bust
 }: RequestProps) => {
   const fetchOptions: RequestInit = {
     method,
@@ -16,8 +16,9 @@ export const request = async <T>({
       ...headers
     },
     credentials: 'include',
-    next,
-    cache
+    // next,
+    // cache
+    cache: 'no-store' // testing only, implement cache bust
   }
 
   if (body) fetchOptions.body = JSON.stringify(body)

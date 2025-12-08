@@ -94,7 +94,7 @@ if [ "$COMPONENT_SWITCH" ]; then
   # Types.ts
   find "$DIR/$COMPONENT_NAME/" -type f -name "$COMPONENT_NAME.types.ts" -exec $SED_INPLACE "s|EXPORT_NAME|$EXPORT_NAME|g" {} +
 
-  yarn lint:fix
+  npm run lint:fix
 else
   echo "Please check your input, and try again"
 fi
