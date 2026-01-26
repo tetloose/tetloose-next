@@ -1,4 +1,4 @@
-import storybook from "eslint-plugin-storybook";
+import storybook from 'eslint-plugin-storybook';
 import { FlatCompat } from '@eslint/eslintrc'
 import js from '@eslint/js'
 import typescriptEslint from '@typescript-eslint/eslint-plugin'
