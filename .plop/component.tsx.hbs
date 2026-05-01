@@ -1,0 +1,11 @@
+import clsx from 'clsx'
+import { {{constantCase name}}_BASE, {{constantCase name}}_VARIANTS } from './{{kebabCase name}}.variants'
+import type { {{pascalCase name}}Props } from './{{kebabCase name}}.types'
+
+export const {{pascalCase name}} = ({ className, variant }: {{pascalCase name}}Props) => {
+  return (
+    <div className={clsx({{constantCase name}}_BASE, variant && {{constantCase name}}_VARIANTS[variant], className)}>
+      {{pascalCase name}}
+    </div>
+  )
+}

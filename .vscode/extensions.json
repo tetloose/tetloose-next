@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "SonarSource.sonarlint-vscode",
+    "vitest.explorer",
+    "ms-playwright.playwright",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "unifiedjs.vscode-mdx",
+    "dsznajder.es7-react-js-snippets",
+    "stylelint.vscode-stylelint",
+    "Fooxly.workspace"
+  ]
+}

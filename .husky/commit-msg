@@ -1,0 +1,1 @@
+npm run commit-msg -- --edit $1 || (echo "" && echo "  Example: git commit -m 'chore(dx): your message here'" && exit 1)

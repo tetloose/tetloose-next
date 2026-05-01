@@ -1,0 +1,13 @@
+'use client'
+
+import { createContext } from '@utils/create-context/create-context.utils'
+import { initial{{pascalCase name}} } from './{{kebabCase name}}.initial'
+import type { {{pascalCase name}}Props } from './{{kebabCase name}}.types'
+
+export const { Provider: {{pascalCase name}}Provider, useContextProvider: use{{pascalCase name}}Context } =
+  createContext<{{pascalCase name}}Props, '{{camelCase name}}', 'update{{pascalCase name}}'>(
+    initial{{pascalCase name}},
+    '{{camelCase name}}',
+    'update{{pascalCase name}}',
+    '{{pascalCase name}}Context'
+  )

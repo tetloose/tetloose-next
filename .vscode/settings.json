@@ -1,0 +1,65 @@
+{
+  "files.insertFinalNewline": true,
+  "emmet.triggerExpansionOnTab": true,
+  "emmet.includeLanguages": {
+    "CSS": "CSS",
+    "SCSS": "CSS",
+    "typescript": "typescriptreact"
+  },
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact"
+  ],
+  "stylelint.validate": [
+    "css",
+    "scss"
+  ],
+  "files.exclude": {
+    ".editorconfig": false,
+    ".env.example": false,
+    ".gitignore": false,
+    "commitlint.config.js": false,
+    "eslint.config.mjs": false,
+    "next-env.d.ts": false,
+    "next.config.ts": false,
+    "package-lock.json": false,
+    "package.json": false,
+    "plopfile.mjs": false,
+    "postcss.config.mjs": false,
+    "sonar-project.properties": false,
+    "stylelint.config.mjs": false,
+    "tsconfig.json": false,
+    "vite.config.ts": false,
+    "node_modules": false,
+    ".vscode": false,
+    ".vitest": false,
+    ".storybook": false,
+    ".scripts": false,
+    ".plop": false,
+    ".next": false,
+    ".husky": false,
+    ".github": false,
+    ".d.ts": false
+  },
+  "search.exclude": {
+    "node_modules": true,
+    "build": true,
+    "storybook-static": true
+  },
+  "js/ts.preferences.importModuleSpecifier": "non-relative",
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  }
+}

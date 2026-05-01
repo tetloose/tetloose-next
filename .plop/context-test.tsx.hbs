@@ -1,0 +1,20 @@
+import { renderHook } from '@testing-library/react'
+import { describe, expect, it } from 'vitest'
+import { {{pascalCase name}}Provider, use{{pascalCase name}}Context } from './{{kebabCase name}}.context'
+import { initial{{pascalCase name}} } from './{{kebabCase name}}.initial'
+
+describe('{{pascalCase name}}Context', () => {
+  it('provides initial state', () => {
+    const { result } = renderHook(() => use{{pascalCase name}}Context(), {
+      wrapper: {{pascalCase name}}Provider
+    })
+
+    expect(result.current.{{camelCase name}}).toEqual(initial{{pascalCase name}})
+  })
+
+  it('throws when used outside provider', () => {
+    expect(() => renderHook(() => use{{pascalCase name}}Context())).toThrow(
+      '{{pascalCase name}}Context must be used within its corresponding Provider'
+    )
+  })
+})
